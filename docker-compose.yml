@@ -24,6 +24,8 @@ services:
       - "5000:5000"
     depends_on:
       - elasticsearch
+    volumes:
+    - ./back_end:/app
 
   # frontend:
   #   build:

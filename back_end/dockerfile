@@ -1,11 +1,18 @@
-FROM python:3.11.4-alpine3.18
+# Utilisez une image Alpine Linux avec Python
+FROM python:3.9-alpine
 
+# Définissez le répertoire de travail dans le conteneur
 WORKDIR /app
 
-COPY ./requirements.txt /app/
+# Copiez les fichiers nécessaires dans le conteneur
+COPY . .
 
+# Installez les dépendances
 RUN pip install -r requirements.txt
 
-COPY ./app.py /app/
+# Exposez le port sur lequel votre application Flask va écouter
+EXPOSE 5000
 
-CMD ["python", "-m", "flask", "run", "--host", "0.0.0.0"]
+# Commande pour lancer votre application Flask
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+

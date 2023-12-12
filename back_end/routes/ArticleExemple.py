@@ -6,4 +6,4 @@ article_bp = Blueprint('articles', __name__)
 def get_articles():
     # Logique pour récupérer les articles depuis Elasticsearch
     # Retourner les articles au format JSON
-    return 'hello'
+    return 'hello heyy'
