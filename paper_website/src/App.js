@@ -1,13 +1,13 @@
-//import logo from './logo.svg';
 import './App.css';
+import NavBar from './Components.jsx/navbar';
 
 function App() {
   return (
-    
-        <p className='text-6xl'>
-          Linoooooooo is hereeeeeeeeeee .
-        </p>
-        
+    <div className='bg-[#b4d1fa] min-h-screen p-0 m-0'>
+      <div id="root">
+        <NavBar />
+      </div>
+    </div>
   );
 }
 
