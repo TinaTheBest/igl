@@ -2,40 +2,54 @@ import logo from '../assets/logo.svg';
 import account from '../assets/account.svg';
 import question from '../assets/icon-question.svg';
 import article from '../assets/article.svg';
+import menu from '../assets/menu.svg';
+import { useState } from 'react';
 
 function NavBar() {
+  const [nav,setNav]=useState(false);
   return (
+
     <>
+    
           <style>
         {`
           .font-dm-sans {
             font-family: 'DM Sans', sans-serif;
+          
           }
         `}
+
+     
       </style>
-      <div className='flex items-center m-'>
-        <div className='w-24 h-16'>
-          <img src={logo} alt="Logo" />
-        </div>
-        <div className="rounded-md flex justify-between items-center bg-white w-full h-20 mx-4">
-          <div className=" ml-[21.16px] flex gap-[28.44px] items-center ">
-            <div className="flex items-center gap-[7.11px] border-b-2 py-1 border-blue-500">
-              <span><img src={article} alt='Artcile'/></span>
-              <span className="font-semibold text-lg leading-normal font-dm-sans">Find articles</span>
+      <div className=' flex sm:px-[40.8px] sm:py-[26.66px] items-center pl-[20px] py-[6px] justify-between'>
+           <div className='w-[67.27px] h-[48px] sm:w-[87.55px] sm:h-[59.55px]'><img src={logo} alt="Logo"/></div>
+           <div className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}>
+
+           <div className='sm:hidden pl-[20px] pr-[20px] ursor-pointer transition-colors duration-[0.4s]' onClick={() => setNav((nav) => !nav)}><img src={menu} alt="Menu"/></div>
+              <div className='hidden sm:flex sm:gap-[29px] sm:pl-[21.16px]'>
+                     <div>Find Articles</div>
+                     <div>My favorite articles</div>
+              </div>
+              <div className='hidden sm:flex sm:gap-[10.67px] sm:items-center sm:w-[220.971px] '>
+                   <div><img src={question} alt="Question"/></div>
+                   <div><img src={account} alt="Account"/></div>
+                   <div className='sm:flex sm:text-white  sm:bg-[#1B9DF0] sm:h-[39.11px] sm:w-[92.66px] sm:px-[21.3px] sm:py-[8.89px] sm:rounded-[20px] sm:text-[14.222px]'>LogOut</div>
+              </div>
+              
             </div>
-            <div className="ml-4 font-semibold text-lg leading-normal font-dm-sans text-[#6E6E9B]">My favorite articles</div>
-          </div>
-          <div className='flex items-center gap-4 mr-[33px] my-[16.9px]'>
-            <div className='w-10 h-10'>
-              <img src={question} alt="Question" />
-            </div>
-            <div className='w-10 h-10'>
-              <img src={account} alt="Account" />
-            </div>
-            <div className="flex py-[9px] px-[22px] justify-center items-center rounded-[17px] bg-blue-500 text-white shadow-md m[17]">Logout</div>
-          </div>
-        </div>
+
       </div>
+      <div className={!nav ? "hidden" : "sm:hidden  bg-white rounded-t-[20px] h-[244px] font-dm-sans font-semibold text-[18.16px]"}>
+      <div className="sm:hidden  pl-[21px] pt-[36px] ">
+                <ul>
+                  <li className="pb-[13.88px]">Find Articles</li>
+                  <li className="pb-[13.88px]">Favourtie Articles</li>
+                  <li className="pb-[13.88px]">Help</li>
+                  <li className="pb-[13.88px]">My Account</li>
+                  <li className="pb-[13.88px]">Log Out</li>
+                </ul>
+              </div>
+              </div>
     </>
   );
 }
