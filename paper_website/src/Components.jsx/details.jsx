@@ -44,7 +44,7 @@ function Details() {
             dummy text of the printing and typesetting industry. Lorem Ipsum has
             been the industry's ldus PageMaker including versions of Lorem Ipsum
           </div>
-          <div className="flex items-center justify-center w-[612px] h-[68px] rounded-[17px] mx-[280px] mt-[122px] mb-[130px] bg-[#1B9DF0] text-[20px] text-white font-semibold">
+          <div className="flex items-center w-full justify-center mx-[365.7px] h-[68px] rounded-[17px] mt-[122px] mb-[130px] bg-[#1B9DF0] text-[20px] text-white font-semibold">
             Link to pdf
           </div>
         </div>

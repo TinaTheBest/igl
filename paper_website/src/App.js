@@ -1,6 +1,6 @@
 import "./App.css";
 import NavBar from "./Components.jsx/navbar";
-import Card from "./Components.jsx/card";
+import CardMod from "./Components.jsx/cardMod";
 import Details from "./Components.jsx/details";
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <div className="bg-[#E7F1FF] min-h-screen p-0 m-0">
       <div id="root">
         <NavBar />
-        <Details />
+        <CardMod />
       </div>
     </div>
   );
