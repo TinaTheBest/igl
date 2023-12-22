@@ -11,7 +11,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center space-x-2">
+    <div className="flex sm:px-[40.8px] justify-between items-center space-x-2">
       <input
         type="text"
         value={searchTerm}
