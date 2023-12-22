@@ -1,17 +1,14 @@
-import "./App.css";
-import NavBar from "./Components.jsx/navbar";
-import Card from "./Components.jsx/card";
-import Details from "./Components.jsx/details";
+import './App.css';
+import React from 'react';
+import SearchBar from './Components.jsx/SearchBar';
 
 function App() {
   return (
-    <div className="bg-[#E7F1FF] min-h-screen p-0 m-0">
-      <div id="root">
-        <NavBar />
-        <Details />
-      </div>
+    <div className="App p-4 bg-[#E7F1FF]">
+      <SearchBar />
     </div>
   );
 }
 
 export default App;
+
