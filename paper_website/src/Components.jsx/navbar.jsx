@@ -3,10 +3,13 @@ import account from "../assets/account.svg";
 import question from "../assets/icon-question.svg";
 import article from "../assets/article.svg";
 import menu from "../assets/menu.svg";
+import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 
 function NavBar() {
   const [nav, setNav] = useState(false);
+  const [activeOne, setActiveOne] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(false);
   return (
     <>
       <style>
@@ -22,7 +25,8 @@ function NavBar() {
           <img src={logo} alt="Logo" />
         </div>
         <div
-          className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
+          //className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
+          className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[72.8px]`}
         >
           <div
             className="sm:hidden pl-[20px] pr-[20px] ursor-pointer transition-colors duration-[0.4s]"
@@ -30,10 +34,43 @@ function NavBar() {
           >
             <img src={menu} alt="Menu" />
           </div>
-          <div className="hidden sm:flex sm:gap-[29px] sm:pl-[21.16px]">
-            <div>Find Articles</div>
-            <div>My favorite articles</div>
+          <div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
+            <div
+              className=""
+              onClick={() => setActiveOne((activeOne) => !activeOne)}
+            >
+              <div
+                className={
+                  activeOne
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
+                    : "flex items-center gap-[7.11px] "
+                }
+              >
+                <img src={activeOne ? article : article_non} alt="Article" />
+                <div className={activeOne ? "" : "text-[#6E6E9B]"}>
+                  Find Articles
+                </div>
+              </div>
+            </div>
+            <div
+              className=""
+              onClick={() => setActiveTwo((activeTwo) => !activeTwo)}
+            >
+              <div
+                className={
+                  activeTwo
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
+                    : "flex items-center gap-[7.11px] "
+                }
+              >
+                <img src={activeTwo ? article : article_non} alt="Article" />
+                <div className={activeTwo ? "" : "text-[#6E6E9B]"}>
+                  My favorite articles
+                </div>
+              </div>
+            </div>
           </div>
+
           <div className="hidden sm:flex sm:gap-[10.67px] sm:items-center sm:w-[220.971px] ">
             <div>
               <img src={question} alt="Question" />
