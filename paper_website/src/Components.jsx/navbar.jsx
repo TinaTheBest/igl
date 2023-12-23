@@ -26,10 +26,10 @@ function NavBar() {
         </div>
         <div
           //className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
-          className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[72.8px]`}
+          className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[72.8px] `}
         >
           <div
-            className="sm:hidden pl-[20px] pr-[20px] ursor-pointer transition-colors duration-[0.4s]"
+            className="sm:hidden  pl-[20px] pr-[20px] ursor-pointer transition-colors duration-[0.4s]"
             onClick={() => setNav((nav) => !nav)}
           >
             <img src={menu} alt="Menu" />

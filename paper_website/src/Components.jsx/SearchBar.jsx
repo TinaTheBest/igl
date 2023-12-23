@@ -11,15 +11,15 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex sm:px-[40.8px] justify-between items-center space-x-2">
+    <div className="flex w-full h-[49.78px] gap-[17.78px] justify-between items-center space-x-2">
       <input
         type="text"
         value={searchTerm}
         onChange={handleSearchChange}
-        className="w-[736.89px] h-[49.78px] px-[17.78px] py-[14.22px] bg-white rounded-[17.78px] justify-between items-center inline-flex focus:outline-none "
+        className="w-full h-[49.78px] px-[17.78px] py-[14.22px] bg-white rounded-[17.78px] justify-between items-center inline-flex focus:outline-none "
         placeholder="Search..."
       />
-      <button className=" hidden sm:flex justify-center items-center sm:gap-8.889px sm:text-white sm:text-[21.333px] sm:bg-[#1B9DF0] sm:h-[49.778px] sm:w-[184px] sm:rounded-[17.778px] sm:px-[21.3px] sm:py-[14.222]">
+      <button className=" hidden sm:flex justify-center items-center sm:gap-8.889px sm:text-white sm:text-[21.333px] sm:bg-[#1B9DF0] sm:h-[49.778px] sm:w-[184px] sm:rounded-[17.778px] sm:px-[21.3px] sm:py-[14.222] font-medium font-['DM Sans'] shadow-lg">
         Search
       </button>
     </div>
