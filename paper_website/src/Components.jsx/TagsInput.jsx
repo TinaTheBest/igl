@@ -28,7 +28,7 @@ const TagsInput = () => {
   };
 
   return (
-    <div className="flex flex-wrap space-x-2 max-w-[235px]">
+    <div className="flex flex-wrap gap-2 max-w-[235px]">
       <div className='justify-start items-start gap-[8.89px] inline-flex'>
       <input
         type="text"
@@ -38,7 +38,7 @@ const TagsInput = () => {
         className="borderbg-white rounded-[17.78px] w-[175.11px] h-[31.11px] border border-sky-500 px-2 py-1 mb-[18px] focus:outline-none placeholder-zinc-400 text-xs leading-[14.06px]"
         placeholder="Enter the Key word here ..."
       />
-       <button className="flex justify-center items-center  text-white text-leading-[14.39px] h-[31.11px] w-[51.56px] bg-sky-500 rounded-[17.78px] border border-sky-500 font-medium font-['DM Sans'] shadow-lg" onClick={handleAddTag}>
+       <button className="flex justify-center items-center  text-white text-leading-[10.39px] h-[31.11px] w-[51.56px] bg-sky-500 rounded-[17.78px] border border-sky-500 font-['DM Sans'] shadow-lg" onClick={handleAddTag}>
         Add
       </button>
       </div>

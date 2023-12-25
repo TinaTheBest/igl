@@ -1,37 +1,40 @@
+import React, { useState } from 'react';
 import "./App.css";
 import NavBar from "./Components.jsx/navbar";
-import CardMod from "./Components.jsx/cardMod";
-import Details from "./Components.jsx/details";
 import SearchBar from "./Components.jsx/SearchBar"; 
 import FilterButton from "./Components.jsx/Filter"; 
-import FilterBar from "./Components.jsx/FilterBar";
 import TagsInput from "./Components.jsx/TagsInput";
 import ExtendedFilter from "./Components.jsx/ExtendedFilter";
 
 function App() {
+  const [isExtendedFilterVisible, setExtendedFilterVisibility] = useState(false);
+
   const handleSearch = (tags) => {
     // Implement your search logic here using the 'tags' object
     console.log('Searching with tags:', tags);
   };
+
+  const toggleExtendedFilter = () => {
+    setExtendedFilterVisibility(!isExtendedFilterVisible);
+  };
+
   return (
     <div className="bg-[#E7F1FF] min-h-screen p-0 m-0">
       <div id="root">
         <NavBar />
-        <div className="sm:flex sm:space-x-4 w-full h-[56.44px] sm:px-[40.8px] px-[20.8px] justify-between gap-[33px] items-center ">
-        <div className="flex items-center justify-center sm:justify-start mb-4 sm:mb-0">
-            <FilterButton />
+        <div className="flex items-start sm:space-x-4 w-full h-[56.44px] sm:px-[40.8px] px-[20.8px] justify-between gap-[33px] ">
+          <div className="flex items-center justify-center  mb-4 sm:mb-0">
+            {isExtendedFilterVisible ? (
+              <ExtendedFilter onSearch={handleSearch} />
+            ) : (
+              <FilterButton onClick={toggleExtendedFilter} />
+            )}
           </div>
-            <SearchBar />
-           
-        
+          <SearchBar />
         </div>
-        {/* Use the FilterBar component and pass the handleSearch function as a prop */}
-         <ExtendedFilter onSearch={handleSearch} />
-        <TagsInput />
       </div>
     </div>
   );
 }
 
 export default App;
-
