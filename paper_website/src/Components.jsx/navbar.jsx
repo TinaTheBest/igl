@@ -20,13 +20,13 @@ function NavBar() {
           }
         `}
       </style>
-      <div className=" flex sm:px-[40.8px] sm:py-[26.66px] items-center pl-[20px] py-[6px] justify-between">
+      <div className=" flex sm:px-[40.8px] sm:pt-[12px] sm:pb-[20px] items-center pl-[20px] py-[6px] justify-between">
         <div className="w-[67.27px] h-[48px] sm:w-[87.55px] sm:h-[59.55px]">
           <img src={logo} alt="Logo" />
         </div>
         <div
           //className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
-          className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[72.8px]`}
+          className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px]`}
         >
           <div
             className="sm:hidden pl-[20px] pr-[20px] ursor-pointer transition-colors duration-[0.4s]"

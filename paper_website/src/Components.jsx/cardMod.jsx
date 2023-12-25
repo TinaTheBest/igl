@@ -16,10 +16,7 @@ function CardMod() {
               </div>
             </div>
 
-            <div
-              className="flex justify-center items-center rounded-[20px] border-[1px] py-[9px] px-[19px] border-[#1B9DF0] text-[#1B9DF0] text-[19px] font-bold  w-[242.177px] 
-h-[48.435px]"
-            >
+            <div className="flex justify-center items-center rounded-[20px] border-[1px] py-[9px] px-[19px] border-[#1B9DF0] text-[#1B9DF0] text-[19px] font-bold">
               Review and validate
             </div>
           </div>
