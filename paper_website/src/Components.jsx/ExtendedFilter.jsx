@@ -1,12 +1,14 @@
 // FilterBar.js
 import React, { useState } from 'react';
 import TagsInput from './TagsInput';
+import RadioSort from './RadioSort';
 
 const ExtendedFilter = ({ onSearch }) => {
   const [authorTags, setAuthorTags] = useState([]);
   const [keywordTags, setKeywordTags] = useState([]);
   const [institutionTags, setInstitutionTags] = useState([]);
-
+  const [sortingOption, setSortingOption] = useState('A-Z'); // Default sorting option
+  
   const handleSearch = () => {
     // Call the onSearch prop with the current tags
     onSearch({
@@ -15,6 +17,10 @@ const ExtendedFilter = ({ onSearch }) => {
       institutionTags,
     });
   };
+  const handleSortingChange = (option) => {
+    setSortingOption(option);
+  };
+
 
   return (
     <div className='w-[292.44px] p-[28.44px] bg-white rounded-[10.67px] flex-col justify-start items-start gap-[17.78px] inline-flex'> 
@@ -23,9 +29,34 @@ const ExtendedFilter = ({ onSearch }) => {
         <div className="text-blue-500 text-sm font-medium font-['DM Sans'] underline">Reset All</div>
       </div>
       <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
-
+       {/* <RadioSort/> */}
+       <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Sort By</div>
+       <div className='flex gap-[21.33px]'>
+      <div className="flex items-center">
+        <input
+          type="radio"
+          id="sortAZ"
+          name="sorting"
+          value="A-Z"
+          checked={sortingOption === 'A-Z'}
+          onChange={() => handleSortingChange('A-Z')}
+        />
+        <label htmlFor="sortAZ" className="ml-2">A-Z</label>
+      </div>
+      <div className="flex items-center">
+        <input
+          type="radio"
+          id="sortRecents"
+          name="sorting"
+          value="Recents"
+          checked={sortingOption === 'Recents'}
+          onChange={() => handleSortingChange('Recents')}
+        />
+        <label htmlFor="sortRecents" className="ml-2">Recents</label>
+      </div>
+      </div>
       <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
-      
+
       <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Key words</div>
       <TagsInput
         placeholder="Enter author..."
