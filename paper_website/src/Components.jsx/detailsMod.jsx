@@ -9,7 +9,6 @@ function DetailsMod() {
             font-family: 'DM Sans', 'sans-serif';
           
           }
-  
         `}
       </style>
       <NavBarMod />

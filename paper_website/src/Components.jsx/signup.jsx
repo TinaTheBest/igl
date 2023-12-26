@@ -12,11 +12,11 @@ function SignUp() {
         `}
       </style>
       <div className="flex justify-between font-dm-sans">
-        <div className="w-1/2 bg-[#D4E6FF] h-screen flex justify-center items-center">
+        <div className="w-1/2 bg-[#D4E6FF] h-screen hidden sm:flex justify-center items-center">
           <img src={Logo} alt="Logo" className="w-[204px] h-[133.31px]" />
         </div>
-        <div className="bg-white w-1/2 flex flex-col justify-center">
-          <form className="mx-[50px]  bg-white p-4">
+        <div className="bg-white sm:w-1/2 w-full h-screen flex flex-col justify-center">
+          <form className="sm:mx-[50px] mx-[10px]  bg-white p-4">
             <h2 className="text-4xl font-bold pt-3 pb-6">Get Started Now!</h2>
             <div className="flex flex-col py-2">
               <label>Username</label>
