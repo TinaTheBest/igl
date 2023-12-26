@@ -6,10 +6,9 @@ import menu from "../assets/menu.svg";
 import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 
-function NavBar() {
+function NavBarMod() {
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
-  const [activeTwo, setActiveTwo] = useState(false);
   return (
     <>
       <style>
@@ -34,10 +33,10 @@ function NavBar() {
         </div>
         <div
           //className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
-          className="mr-[10px] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px] shadow-lg"
+          className="mr-[10px] mt-[6px] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px] shadow-lg"
         >
           <div
-            className="sm:hidden  pl-[20px] pr-[20px] mr-[10px] ursor-pointer transition-colors duration-[0.4s]"
+            className="sm:hidden  pl-[20px] pr-[20px] ursor-pointer transition-colors duration-[0.4s]"
             onClick={() => setNav((nav) => !nav)}
           >
             <img src={menu} alt="Menu" />
@@ -56,24 +55,7 @@ function NavBar() {
               >
                 <img src={activeOne ? article : article_non} alt="Article" />
                 <div className={activeOne ? "" : "text-[#6E6E9B]"}>
-                  Find Articles
-                </div>
-              </div>
-            </div>
-            <div
-              className=""
-              onClick={() => setActiveTwo((activeTwo) => !activeTwo)}
-            >
-              <div
-                className={
-                  activeTwo
-                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
-                    : "flex items-center gap-[7.11px] "
-                }
-              >
-                <img src={activeTwo ? article : article_non} alt="Article" />
-                <div className={activeTwo ? "" : "text-[#6E6E9B]"}>
-                  My favorite articles
+                  Articles
                 </div>
               </div>
             </div>
@@ -99,10 +81,9 @@ function NavBar() {
             : "sm:hidden  bg-white rounded-t-[20px] h-[244px] font-dm-sans font-semibold text-[18.16px]"
         }
       >
-        <div className="sm:hidden  pl-[21px] pt-[36px] ">
+        <div className="sm:hidden  pl-[21px] pt-[80px] ">
           <ul>
             <li className="pb-[13.88px]">Articles</li>
-            <li className="pb-[13.88px]">Favourtie Articles</li>
             <li className="pb-[13.88px]">Help</li>
             <li className="pb-[13.88px]">My Account</li>
             <li className="pb-[13.88px]">Log Out</li>
@@ -113,4 +94,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default NavBarMod;
