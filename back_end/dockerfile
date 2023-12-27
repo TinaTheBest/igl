@@ -1,5 +1,5 @@
 # Utilisez une image Alpine Linux avec Python
-FROM python:3.9-alpine
+FROM python:3.9-slim
 
 # Définissez le répertoire de travail dans le conteneur
 WORKDIR /app
@@ -8,7 +8,10 @@ WORKDIR /app
 COPY . .
 
 # Installez les dépendances
-RUN pip install -r requirements.txt
+RUN apk add --no-cache \
+    build-base \
+    mariadb-dev \
+    && pip install --no-cache-dir -r requirements.txt
 
 # Exposez le port sur lequel votre application Flask va écouter
 EXPOSE 5000
