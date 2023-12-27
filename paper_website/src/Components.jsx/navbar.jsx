@@ -5,6 +5,7 @@ import article from "../assets/article.svg";
 import menu from "../assets/menu.svg";
 import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function NavBar() {
   const [nav, setNav] = useState(false);
@@ -42,10 +43,12 @@ function NavBar() {
           >
             <img src={menu} alt="Menu" />
           </div>
+
           <div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
-            <div
-              className=""
+            <Link
               onClick={() => setActiveOne((activeOne) => !activeOne)}
+              to="/UserFirstPage"
+              className=""
             >
               <div
                 className={
@@ -59,8 +62,9 @@ function NavBar() {
                   Find Articles
                 </div>
               </div>
-            </div>
-            <div
+            </Link>
+            <Link
+              to="/UserFav"
               className=""
               onClick={() => setActiveTwo((activeTwo) => !activeTwo)}
             >
@@ -76,7 +80,7 @@ function NavBar() {
                   My favorite articles
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="hidden sm:flex sm:gap-[10.67px] sm:items-center sm:w-[220.971px] ">

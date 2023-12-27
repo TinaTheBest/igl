@@ -1,4 +1,5 @@
 import heart from "../assets/heart.svg";
+import { Link } from "react-router-dom";
 function Card() {
   return (
     <>
@@ -18,10 +19,14 @@ function Card() {
           </div>
           <div className="w-full bg-[#E7E7EE] h-[0.889px] mb-[11px]"></div>
           <div className="flex justify-between">
-            <div className="flex text-[#1B9DF0] font-bold sm:text-[14.22px] text-[16px] border-[1px] border-[#1B9DF0] w-[160px] rounded-xl px-4 py-2">
-              See More details
-            </div>
-            <img src={heart} alt="Heart"></img>
+            <Link to="./UserDetails">
+              <div className="flex text-[#1B9DF0] font-bold sm:text-[14.22px] text-[16px] border-[1px] border-[#1B9DF0] w-[160px] rounded-xl px-4 py-2">
+                See More details
+              </div>
+            </Link>
+            <Link to="./UserDetails">
+              <img src={heart} alt="Heart"></img>
+            </Link>
           </div>
         </div>
       </div>
