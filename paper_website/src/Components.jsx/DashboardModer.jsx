@@ -190,8 +190,13 @@ function DashboardModer() {
         <div className='rounded-[30px] m-5 mt-10 bg-white p-8'>
           <div className='flex gap-5 rounded-[20px] '>
             <div className='flex-grow border-[5px] p-[5px]  border-blue-100 rounded-[20px]'>
-              <div>
-                <input type='text' onChange={handleRechercheMod} />
+              <div className='flex '>
+                <input className='w-full h-[30.78px] px-[17.78px] py-[14.22px] bg-white rounded-[13px] justify-between items-center inline-flex focus:outline-none border-[2px] border-blue-100' 
+                type='text' 
+                placeholder="Search..."
+                onChange={handleRechercheMod}
+                 />
+                 <button className='bg-[#1B9DF0] h-[30.78px] text-white border rounded-[13px] shadow-sm p-1 ml-2'>Add</button>
               </div>
               <DataTable
                 className='border-blue-100 rounded-[20px]'
@@ -230,7 +235,7 @@ function DashboardModer() {
                     alt='No moderator selected'
                   />
                   <div className='text-center text-blue-200 text-sm font-medium tracking-tight'>
-                    Select a moderator <br /> to see more information
+                    Select a moderator <br /> to see more information<br /> Or press Add to add a moderator
                   </div>
                 </div>
               )}
