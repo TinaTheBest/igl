@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, request
 from elasticsearch import Elasticsearch
 
-es = Elasticsearch(['http://localhost:9200'])
+es = Elasticsearch(['http://elasticsearch:9200'])
 
 ModArticle = Blueprint('ModArticles', __name__)
-# cluster
+
 @ModArticle.route('/get_all_data', methods=['GET'])
 def get_all_data():
     # Define your Elasticsearch index
