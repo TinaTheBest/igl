@@ -3,8 +3,8 @@ function Card() {
   return (
     <>
       <div className="bg-white rounded-[35px] sm:w-[296px] w-[333px] items-center">
-        <div className="flex-col items-center p-[31px]">
-          <div className="pb-[11px] font-bold sm:text-[20px] text-[24px]">
+        <div className="flex-col items-center p-[25px]">
+          <div className="pb-[11px] font-bold sm:text-[16px] text-[24px]">
             Semantic analysis and classifications of e-mails throught
             informative Selection
           </div>

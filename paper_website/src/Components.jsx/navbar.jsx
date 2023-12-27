@@ -18,18 +18,26 @@ function NavBar() {
             font-family: 'DM Sans', sans-serif;
           
           }
+          .fixed-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999; // Adjust the z-index as needed
+          }
         `}
       </style>
-      <div className=" flex sm:px-[40.8px] sm:pt-[12px] sm:pb-[20px] items-center pl-[20px] py-[6px] justify-between">
+
+      <div className="fixed-top top-0 left-0 right-0 flex sm:px-[40.8px] sm:pt-[12px] sm:pb-[12px] items-center pl-[20px] py-[6px] justify-between bg-[#E7F1FF]">
         <div className="w-[67.27px] h-[48px] sm:w-[87.55px] sm:h-[59.55px]">
           <img src={logo} alt="Logo" />
         </div>
         <div
           //className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
-          className="m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px]"
+          className="mr-[10px] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px] shadow-lg"
         >
           <div
-            className="sm:hidden  pl-[20px] pr-[20px] ursor-pointer transition-colors duration-[0.4s]"
+            className="sm:hidden  pl-[20px] pr-[20px] mr-[10px] ursor-pointer transition-colors duration-[0.4s]"
             onClick={() => setNav((nav) => !nav)}
           >
             <img src={menu} alt="Menu" />
@@ -93,7 +101,7 @@ function NavBar() {
       >
         <div className="sm:hidden  pl-[21px] pt-[36px] ">
           <ul>
-            <li className="pb-[13.88px]">Find Articles</li>
+            <li className="pb-[13.88px]">Articles</li>
             <li className="pb-[13.88px]">Favourtie Articles</li>
             <li className="pb-[13.88px]">Help</li>
             <li className="pb-[13.88px]">My Account</li>
