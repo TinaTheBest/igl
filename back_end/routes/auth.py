@@ -88,7 +88,7 @@ def post_data():
 @auth.route('/login', methods=['POST','GET'])
 def login():
     data_from_request = request.json
-    user = Acount.query.filter_by(id=data_from_request.get('id'), name=data_from_request.get('name'), email=data_from_request.get('email'), password=data_from_request.get('password')).first()
+    user = Acount.query.filter_by(email=data_from_request.get('email'), password=data_from_request.get('password')).first()
 
     if user :
        return jsonify({"message": "LogIn" , "staus": user.status})

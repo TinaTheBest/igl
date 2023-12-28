@@ -1,7 +1,11 @@
 from flask import Flask
-from routes import admin_bp, ModArticle, Favorit, auth, db
+from routes import admin_bp, ModArticle, Favorit, auth, db, recherche
+
+from flask_cors import CORS  
 
 app = Flask(__name__)
+
+CORS(app)  
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://user:pass@mysql/db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
