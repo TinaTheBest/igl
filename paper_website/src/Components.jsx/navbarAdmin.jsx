@@ -7,9 +7,10 @@ import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function NavBarMod() {
+function NavBarAdmin() {
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(false);
   return (
     <>
       <style>
@@ -46,7 +47,7 @@ function NavBarMod() {
           <div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
             <Link
               onClick={() => setActiveOne((activeOne) => !activeOne)}
-              to="/ModeratorFirstPage"
+              to="/UserFirstPage"
               className=""
             >
               <div
@@ -58,7 +59,25 @@ function NavBarMod() {
               >
                 <img src={activeOne ? article : article_non} alt="Article" />
                 <div className={activeOne ? "" : "text-[#6E6E9B]"}>
-                  Articles
+                  Moderators
+                </div>
+              </div>
+            </Link>
+            <Link
+              to="/UserFirstPage/UserFav"
+              className=""
+              onClick={() => setActiveTwo((activeTwo) => !activeTwo)}
+            >
+              <div
+                className={
+                  activeTwo
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
+                    : "flex items-center gap-[7.11px] "
+                }
+              >
+                <img src={activeTwo ? article : article_non} alt="Article" />
+                <div className={activeTwo ? "" : "text-[#6E6E9B]"}>
+                  Upload Articles
                 </div>
               </div>
             </Link>
@@ -86,8 +105,13 @@ function NavBarMod() {
       >
         <div className="sm:hidden  pl-[21px] pt-[13.88px] ">
           <ul>
-            <Link to="/ModeratorFirstPage">
-              <li className="pb-[13.88px] hover:text-[#005BC5]">Articles</li>
+            <Link to="/UserFirstPage">
+              <li className="pb-[13.88px] hover:text-[#005BC5]">Moderators</li>
+            </Link>
+            <Link to="/UserFirstPage/UserFav">
+              <li className="pb-[13.88px] hover:text-[#005BC5]">
+                Upload Articles
+              </li>
             </Link>
             <li className="pb-[13.88px] hover:text-[#005BC5]">Help</li>
             <li className="pb-[13.88px] hover:text-[#005BC5]">My Account</li>
@@ -99,4 +123,4 @@ function NavBarMod() {
   );
 }
 
-export default NavBarMod;
+export default NavBarAdmin;

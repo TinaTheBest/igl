@@ -6,6 +6,7 @@ function ModeratorModify() {
       <NavBarMod />
       <div className="sm:mt-[90px] mt-[72px]">
         {/*Cette div va contenir component ModifyModInput selon article choisi*/}
+        <ModifyModInput />
       </div>
     </>
   );

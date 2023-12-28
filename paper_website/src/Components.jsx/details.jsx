@@ -4,16 +4,26 @@ import NavBarMod from "./navbarMod";
 function Details() {
   return (
     <>
+      <style>
+        {`
+          .font-dm-sans {
+            font-family: 'DM Sans', 'sans-serif';
+          
+          }
+  
+        `}
+      </style>
       <NavBar />
-      <div className="fixed inset-0 top-[0px] overflow-y-auto bg-black bg-opacity-60">
-        <div className="bg-white rounded-t-[24.44px] mt-[84px] p-[32.89px] pb-[130px] sm:text-[22px] text-[20px] overflow-y-auto ">
-          <div className="font-bold text-[#005BC5] pl-[32.89px] pt-[39.11px] pb-[20px] sm:text-[22px] text-[20px]">
-            Semantic Analysis And Classifications Of E-mails <br />
-            Throught Informative Selection
+      <div className="">
+        {/*<div className="fixed inset-0 top-[0px] overflow-y-auto bg-black bg-opacity-60">*/}
+        <div className="bg-white rounded-t-[24.44px] p-[32.89px] sm:text-[22px] text-[20px] overflow-y-auto font-dm-sans">
+          <div className="font-bold text-[#005BC5] sm:pt-[39.11px] sm:px-[32.89px] pb-[20px] sm:text-[22px] text-[20px]">
+            Semantic Analysis And Classifications Of E-mails Throught
+            Informative Selection
           </div>
-          <div className="px-[32.89px]">
-            <div className=" font-bold sm:text-[20px] tewt-[16px]">Title</div>
-            <div className="pb-[14px] sm:text-[16px] text-[13Px] ">
+          <div className=" sm:px-[32.89px]">
+            <div className=" font-bold sm:text-[20px] text-[16px]">Title</div>
+            <div className="pb-[14px] sm:text-[16px] text-[13px] ">
               Semantic analysis and classifications of E-mails throught
               informative Selection
             </div>
@@ -65,7 +75,7 @@ function Details() {
               typesetting industry. Lorem Ipsum has been the industry's ldus
               PageMaker including versions of Lorem Ipsum
             </div>
-            <div className="flex items-center w-full justify-center mr-[365.7px] h-[68px] rounded-[17px] mt-[122px] mb-[130px] bg-[#1B9DF0] text-[20px] text-white font-semibold">
+            <div className="flex items-center w-full justify-center mr-[365.7px] h-[68px] rounded-[17px] sm:mt-[122px] sm:mb-[122px] mt-[40px]  mb-[40px] bg-[#1B9DF0] sm:text-[20px] text-[16px] text-white font-semibold">
               Link to pdf
             </div>
           </div>

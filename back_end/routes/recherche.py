@@ -6,12 +6,15 @@ from elasticsearch import Elasticsearch
 # connexion a elastic
 es = Elasticsearch(['http://elasticsearch:9200'])
 # Création du Blueprint
-Rech = Blueprint('recherche', __name__)
 
-@Rech.route('/resultat', methods=['POST'])
+recherche = Blueprint('recherche', __name__)
+
+
+@recherche.route('/resultat', methods=['POST'])
 def recherche():
     term =  request.form.get('search_term')
     
+
     # Construction de la requête Elasticsearch pour la recherche initiale
     query = {
         "query": {
@@ -40,7 +43,10 @@ def recherche():
 
     return jsonify(response_data)
     
-@Rech.route('/filtrage', methods=['POST'])
+@recherche.route('/filtrage', methods=['POST'])
+    
+
+
 def filtre():
     # Récupérez les résultats stockés dans la session Flask
    # search_results = session.get('search_results', [])

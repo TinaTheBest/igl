@@ -1,12 +1,21 @@
 
+
 from flask import Flask, jsonify
-from routes import article_bp, ModArticle, Favorit, auth, db, Rech
+from routes import article_bp, ModArticle, Favorit, auth, db, recherche
+
+from flask_cors import CORS 
 from elasticsearch import Elasticsearch
 
 app = Flask(__name__)
 
 
 es = Elasticsearch(['http://elasticsearch:9200'])
+
+
+app = Flask(__name__)
+
+CORS(app)  
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://user:pass@mysql/db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -18,14 +27,14 @@ with app.app_context():
     db.create_all()
 
 
-app.register_blueprint(article_bp, url_prefix='/articles')
+app.register_blueprint(admin_bp, url_prefix='/articles')
 app.register_blueprint(ModArticle, url_prefix='/ModArticles')
 app.register_blueprint(Favorit, url_prefix='/favorits')
 app.register_blueprint(auth ,url_prefix ='/Authentification')
-app.register_blueprint(Rech,url_prefix='/recherche')
+
+app.register_blueprint(recherche ,url_prefix ='/recherche')
 
 from flask_mail import Mail, Message
-
 
 # Configuration Flask-Mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -36,22 +45,6 @@ app.config['MAIL_USERNAME'] = 'aminatinhineneouadi@gmail.com'
 app.config['MAIL_PASSWORD'] = 'sgrz ofxb phqs fprc'
 
 mail = Mail(app)
-
-# Définition d'une route pour envoyer un e-mail
-@app.route('/send_email')
-def send_email():
-    # Création d'un objet Message
-    msg = Message('Sujet de l\'e-mail', sender='aminatinhineneouadi@gmail.com', recipients=['la_ouadi@esi.dz'])
-    
-    # Contenu de l'e-mail (utilisez un modèle si vous le souhaitez)
-    msg.body = 'Contenu de l\'e-mail.'
-
-    try:
-        # Envoi de l'e-mail
-        mail.send(msg)
-        return 'E-mail envoyé avec succès!'
-    except Exception as e:
-        return str(e)
 
 @app.route("/")
 def get():

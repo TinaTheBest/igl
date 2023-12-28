@@ -13,19 +13,18 @@ function ModifyModInput() {
         {`
           .shadow {
             font-family: 'DM Sans', sans-serif;
-          
-      
+        
         `}
       </style>
       <NavBarMod />
-      <div className="bg-white rounded-[20px] mx-[40.8px] mt-[84px] pb-[100px]">
-        <div className="font-bold text-[#005BC5] px-[32.89px] pt-[30px] pb-[20px] sm:text-[20px] text-[20px]">
+      <div className="bg-white rounded-[20px] mx-[40.8px] mt-[65px] sm:mt-[84px] pb-[100px]">
+        <div className="font-bold text-[#005BC5] px-[32.89px] pt-[30px] pb-[20px]  sm:text-[22px] text-[16px]">
           Semantic Analysis And Classifications Of E-mails Throught Informative
           Selection
         </div>
         <div className="px-[32.89px]">
           {/*************************************************************************************************************** */}
-          <div className=" font-bold sm:text-[20px] text-[20px] justify-between flex">
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
             <div>Title:</div>
             <div>
               <img
@@ -36,7 +35,7 @@ function ModifyModInput() {
               />
             </div>
           </div>
-          <div className="pb-[14px] sm:text-[16px] text-[16px] ">
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
             <div className={modifyOne ? "hidden" : ""}>
               Semantic Analysis And Classifications Of E-mails Throught
               Informative Selection
@@ -57,7 +56,7 @@ function ModifyModInput() {
             }
           ></div>
           {/*************************************************************************************************************** */}
-          <div className=" font-bold sm:text-[20px] text-[20px] justify-between flex">
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
             <div>Resume</div>
             <div>
               <img
@@ -68,7 +67,7 @@ function ModifyModInput() {
               />
             </div>
           </div>
-          <div className="pb-[14px] sm:text-[16px] text-[16px] ">
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
             <div className={modifyTwo ? "hidden" : ""}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
@@ -97,7 +96,7 @@ function ModifyModInput() {
             }
           ></div>
           {/*************************************************************************************************************** */}
-          <div className=" font-bold sm:text-[20px] text-[20px] justify-between flex">
+          <div className=" font-bold sm:text-[20px] text-[26px] justify-between flex">
             <div>Writer(s):</div>
             <div>
               <img
@@ -108,7 +107,7 @@ function ModifyModInput() {
               />
             </div>
           </div>
-          <div className="pb-[14px] sm:text-[16px] text-[16px] ">
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
             <div className={modifyThree ? "hidden" : ""}>Yusra, Asma</div>
             <input
               type="text"
@@ -126,7 +125,7 @@ function ModifyModInput() {
             }
           ></div>
           {/*************************************************************************************************************** */}
-          <div className=" font-bold sm:text-[20px] text-[20px] justify-between flex">
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
             <div>Institution(s):</div>
             <div>
               <img
@@ -137,7 +136,7 @@ function ModifyModInput() {
               />
             </div>
           </div>
-          <div className="pb-[14px] sm:text-[16px] text-[16px] ">
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
             <div className={modifyFour ? "hidden" : ""}>Yusra,Asma</div>
             <input
               type="text"
@@ -155,7 +154,7 @@ function ModifyModInput() {
             }
           ></div>
           {/*************************************************************************************************************** */}
-          <div className=" font-bold sm:text-[20px] text-[20px] justify-between flex">
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
             <div>Integral Text:</div>
             <div>
               <img
@@ -166,7 +165,7 @@ function ModifyModInput() {
               />
             </div>
           </div>
-          <div className="pb-[14px] sm:text-[16px] text-[16px] pb-[140px]">
+          <div className="sm:text-[16px] text-[13px] pb-[40px]">
             <div className={modifyFive ? "hidden" : ""}>
               <div>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -199,10 +198,10 @@ function ModifyModInput() {
                 boxShadow: " 0px -7.312px 14.624px 0px rgba(0, 0, 0, 0.10)",
               }}
             >
-              <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:ml-[15px] text-[18px] font-semibold py-[10px] px-[50px] border-[1.828px] border-[#1B9DF0]">
+              <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:ml-[15px] sm:text-[18px] text-[13px] font-semibold py-[10px] px-[50px] border-[1.828px] border-[#1B9DF0]">
                 Discard
               </div>
-              <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] text-[18px] font-semibold py-[10px] px-[25px] text-white bg-[#1B9DF0] sm:mr-[15px]">
+              <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:text-[18px] text-[13px] font-semibold py-[10px] px-[25px] text-white bg-[#1B9DF0] sm:mr-[15px]">
                 Save changes
               </div>
             </div>

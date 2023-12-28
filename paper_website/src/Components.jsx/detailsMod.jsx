@@ -1,4 +1,5 @@
 import NavBarMod from "./navbarMod";
+import { Link } from "react-router-dom";
 
 function DetailsMod() {
   return (
@@ -9,6 +10,7 @@ function DetailsMod() {
             font-family: 'DM Sans', 'sans-serif';
           
           }
+  
         `}
       </style>
       <NavBarMod />
@@ -92,15 +94,19 @@ function DetailsMod() {
             boxShadow: " 0px -7.312px 14.624px 0px rgba(0, 0, 0, 0.10)",
           }}
         >
-          <div className="text-center sm:ml-[15px] mx-[10px] sm:m-[0] mb-[10px] px-[25px] sm:py-[15px] py-[9.4px] border-[1.59px] border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold">
-            Return
-          </div>
+          <Link to="/ModeratorFirstPage">
+            <div className="text-center sm:ml-[15px] mx-[10px] sm:m-[0] mb-[10px] px-[25px] sm:py-[15px] py-[9.4px] border-[1.59px] border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold">
+              Return
+            </div>
+          </Link>
           <div className="text-center mb-[10px] mx-[10px] sm:m-[0] px-[25px]  border-[1.59px] sm:py-[15px] py-[9.4px]  border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold">
             Delete
           </div>
-          <div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] ">
-            Modify
-          </div>
+          <Link to="/ModeratorFirstPage/ModeratorModify">
+            <div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] ">
+              Modify
+            </div>
+          </Link>
           <div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:mr-[15px] sm:text-[18px] text-[13px] ">
             Validate
           </div>
