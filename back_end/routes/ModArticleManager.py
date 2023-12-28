@@ -56,7 +56,8 @@ def delete_document(document_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@ModArticle.route('/api/get_article_details/<article_id>', methods=['GET'])
+
+@ModArticle.route('/get_article_details/<article_id>', methods=['GET'])
 def get_article_details(article_id):
     index_name = "article_non_valide"
     create_index_if_not_exists(index_name)
