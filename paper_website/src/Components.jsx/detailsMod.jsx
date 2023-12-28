@@ -1,7 +1,19 @@
 import NavBarMod from "./navbarMod";
 import { Link } from "react-router-dom";
 
-function DetailsMod() {
+function DetailsMod(props) {
+  const {
+    id,
+    title,
+    authors,
+    institutions,
+    keywords,
+    abstract,
+    references,
+    publication_date,
+    full_text,
+    pdf_url,
+  } = props;
   return (
     <>
       <style>
@@ -16,56 +28,53 @@ function DetailsMod() {
       <NavBarMod />
       <div className="bg-white rounded-[20px] mx-[10px] sm:mx-[40px] mt-[65px] sm:mt-[84px] font-dm-sans">
         <div className="font-bold text-[#005BC5] sm:pl-[32.89px] sm:pt-[39.11px]  p-[20px] pb-[20px] sm:text-[22px] text-[16px]">
-          Semantic Analysis And Classifications Of E-mails Throught Informative
-          Selection
+          {id}
         </div>
         <div className="sm:px-[32.89px] px-[20px]">
-          <div className=" font-bold sm:text-[20px] text-[16px]">Title</div>
-          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            Semantic analysis and classifications of E-mails throught
-            informative Selection
+          <div className=" font-bold sm:text-[20px] text-[16px]">Title :</div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">{title}</div>
+          <div className=" font-bold sm:text-[20px] text-[16px]">
+            Abstract :
           </div>
-          <div className=" font-bold sm:text-[20px] text-[16px]">Resume</div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum...
+            {abstract}
           </div>
           <div className="font-bold sm:text-[20px] text-[16px]">
-            Writer(s) :
+            Author(s) :
+          </div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">{authors}</div>
+          <div className="font-bold sm:text-[20px] text-[16px]">
+            Publication date :
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            Yusra , Lina
+            {publication_date}
           </div>
           <div className=" font-bold sm:text-[20px] text-[16px]">
             Institution(s) :{" "}
           </div>
-          <div className="pb-[14px] sm:text-[16px] text-[13px] ">ESI, Poly</div>
-          <div className="font-bold sm:text-[20px] text-[16px]">
-            Références bibliographiques :{" "}
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {" "}
+            {institutions}
           </div>
-          <div className="pb-[14px] sm:text-[16px] text-[13px] ">ESI, Poly</div>
           <div className="font-bold sm:text-[20px] text-[16px]">
-            Integral Text
+            References :{" "}
+          </div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {" "}
+            {references}
+          </div>
+          <div className="font-bold sm:text-[20px] text-[16px]">
+            Key Words :{" "}
+          </div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {" "}
+            {keywords}
+          </div>
+          <div className="font-bold sm:text-[20px] text-[16px]">
+            Full Text :
           </div>
           <div className="pb-[16px] sm:pb-[140px] sm:text-[16px] text-[13px] ">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum lorem Ipsum is simply
-            dummy text of the printing and typesetting industry. Lorem Ipsum has
-            been the industry's ldus PageMaker including versions of Lorem Ipsum
+            {full_text}
           </div>
         </div>
       </div>
