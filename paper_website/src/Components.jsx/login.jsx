@@ -25,11 +25,11 @@ function Login() {
       // Check the status in the response
       if (response.data.status === 'user') {
         // Redirect to '/home' if the status is 'user'
-        navigate('/home');
+        navigate('/UserFirstPage');
       } else {
         if (response.data.status === 'moderateur') {
           // Redirect to '/home' if the status is 'user'
-          navigate('/home');
+          navigate('/ModeratorFirstPage');
         }
         // Display error message if status is not 'user'
         setErrorMessage('This Account does not exist. Check your information.');
