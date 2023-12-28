@@ -56,3 +56,14 @@ def delete_document(document_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@ModArticle.route('/api/get_article_details/<article_id>', methods=['GET'])
+def get_article_details(article_id):
+    index_name = "article_non_valide"
+    create_index_if_not_exists(index_name)
+
+    # Fetch article details based on the provided article_id
+    try:
+        article_details = es.get(index=index_name, id=article_id)['_source']
+        return jsonify(article_details), 200
+    except Exception as e:
+        return jsonify({"error": f"Error fetching article details: {str(e)}"}), 500
