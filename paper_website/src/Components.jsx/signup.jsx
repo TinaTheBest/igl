@@ -1,5 +1,35 @@
+import { useState } from "react";
 import Logo from "../assets/logo.svg";
+import axios from "axios";
+
 function SignUp() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  function handleInputChange(event) {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  }
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/Authentification/signin",
+        formData
+      );
+
+      // Handle the response, e.g., redirect to a new page, update state, etc.
+      console.log("SignUp successful:", response.data);
+    } catch (error) {
+      console.error("Error during Sign Up:", error);
+      // Handle error, e.g., show an error message to the user
+    }
+  };
+
   return (
     <>
       <style>
@@ -21,22 +51,43 @@ function SignUp() {
             alt="Logo"
             className="sm:hidden w-[86px] h-[57px] ml-[10px] mt-[10px]"
           />
-          <form className="sm:mx-[50px] mx-[10px]  bg-white p-4">
+          <form
+            className="sm:mx-[50px] mx-[10px]  bg-white p-4"
+            onSubmit={handleFormSubmit}
+          >
             <h2 className="sm:text-4xl text-[22px] font-bold sm:pt-3 sm:pb-6 py-[2px]">
               Get Started Now!
             </h2>
             <div className="flex flex-col py-2">
               <label>Username</label>
-              <input className="border p-2 rounded-[12.5px] " type="text" />
+              <input
+                className="border p-2 rounded-[12.5px] "
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="flex flex-col py-2">
               <label>Email address</label>
-              <input className="border p-2 rounded-[12.5px] " type="text" />
+              <input
+                className="border p-2 rounded-[12.5px] "
+                type="text"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="flex flex-col py-2">
               <label>Password</label>
 
-              <input className="border p-2 rounded-[12.5px]" type="password" />
+              <input
+                className="border p-2 rounded-[12.5px]"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="flex flex-col py-2">
               <label>Confirm password</label>
