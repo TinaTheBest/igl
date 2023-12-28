@@ -18,7 +18,7 @@ function SignUp() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/Authentification/signin",
+        "http://localhost:5000/Authentification/sginin",
         formData
       );
 
@@ -92,7 +92,6 @@ function SignUp() {
 
             <div className="flex flex-col py-2">
               <label>Confirm password</label>
-
               <input className="border p-2 rounded-[12.5px]" type="password" />
             </div>
             <p className="flex items-center my-[5px]">
