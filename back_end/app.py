@@ -13,11 +13,11 @@ with app.app_context():
     db.create_all()
 
 
-app.register_blueprint(article_bp, url_prefix='/articles')
+app.register_blueprint(admin_bp, url_prefix='/articles')
 app.register_blueprint(ModArticle, url_prefix='/ModArticles')
 app.register_blueprint(Favorit, url_prefix='/favorits')
 app.register_blueprint(auth ,url_prefix ='/Authentification')
-app.register_blueprint(auth ,url_prefix ='/filtres')
+app.register_blueprint(recherche ,url_prefix ='/recherche')
 from flask_mail import Mail, Message
 
 # Configuration Flask-Mail

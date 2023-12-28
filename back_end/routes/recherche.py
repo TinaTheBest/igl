@@ -5,9 +5,9 @@ from elasticsearch import Elasticsearch
 
 
 # connexion a elastic
-es = Elasticsearch(['http://localhost:9200/'])
+es = Elasticsearch(['http://elasticsearch:9200'])
 # Création du Blueprint
-recherche = Blueprint('filtres', __name__)
+recherche = Blueprint('recherche', __name__)
 
 @recherche.route('/recherche', methods=['POST'])
 def recherche():
@@ -38,6 +38,7 @@ def recherche():
         print(results['hits']['hits'])
         
         return "Résultats affichés dans la console."
+    
     
 @recherche.route('/filtrage', methods=['POST'])
 def filtre():
