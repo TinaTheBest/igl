@@ -4,7 +4,7 @@ function UserDetails() {
   return (
     <>
       <NavBar />
-      <div className="mt-[70px] sm:mt-[84px]"></div>
+      <div className="sm:mt-[84px] mt-[65px]"></div>
       {/*Component Details */}
       <Details />
     </>

@@ -1,6 +1,6 @@
 import heart from "../assets/heart.svg";
 import { Link } from "react-router-dom";
-function Card() {
+function CardFav() {
   return (
     <>
       <style>
@@ -33,11 +33,11 @@ function Card() {
                 See More details
               </div>
             </Link>
-            <img src={heart} alt="Heart"></img>
+            <img src={heart} alt="Heart" className="hidden"></img>
           </div>
         </div>
       </div>
     </>
   );
 }
-export default Card;
+export default CardFav;

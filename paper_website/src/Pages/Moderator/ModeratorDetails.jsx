@@ -6,6 +6,7 @@ function ModeratorDetails() {
       <NavBarMod />
       <div className="sm:mt-[90px] mt-[72px]">
         {/*Cette div va contenir DetailsMod selon l'article choisi*/}
+        <DetailsMod />
       </div>
     </>
   );

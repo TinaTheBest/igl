@@ -1,12 +1,15 @@
 import NavBar from "../../Components.jsx/navbar";
-import Card from "../../Components.jsx/card";
+import CardFav from "../../Components.jsx/cardFav";
 function UserFav() {
   return (
     <>
       <NavBar />
-      <div className="sm:mt-[84px] mt-[70px]">
-        yusra
-        {/*Hna yjo cards component Card */}
+      <div className="sm:mt-[84px] mt-[65px]">
+        <div className="mb-[10px]">
+          {/*"hna yjo cards CardFav "*/}
+          <CardFav />
+        </div>
+        <CardFav />
       </div>
     </>
   );
