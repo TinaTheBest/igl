@@ -89,6 +89,7 @@ function SignUp() {
                 onChange={handleInputChange}
               />
             </div>
+
             <div className="flex flex-col py-2">
               <label>Confirm password</label>
 
@@ -98,7 +99,10 @@ function SignUp() {
               <input className="mr-2" type="checkbox" />
               Terms and Conditions
             </p>
-            <button className="border w-full my-[5px] py-2 rounded-[12.5px] bg-[#1B9DF0] hover:bg-opacity-90 text-white">
+            <button
+              type="submit"
+              className="border w-full my-[5px] py-2 rounded-[12.5px] bg-[#1B9DF0] hover:bg-opacity-90 text-white"
+            >
               Sign Up
             </button>
             <div className="text-center">
