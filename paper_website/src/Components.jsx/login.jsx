@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from "../assets/logo.svg";
 import axios from 'axios';
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleInputChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
-
-  };
+  }
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -19,11 +22,47 @@ function Login() {
     try {
       const response = await axios.post('http://localhost:5000/Authentification/login', formData);
 
+      // Check the status in the response
+      if (response.data.status === 'user') {
+        // Redirect to '/home' if the status is 'user'
+        navigate('/UserFirstPage');
+      } else {
+        if (response.data.status === 'moderateur') {
+          // Redirect to '/home' if the status is 'user'
+          navigate('/ModeratorFirstPage');
+        }
+        // Display error message if status is not 'user'
+        setErrorMessage('This Account does not exist. Check your information.');
+      }
+
       // Handle the response, e.g., redirect to a new page, update state, etc.
       console.log('Login successful:', response.data);
     } catch (error) {
+      // Handle error and display error message
+      setErrorMessage('An error occurred during login. Please try again.');
       console.error('Error during login:', error);
-      // Handle error, e.g., show an error message to the user
+    }
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const ResetPassword = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:5000/Authentification/reset_pass', { email: formData.email });
+
+      console.log('mail envoyee:', response.data);
+    } catch (error) {
+      // Handle error and display error message
+      setErrorMessage('An error occurred during the reset of password. Please try again.');
+      console.error('Error :', error);
     }
   };
 
@@ -63,7 +102,10 @@ function Login() {
             <div className="flex flex-col py-2">
               <div className="flex justify-between">
                 <label>Password</label>
-                <p className="font-bold text-[#0C2A92] text-[12.005px] hover:text-[#0F3DDE] ">
+                <p
+                  className="font-bold text-[#0C2A92] text-[12.005px] hover:text-[#0F3DDE] cursor-pointer"
+                  onClick={openModal}
+                >
                   forgot password
                 </p>
               </div>
@@ -81,13 +123,37 @@ function Login() {
             >
               Login
             </button>
+            {errorMessage && <div className="text-red-500">{errorMessage}</div>}
             <div className="text-center">
               Don't have an account?{" "}
-              <span className="text-[#0F3DDE] hover:text-[#0C2A92]">Sign up</span>
+              <Link to="/PageSignUp" className="text-[#0F3DDE] hover:text-[#0C2A92]">Sign up</Link>
             </div>
           </form>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md shadow-lg max-w-md">
+            <h2 className="text-2xl font-bold mb-4">Forgot Password?</h2>
+            <p className="text-gray-700 mb-4">
+              We'll send you a password reset link to your registered email address.
+            </p>
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-md mr-2 hover:bg-blue-600"
+              onClick={ResetPassword}
+            >
+              Confirm
+            </button>
+            <button
+              className="border border-gray-500 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-200"
+              onClick={closeModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
