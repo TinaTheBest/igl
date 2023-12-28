@@ -1,63 +1,63 @@
-from flask import Blueprint, Flask,  render_template, request, redirect, url_for, session
-
+from flask import Blueprint, Flask, jsonify,  render_template, request, redirect, url_for, session
 from elasticsearch import Elasticsearch
 
 
 
 # connexion a elastic
-es = Elasticsearch(['http://localhost:9200/'])
+es = Elasticsearch(['http://elasticsearch:9200'])
 # Création du Blueprint
-recherche = Blueprint('filtres', __name__)
+Rech = Blueprint('recherche', __name__)
 
-@recherche.route('/recherche', methods=['POST'])
+@Rech.route('/resultat', methods=['POST'])
 def recherche():
-        term = "titre1"
-        
-        # Construction de la requête Elasticsearch pour la recherche initiale
-        query = {
-            "query": {
-                "bool": {
-                    "must": [
-                        {"multi_match": {
-                            "query": term,
-                            "fields": ["titre", "auteurs", "mots_cles", "institution"]
-                        }}
-                    ]
-                }
-            },
-            "sort": {"date_publication": {"order": "desc"}}
-        }
-        
-        # Exécution de la requête Elasticsearch pour la recherche initiale
-        results = es.search(index='article_valide', body=query)
-
-        # Stockez les résultats dans la session Flask
-        session['search_results'] = results['hits']['hits']
-
-        # Afficher les résultats dans la console
-        print(results['hits']['hits'])
-        
-        return "Résultats affichés dans la console."
+    term =  request.form.get('search_term')
     
-@recherche.route('/filtrage', methods=['POST'])
+    # Construction de la requête Elasticsearch pour la recherche initiale
+    query = {
+        "query": {
+            "bool": {
+                "must": [
+                    {"multi_match": {
+                        "query": term,
+                        "fields": ["titre", "auteurs", "mots_cles", "institution"]
+                    }}
+                ]
+            }
+        },
+        "sort": {"date_publication": {"order": "desc"}}
+    }
+    
+    if not es.indices.exists(index='article_valide'):
+        print("The index 'article_valide' does not exist.")
+        
+    # Exécution de la requête Elasticsearch pour la recherche initiale
+    results = es.search(index='article_valide', body=query)
+    global hits # une variable globale pour stocker les resultat de la recherche pour les utiliser dans filtre 
+    # Stockez les résultats dans une variable
+    hits = results['hits']['hits']
+
+    response_data = [{'id': hit['_id'], 'source': hit['_source']} for hit in hits]
+
+    return jsonify(response_data)
+    
+@Rech.route('/filtrage', methods=['POST'])
 def filtre():
     # Récupérez les résultats stockés dans la session Flask
-    search_results = session.get('search_results', [])
+   # search_results = session.get('search_results', [])
     
     # Récupérez les filtres spécifiés par l'utilisateur
-    auteur_filter = "auteur1"
-    
+    auteur_filter = request.form.get('auteur_filter')    
     institution_filter = request.form.get('institution')
     date_debut_filter = request.form.get('date_debut')
     date_fin_filter = request.form.get('date_fin')
-    
+    global hits
     # Appliquez les filtres
-    filtered_results = apply_filters(search_results, auteur_filter, institution_filter, date_debut_filter, date_fin_filter)
+    filtered_results = apply_filters(hits, auteur_filter, institution_filter, date_debut_filter, date_fin_filter)
 
     # Afficher les résultats filtrés dans la console
     print(filtered_results)
     
-    return "Résultats filtrés affichés dans la console."
+    return jsonify(filtered_results)
 
 def apply_filters(results, auteur_filter, institution_filter, date_debut_filter, date_fin_filter):
     # Appliquer les filtres nécessaires
