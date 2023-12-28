@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request ,current_app
 from .models import db, Acount
 from sqlalchemy.exc import IntegrityError
 from flask_mail import  Message
+import secrets
 
 auth = Blueprint('Authentification', __name__)
 
@@ -91,7 +92,7 @@ def login():
     user = Acount.query.filter_by(email=data_from_request.get('email'), password=data_from_request.get('password')).first()
 
     if user :
-       return jsonify({"message": "LogIn" , "staus": user.status})
+       return jsonify({"message": "LogIn" , "status": user.status})
     
     return jsonify({"message" : "This Acout does not exist , Check your informations"})
 
@@ -100,14 +101,13 @@ def login():
 @auth.route('/reset_pass', methods=['POST'])
 def resetPassword():
     data_from_request = request.json
-    user = Acount.query.filter_by(id=data_from_request.get('email')).first()
+    user = Acount.query.filter_by(email=data_from_request.get('email')).first()
 
     if user:
         # Génération d'un nouveau mot de passe aléatoire
-        new_password = str(uuid())
+        new_password = secrets.token_urlsafe(8)  # You can adjust the length of the password
 
-        # Stockage sécurisé du mot de passe (hashage)
-        user.password = generate_password_hash(new_password, method='sha256')
+        user.password = new_password
         db.session.commit()
 
         # Envoi du nouveau mot de passe par e-mail
@@ -121,4 +121,4 @@ def resetPassword():
 
         return jsonify({"message": "Réinitialisation de mot de passe réussie. Veuillez vérifier votre e-mail."})
     
-    return jsonify({"message": "Cet utilisateur n'existe pas. Veuillez vérifier votre email adresse ."})
+    return jsonify({"message": "Cet utilisateur n'existe pas. Veuillez vérifier votre adresse e-mail.", "data": data_from_request})
