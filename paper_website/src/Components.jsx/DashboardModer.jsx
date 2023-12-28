@@ -4,6 +4,7 @@ import Noselected from "../assets/Noselected.svg";
 import modify from "../assets/modify.svg";
 import edit from "../assets/edit.svg";
 import deletee from "../assets/deletee.svg";
+import ConfirmationModal from './ConfirmationModal';
 
 
 function DashboardModer() {
@@ -156,6 +157,24 @@ function DashboardModer() {
         const [editableEmail, setEditableEmail] = useState('');
         const [editablePassword, setEditablePassword] = useState('');
         const [editableId, setEditableId] = useState('');
+
+        const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+        const [editableMode, setEditableMode] = useState(false);
+        
+        const handleDeleteClick = (row) => {
+            // setSelectedModerator(row);
+            setDeleteModalOpen(true);
+          };
+        
+          const handleConfirmDelete = () => {
+            // Implement the logic to delete the moderator
+            // You can use selectedModerator.id to identify the moderator to delete
+            setDeleteModalOpen(false);
+          };
+        
+          const handleCancelDelete = () => {
+            setDeleteModalOpen(false);
+          };
       
         const handleRowClicked = (row) => {
           // Handle row click here
@@ -164,18 +183,15 @@ function DashboardModer() {
           setEditableEmail(row.email);
           setEditablePassword(row.password);
           setEditableId(row.id);
+          // Switch off editable mode when clicking a new row
+          setEditableMode(false);
         };
       
         const handleModifyClick = () => {
-          // Handle modify button click here
-          // You can access editableName, editableEmail, editablePassword, editableId here
-          // Implement the logic to update the data or perform other actions
-        };
-        const handleDeleteClick = () => {
-            // Handle modify button click here
-            // You can access editableName, editableEmail, editablePassword, editableId here
-            // Implement the logic to update the data or perform other actions
+            // Toggle editable mode
+            setEditableMode(!editableMode);
           };
+        
             
     const [records,setrecords]=useState(data) ;   
     function handleRechercheMod(event)   {
@@ -187,16 +203,17 @@ function DashboardModer() {
         
   return (
     
-        <div className='rounded-[30px] m-5 mt-10 bg-white p-8'>
+        <div className='rounded-[30px]  mx-[30px] bg-white p-8'>
+            
           <div className='flex gap-5 rounded-[20px] '>
             <div className='flex-grow border-[3px] p-[5px]  border-blue-100 rounded-[20px]'>
               <div className='flex '>
-                <input className='w-full h-[30.78px] px-[17.78px] py-[14.22px] bg-white rounded-[13px] justify-between items-center inline-flex focus:outline-none border-[2px] border-blue-100' 
+                <input className='ml-[8px] w-full h-[30.78px] px-[17.78px] py-[14.22px] bg-white rounded-[13px] justify-between items-center inline-flex focus:outline-none border-[2px] border-blue-100 text-[13px]' 
                 type='text' 
                 placeholder="Search..."
                 onChange={handleRechercheMod}
                  />
-                 <button className='bg-[#1B9DF0] h-[30.78px] text-white border rounded-[13px] shadow-sm p-1 ml-2'>Add</button>
+                 <button className='bg-[#1B9DF0] h-[30.78px] text-white border rounded-[13px] shadow-sm p-1 ml-2 px-[70px] text-[14px]'> Add </button>
               </div>
               <DataTable
                 className='border-blue-100 rounded-[20px]'
@@ -209,28 +226,85 @@ function DashboardModer() {
                 paginationRowsPerPageOptions={[5, 7, 10]}
                 fixedHeader
               />
+            
             </div>
-            <div className='bg-white border-[3px] border-blue-100 rounded-[20px]'>
+            <div className='bg-white border-[3px] border-blue-100 rounded-[20px] w-[300px] items-center'>
               {selectedModerator ? (
-                <div className='items-center'>
+                <div className='items-center px-[30px] pt-[15px] '>
                   <div>
-                    <strong>Name:</strong> {selectedModerator.name}
+                  <div className="text-slate-400 text-base font-medium pt-[10px]">Individual moderator</div> 
+                  {editableMode ? (
+                   <input
+                     type="text"
+                     value={editableName}
+                     onChange={(e) => setEditableName(e.target.value)}
+                     className="border border-gray-300 p-1 rounded"
+                     />
+                   ) : (
+                    <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.name}</div>
+                    )}
+                  <div className="border-b mt-[10px]  w-full h-[0px] border-[0.2px] border-gray-200"></div>
                   </div>
                   <div>
-                    <strong>Email:</strong> {selectedModerator.email}
+                  <div className="text-slate-400 text-base font-medium pt-[10px]">Email</div> 
+                  {editableMode ? (
+                   <input
+                     type="text"
+                     value={editableEmail}
+                     onChange={(e) => setEditableEmail(e.target.value)}
+                     className="border border-gray-300 p-1 rounded"
+                     />
+                   ) : (
+                    <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.email}</div>
+                    )}
+                
+                  <div className="border-b mt-[10px]  w-full h-[0px] border-[0.2px] border-gray-200"></div>
                   </div>
                   <div>
-                    <strong>Password:</strong> {selectedModerator.password}
+                  <div className="text-slate-400 text-base font-medium pt-[10px]">Password</div>  
+                  {editableMode ? (
+                   <input
+                     type="text"
+                     value={editablePassword}
+                     onChange={(e) => setEditablePassword(e.target.value)}
+                     className="border border-gray-300 p-1 rounded"
+                     />
+                   ) : (
+                    <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.password}</div>
+                    )}
+                  <div className="border-b mt-[10px]  w-full h-[0px] border-[0.2px] border-gray-200"></div>
                   </div>
                   <div>
-                    <strong>ID:</strong> {selectedModerator.id}
+                  <div className="text-slate-400 text-base font-medium pt-[10px]">ID</div>  
+                  {editableMode ? (
+                   <input
+                     type="text"
+                     value={editableId}
+                     onChange={(e) => setEditableId(e.target.value)}
+                     className="border border-gray-300 p-1 rounded"
+                     />
+                   ) : (
+                    <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.id}</div>
+                    )}
                   </div>
-                  <button onClick={handleModifyClick}>Modify</button>
+                  {editableMode ? (
+                  <div className='flex justify-between py-[20px] '> 
+                  <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] text-[#1B9DF0]  text-[13px] justify-center items-center ' onClick={handleModifyClick}>Approve</button>
+                  <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] bg-[#1B9DF0] text-white text-[13px] justify-center items-center'  onClick={handleDeleteClick}>Cancel</button>
+                </div>
+                   ) : (
+                    <div className='flex justify-between py-[20px] '> 
+                     <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] text-[#1B9DF0]  text-[13px] justify-center items-center ' onClick={handleModifyClick}>Modify</button>
+                     <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] bg-[#1B9DF0] text-white text-[13px] justify-center items-center'  onClick={handleDeleteClick}>Delete</button>
+                   </div>
+                    )}
+                  
+                  
                 </div>
               ) : (
-                <div className='items-center'>
+                <div className='flex flex-col items-center'>
                   <img
-                    className='px-[100px] pt-[100px]'
+                    className='pt-[100px]'
                     src={Noselected}
                     alt='No moderator selected'
                   />
@@ -241,6 +315,8 @@ function DashboardModer() {
               )}
             </div>
           </div>
+          <ConfirmationModal isOpen={isDeleteModalOpen} onClose={handleCancelDelete} onConfirm={handleConfirmDelete} />
+
         </div>
       );
  
