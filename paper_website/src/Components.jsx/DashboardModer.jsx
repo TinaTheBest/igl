@@ -189,7 +189,7 @@ function DashboardModer() {
     
         <div className='rounded-[30px] m-5 mt-10 bg-white p-8'>
           <div className='flex gap-5 rounded-[20px] '>
-            <div className='flex-grow border-[5px] p-[5px]  border-blue-100 rounded-[20px]'>
+            <div className='flex-grow border-[3px] p-[5px]  border-blue-100 rounded-[20px]'>
               <div className='flex '>
                 <input className='w-full h-[30.78px] px-[17.78px] py-[14.22px] bg-white rounded-[13px] justify-between items-center inline-flex focus:outline-none border-[2px] border-blue-100' 
                 type='text' 
@@ -210,7 +210,7 @@ function DashboardModer() {
                 fixedHeader
               />
             </div>
-            <div className='bg-white border-[5px] border-blue-100 rounded-[20px]'>
+            <div className='bg-white border-[3px] border-blue-100 rounded-[20px]'>
               {selectedModerator ? (
                 <div className='items-center'>
                   <div>
