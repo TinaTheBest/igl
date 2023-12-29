@@ -1,8 +1,27 @@
 import NavBarMod from "./navbarMod";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function DetailsMod(props) {
   let navigate = useNavigate();
+  const validate = async (articleId) => {
+    try {
+      await axios.post(
+        `http://127.0.0.1:5000/ModArticles/Valider/${articleId}`
+      );
+    } catch (error) {
+      console.error("Error validating:", error);
+    }
+  };
+  const supprimer = async (articleId) => {
+    try {
+      await axios.post(
+        `http://127.0.0.1:5000/ModArticles/delete_document/${articleId}`
+      );
+    } catch (error) {
+      console.error("Error validating:", error);
+    }
+  };
   const {
     id,
     title,
@@ -88,11 +107,21 @@ function DetailsMod(props) {
           }}
         >
           <Link to="/ModeratorFirstPage">
-            <div className="text-center sm:ml-[15px] mx-[10px] sm:m-[0] mb-[10px] px-[25px] sm:py-[15px] py-[9.4px] border-[1.59px] border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold">
+            <div
+              className="text-center sm:ml-[15px] mx-[10px] sm:m-[0] mb-[10px] px-[25px] sm:py-[15px] py-[9.4px] border-[1.59px] border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold"
+              onClick={() => {
+                navigate("/ModeratorFirstPage");
+              }}
+            >
               Return
             </div>
           </Link>
-          <div className="text-center mb-[10px] mx-[10px] sm:m-[0] px-[25px]  border-[1.59px] sm:py-[15px] py-[9.4px]  border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold">
+          <div
+            className="text-center mb-[10px] mx-[10px] sm:m-[0] px-[25px]  border-[1.59px] sm:py-[15px] py-[9.4px]  border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold"
+            onClick={() => {
+              supprimer(props.id);
+            }}
+          >
             Delete
           </div>
           <div
@@ -106,7 +135,12 @@ function DetailsMod(props) {
           >
             Modify
           </div>
-          <div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:mr-[15px] sm:text-[18px] text-[13px] ">
+          <div
+            className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:mr-[15px] sm:text-[18px] text-[13px] "
+            onClick={() => {
+              validate(props.id);
+            }}
+          >
             Validate
           </div>
         </div>
