@@ -3,6 +3,7 @@ import Modify from "../assets/modify.svg";
 import { useState } from "react";
 
 function ModifyModInput(props) {
+  console.log("props in ModifyModInput:", props);
   const [modifyOne, setActiveOne] = useState(false);
   const [modifyTwo, setActiveTwo] = useState(false);
   const [modifyThree, setActiveThree] = useState(false);
@@ -54,9 +55,7 @@ function ModifyModInput(props) {
             </div>
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            <div className={modifyOne ? "hidden" : ""}>
-              {title}
-            </div>
+            <div className={modifyOne ? "hidden" : ""}>{title}</div>
             <input
               type="text"
               className={
@@ -85,9 +84,7 @@ function ModifyModInput(props) {
             </div>
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            <div className={modifyTwo ? "hidden" : ""}>
-              {abstract}
-            </div>
+            <div className={modifyTwo ? "hidden" : ""}>{abstract}</div>
             <input
               type="text"
               className={
@@ -263,9 +260,7 @@ function ModifyModInput(props) {
           </div>
           <div className="sm:text-[16px] text-[13px] pb-[40px]">
             <div className={modifyFive ? "hidden" : ""}>
-              <div>
-                {full_text}
-              </div>
+              <div>{full_text}</div>
             </div>
             <input
               type="text"
