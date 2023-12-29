@@ -1,7 +1,8 @@
 import NavBarMod from "./navbarMod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function DetailsMod(props) {
+  let navigate = useNavigate();
   const {
     id,
     title,
@@ -94,11 +95,14 @@ function DetailsMod(props) {
           <div className="text-center mb-[10px] mx-[10px] sm:m-[0] px-[25px]  border-[1.59px] sm:py-[15px] py-[9.4px]  border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold">
             Delete
           </div>
-          <Link to="/ModeratorFirstPage/ModeratorModify">
-            <div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] ">
-              Modify
-            </div>
-          </Link>
+          <button className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] "
+            onClick={() => {
+              console.log("detaaaailll")
+              console.log(props)
+              navigate("/ModeratorFirstPage/ModeratorDetails/modify/" + props.id, { state: { article: { props }, } });
+            }}>
+            Modify
+          </button>
           <div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:mr-[15px] sm:text-[18px] text-[13px] ">
             Validate
           </div>

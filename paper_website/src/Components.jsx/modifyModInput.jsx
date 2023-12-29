@@ -1,7 +1,8 @@
 import NavBarMod from "./navbarMod";
 import Modify from "../assets/modify.svg";
 import { useState } from "react";
-function ModifyModInput() {
+
+function ModifyModInput(props) {
   const [modifyOne, setActiveOne] = useState(false);
   const [modifyTwo, setActiveTwo] = useState(false);
   const [modifyThree, setActiveThree] = useState(false);
@@ -10,6 +11,20 @@ function ModifyModInput() {
   const [modifySix, setActiveSix] = useState(false);
   const [modifySeven, setActiveSeven] = useState(false);
   const [modifyEight, setActiveEight] = useState(false);
+
+  const {
+    id,
+    title,
+    authors,
+    institutions,
+    keywords,
+    abstract,
+    references,
+    publication_date,
+    full_text,
+    pdf_url,
+  } = props;
+
   return (
     <>
       <style>
@@ -40,8 +55,7 @@ function ModifyModInput() {
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
             <div className={modifyOne ? "hidden" : ""}>
-              Semantic Analysis And Classifications Of E-mails Throught
-              Informative Selection
+              {title}
             </div>
             <input
               type="text"
@@ -50,7 +64,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md resize-y w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Title"
+              placeholder={title}
             />
           </div>
           <div
@@ -72,16 +86,7 @@ function ModifyModInput() {
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
             <div className={modifyTwo ? "hidden" : ""}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum...
+              {abstract}
             </div>
             <input
               type="text"
@@ -90,7 +95,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Abstract"
+              placeholder={abstract}
             />
           </div>
           <div
@@ -111,7 +116,7 @@ function ModifyModInput() {
             </div>
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            <div className={modifySix ? "hidden" : ""}>Yusra, Asma</div>
+            <div className={modifySix ? "hidden" : ""}>{publication_date}</div>
             <input
               type="text"
               className={
@@ -119,7 +124,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Publication date"
+              placeholder={publication_date}
             />
           </div>
           <div
@@ -140,7 +145,7 @@ function ModifyModInput() {
             </div>
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            <div className={modifyThree ? "hidden" : ""}>Yusra, Asma</div>
+            <div className={modifyThree ? "hidden" : ""}>{authors} </div>
             <input
               type="text"
               className={
@@ -148,7 +153,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Authors"
+              placeholder={authors}
             />
           </div>
           <div
@@ -170,7 +175,7 @@ function ModifyModInput() {
             </div>
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            <div className={modifyFour ? "hidden" : ""}>Yusra,Asma</div>
+            <div className={modifyFour ? "hidden" : ""}>{institutions} </div>
             <input
               type="text"
               className={
@@ -178,7 +183,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Institution(s)"
+              placeholder={institutions}
             />
           </div>
           <div
@@ -199,7 +204,7 @@ function ModifyModInput() {
             </div>
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            <div className={modifySeven ? "hidden" : ""}>Yusra, Asma</div>
+            <div className={modifySeven ? "hidden" : ""}>{references} </div>
             <input
               type="text"
               className={
@@ -207,7 +212,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="References"
+              placeholder={references}
             />
           </div>
           <div
@@ -228,7 +233,7 @@ function ModifyModInput() {
             </div>
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            <div className={modifyEight ? "hidden" : ""}>Yusra, Asma</div>
+            <div className={modifyEight ? "hidden" : ""}>{keywords} </div>
             <input
               type="text"
               className={
@@ -236,7 +241,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Key Wordss"
+              placeholder={keywords}
             />
           </div>
           <div
@@ -259,16 +264,7 @@ function ModifyModInput() {
           <div className="sm:text-[16px] text-[13px] pb-[40px]">
             <div className={modifyFive ? "hidden" : ""}>
               <div>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum...
+                {full_text}
               </div>
             </div>
             <input
@@ -278,7 +274,7 @@ function ModifyModInput() {
                   ? "mt-[10px] mb-[122px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Integral Text"
+              placeholder={full_text}
             />
           </div>
           {/*************************************************************************************************************** */}
