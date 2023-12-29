@@ -1,6 +1,5 @@
 import NavBar from "../../Components.jsx/navbar";
 import CardFav from "../../Components.jsx/cardFav";
-import FilSer from "../../Components.jsx/FilSer";
 import axios from "axios";
 import { useState } from "react";
 function UserFav() {
