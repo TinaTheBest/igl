@@ -1,21 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import heart from "../assets/heart.svg";
+import heartSelected from "../assets/heartSelected.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Card(props) {
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(true);
 
-  useEffect(() => {
-    // Vous pouvez ajouter un appel à l'API pour vérifier si l'article est favori ici
-    // Par exemple, axios.get("http://127.0.0.1:5000/Favorit/is_favorite", { articleId: props.id })
-    // Puis, définissez setIsFavorite en fonction de la réponse de l'API
-  }, [props.id]); // Assurez-vous de déclencher cette vérification à chaque changement d'ID d'article
+  /* const checkIsFavorite = async (articleId) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:5000/Favorit/is_favorite/${articleId}`
+      );
+      setIsFavorite(response.data.isFavorite);
+    } catch (error) {
+      console.error("Error checking favorite status:", error);
+    }
+  };*/
 
   const addFavorite = async (articleId) => {
     try {
-      await axios.post("http://127.0.0.1:5000/Favorit/AjouterFavorit", {
+      await axios.post("http://127.0.0.1:5000/favorits/AjouterFavorit", {
         articleId,
       });
       setIsFavorite(true);
@@ -26,17 +32,21 @@ function Card(props) {
 
   const deleteFavorite = async (articleId) => {
     try {
+      setIsFavorite(false);
+      console.log("Favorite deleted");
       await axios.post(
-        "http://127.0.0.1:5000/Favorit/delete_favorit/<document_id>'",
+        `http://127.0.0.1:5000/favorits/delete_favorit/${articleId}`,
         {
           articleId,
         }
       );
-      setIsFavorite(false);
     } catch (error) {
       console.error("Error deleting favorite:", error);
     }
   };
+
+  // Appeler checkIsFavorite lors de l'affichage initial du composant
+  // checkIsFavorite(props.id);
 
   return (
     <>
@@ -70,12 +80,10 @@ function Card(props) {
             >
               See More details
             </div>
-
-            {/* Intégration du clic sur le cœur pour ajouter/enlever en favori */}
             <img
-              src={heart}
+              src={isFavorite ? heartSelected : heart}
               alt="Heart"
-              style={{ cursor: "pointer", color: isFavorite ? "red" : "black" }}
+              style={{ cursor: "pointer" }}
               onClick={() =>
                 isFavorite ? deleteFavorite(props.id) : addFavorite(props.id)
               }

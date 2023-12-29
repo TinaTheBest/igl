@@ -9,7 +9,7 @@ function UserFirstPage() {
   const fetchArticles = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:5000/User/get_all_data"
+        "http://127.0.0.1:5000/users/get_all_data"
       );
       setArticles(response.data);
     } catch (error) {
