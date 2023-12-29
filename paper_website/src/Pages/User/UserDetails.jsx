@@ -1,12 +1,39 @@
 import NavBar from "../../Components.jsx/navbar";
 import Details from "../../Components.jsx/details";
+import { useLocation } from "react-router";
 function UserDetails() {
+  const location = useLocation();
+  const { state } = location;
+  const {
+    id,
+    title,
+    authors,
+    institutions,
+    keywords,
+    abstract,
+    references,
+    publication_date,
+    full_text,
+    pdf_url,
+  } = state ? state.article : {};
+
   return (
     <>
       <NavBar />
-      <div className="sm:mt-[84px] mt-[65px]"></div>
-      {/*Component Details */}
-      <Details />
+      <div className="sm:mt-[84px] mt-[65px]">
+        <Details
+          id={id}
+          title={title}
+          authors={authors}
+          institutions={institutions}
+          keywords={keywords}
+          abstract={abstract}
+          references={references}
+          publication_date={publication_date}
+          full_text={full_text}
+          pdf_url={pdf_url}
+        />
+      </div>
     </>
   );
 }
