@@ -20,3 +20,19 @@ def get_all_data():
     
     return jsonify(hits)
 
+@user.route('/isfav/<id_user>/<id_doc>', methods=['GET'])
+def isfav(id_user, id_doc):
+    # Check if the user's favorite index exists
+    fav_index_name = id_user
+    if not es.indices.exists(index=fav_index_name):
+        return jsonify({"message": "User index not found", "isfav": False})
+
+    # Check if the document with id_doc exists in the user's favorite index
+    try:
+        es.get(index=fav_index_name, id=id_doc)
+        return jsonify({"isfav": True})
+    except Exception as e:
+        # Document not found
+        return jsonify({"isfav": False})
+
+

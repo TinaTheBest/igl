@@ -26,17 +26,15 @@ def get_all_fav():
     return jsonify(response_data)
 
 
-@Favorit.route('/AjouterFavorit', methods=['POST'])
-def valider_doc():
+@Favorit.route('/AjouterFavorit/<user_id>/<doc_id>', methods=['POST'])
+def valider_doc(user_id, doc_id):
     data = request.json
-
-    index_name = data.get("id")
+    index_name = user_id
     # Define your Elasticsearch index
     if not es.indices.exists(index=index_name):
         es.indices.create(index=index_name)
  
-    del data["id"]
-    es.index(index=index_name, body=data)
+    es.index(index=index_name,id= doc_id, body=data)
     return jsonify({"message": "Document ajouté avec succès"}), 201
 
 
