@@ -8,10 +8,10 @@ function Card(props) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(true);
 
-  /* const checkIsFavorite = async (articleId) => {
+  /* const checkIsFavorite = async (articleId,userId) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/Favorit/is_favorite/${articleId}`
+        `http://127.0.0.1:5000/users/isfav/${userId}/${articleId}`
       );
       setIsFavorite(response.data.isFavorite);
     } catch (error) {
