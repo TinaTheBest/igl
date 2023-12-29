@@ -2,39 +2,15 @@ import React, { useState } from "react";
 import NavBarMod from "../../Components.jsx/navbarMod";
 import CardMod from "../../Components.jsx/cardMod";
 import axios from "axios";
-{
-  /*import NavBarMod from "../../Components.jsx/navbarMod";
-import CardMod from "../../Components.jsx/cardMod";
-function ModeratorFirstPage() {
-  return (
-    <>
-      <NavBarMod />
-      <div className="sm:mt-[84px] mt-[65px]">
-        <CardMod
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
-      </div>
-    </>
-  );
-}
-export default ModeratorFirstPage;*/
-}
 
 function ModeratorFirstPage() {
   const [articles, setArticles] = useState([]);
 
   const fetchArticles = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/get_all_data");
+      const response = await axios.get(
+        "http://127.0.0.1:5000/ModArticles/get_all_data"
+      );
       setArticles(response.data);
     } catch (error) {
       console.error("Error fetching articles:", error);

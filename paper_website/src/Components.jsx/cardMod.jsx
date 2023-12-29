@@ -1,25 +1,8 @@
-// CardMod.jsx
 import React from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function CardMod(props) {
   let navigate = useNavigate();
-  {
-    /*const {
-    id,
-    title,
-    authors,
-    institutions,
-    keywords,
-    abstract,
-    references,
-    publication_date,
-    full_text,
-    pdf_url,
-  } = props;*/
-  }
   return (
     <>
       <style>

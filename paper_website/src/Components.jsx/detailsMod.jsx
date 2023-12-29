@@ -79,24 +79,6 @@ function DetailsMod(props) {
           </div>
         </div>
       </div>
-      {/* 
-      <div className="flex  bg-white rounded-[39.612px] items-center mx-[327px] my-[49px]">
-        <div className="flex items-center justify-center py-[25.5px]">
-          <div className="ml-[25.5px] p-[19.12px] border-[1.59px] border-[#1B9DF0] rounded-[26.408px] text-[25.498px] font-semibold">
-            Return
-          </div>
-          <div className="ml-[25.5px] p-[19.12px] border-[1.59px] border-[#1B9DF0] rounded-[26.408px] text-[25.498px] font-semibold">
-            Delete
-          </div>
-          <div className="ml-[25.5px] p-[19.12px] bg-[#1B9DF0] text-white rounded-[26.408px] text-[25.498px] font-semibold">
-            Modify
-          </div>
-          <div className="ml-[25.5px] p-[19.12px] bg-[#1B9DF0] text-white rounded-[26.408px] mr-[25.5px] text-[25.498px] font-semibold">
-            Validate
-          </div>
-        </div>
-      </div>*/}
-
       <div className=" sm:fixed bottom-1 left-0 right-0 sm:flex  items-center justify-center font-dm-sans">
         <div
           className="bg-white sm:flex gap-[15px] py-[15px] rounded-[17px] sm:rounded-[30px] m-[17.3px] sm:m-[0]"
