@@ -40,15 +40,16 @@ function DetailsMod(props) {
             {abstract}
           </div>
           <div className="font-bold sm:text-[20px] text-[16px]">
-            Author(s) :
-          </div>
-          <div className="pb-[14px] sm:text-[16px] text-[13px] ">{authors}</div>
-          <div className="font-bold sm:text-[20px] text-[16px]">
             Publication date :
           </div>
           <div className="pb-[14px] sm:text-[16px] text-[13px] ">
             {publication_date}
           </div>
+          <div className="font-bold sm:text-[20px] text-[16px]">
+            Author(s) :
+          </div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">{authors}</div>
+
           <div className=" font-bold sm:text-[20px] text-[16px]">
             Institution(s) :{" "}
           </div>

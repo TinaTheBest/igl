@@ -7,6 +7,9 @@ function ModifyModInput() {
   const [modifyThree, setActiveThree] = useState(false);
   const [modifyFour, setActiveFour] = useState(false);
   const [modifyFive, setActiveFive] = useState(false);
+  const [modifySix, setActiveSix] = useState(false);
+  const [modifySeven, setActiveSeven] = useState(false);
+  const [modifyEight, setActiveEight] = useState(false);
   return (
     <>
       <style>
@@ -17,12 +20,12 @@ function ModifyModInput() {
         `}
       </style>
       <NavBarMod />
-      <div className="bg-white rounded-[20px] mx-[40.8px] mt-[65px] sm:mt-[84px] pb-[100px]">
-        <div className="font-bold text-[#005BC5] px-[32.89px] pt-[30px] pb-[20px]  sm:text-[22px] text-[16px]">
+      <div className="bg-white rounded-[20px] mx-[10px] sm:mx-[40px] mt-[65px] sm:mt-[84px] font-dm-sans">
+        <div className="font-bold text-[#005BC5]  sm:px-[32.89px] px-[20px] pt-[30px] pb-[20px]  sm:text-[22px] text-[16px]">
           Semantic Analysis And Classifications Of E-mails Throught Informative
           Selection
         </div>
-        <div className="px-[32.89px]">
+        <div className="sm:px-[32.89px] px-[20px]">
           {/*************************************************************************************************************** */}
           <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
             <div>Title:</div>
@@ -31,7 +34,7 @@ function ModifyModInput() {
                 src={Modify}
                 alt="Modify"
                 onClick={() => setActiveOne((modifyOne) => !modifyOne)}
-                className={modifyOne ? "hidden" : ""}
+                className={modifyOne ? "hidden" : "w-[21px] h-[21px]"}
               />
             </div>
           </div>
@@ -47,7 +50,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md resize-y w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Resume"
+              placeholder="Title"
             />
           </div>
           <div
@@ -57,13 +60,13 @@ function ModifyModInput() {
           ></div>
           {/*************************************************************************************************************** */}
           <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
-            <div>Resume</div>
+            <div>Abstract</div>
             <div>
               <img
                 src={Modify}
                 alt="Modify"
                 onClick={() => setActiveTwo((modifyTwo) => !modifyTwo)}
-                className={modifyTwo ? "hidden" : ""}
+                className={modifyTwo ? "hidden" : "w-[21px] h-[21px]"}
               />
             </div>
           </div>
@@ -87,7 +90,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Resume"
+              placeholder="Abstract"
             />
           </div>
           <div
@@ -96,14 +99,43 @@ function ModifyModInput() {
             }
           ></div>
           {/*************************************************************************************************************** */}
-          <div className=" font-bold sm:text-[20px] text-[26px] justify-between flex">
-            <div>Writer(s):</div>
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
+            <div>Publication date :</div>
+            <div>
+              <img
+                src={Modify}
+                alt="Modify"
+                onClick={() => setActiveSix((modifySix) => !modifySix)}
+                className={modifySix ? "hidden" : "w-[21px] h-[21px]"}
+              />
+            </div>
+          </div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            <div className={modifySix ? "hidden" : ""}>Yusra, Asma</div>
+            <input
+              type="text"
+              className={
+                modifySix
+                  ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
+                  : "hidden"
+              }
+              placeholder="Publication date"
+            />
+          </div>
+          <div
+            className={
+              modifyThree ? "hidden" : "bg-[#ECECEC] h-[0.5px] mb-[10px]"
+            }
+          ></div>
+          {/*************************************************************************************************************** */}
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
+            <div>Authors(s):</div>
             <div>
               <img
                 src={Modify}
                 alt="Modify"
                 onClick={() => setActiveThree((modifyThree) => !modifyThree)}
-                className={modifyThree ? "hidden" : ""}
+                className={modifyThree ? "hidden" : "w-[21px] h-[21px]"}
               />
             </div>
           </div>
@@ -116,7 +148,7 @@ function ModifyModInput() {
                   ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
-              placeholder="Writer(s)"
+              placeholder="Authors"
             />
           </div>
           <div
@@ -125,6 +157,7 @@ function ModifyModInput() {
             }
           ></div>
           {/*************************************************************************************************************** */}
+
           <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
             <div>Institution(s):</div>
             <div>
@@ -132,7 +165,7 @@ function ModifyModInput() {
                 src={Modify}
                 alt="Modify"
                 onClick={() => setActiveFour((modifyFour) => !modifyFour)}
-                className={modifyFour ? "hidden" : ""}
+                className={modifyFour ? "hidden" : "w-[21px] h-[21px]"}
               />
             </div>
           </div>
@@ -155,13 +188,71 @@ function ModifyModInput() {
           ></div>
           {/*************************************************************************************************************** */}
           <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
-            <div>Integral Text:</div>
+            <div>References:</div>
+            <div>
+              <img
+                src={Modify}
+                alt="Modify"
+                onClick={() => setActiveSeven((modifySeven) => !modifySeven)}
+                className={modifySeven ? "hidden" : "w-[21px] h-[21px]"}
+              />
+            </div>
+          </div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            <div className={modifySeven ? "hidden" : ""}>Yusra, Asma</div>
+            <input
+              type="text"
+              className={
+                modifySeven
+                  ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
+                  : "hidden"
+              }
+              placeholder="References"
+            />
+          </div>
+          <div
+            className={
+              modifyThree ? "hidden" : "bg-[#ECECEC] h-[0.5px] mb-[10px]"
+            }
+          ></div>
+          {/*************************************************************************************************************** */}
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
+            <div>Key Words:</div>
+            <div>
+              <img
+                src={Modify}
+                alt="Modify"
+                onClick={() => setActiveEight((modifyEight) => !modifyEight)}
+                className={modifyEight ? "hidden" : "w-[21px] h-[21px]"}
+              />
+            </div>
+          </div>
+          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            <div className={modifyEight ? "hidden" : ""}>Yusra, Asma</div>
+            <input
+              type="text"
+              className={
+                modifyEight
+                  ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
+                  : "hidden"
+              }
+              placeholder="Key Wordss"
+            />
+          </div>
+          <div
+            className={
+              modifyThree ? "hidden" : "bg-[#ECECEC] h-[0.5px] mb-[10px]"
+            }
+          ></div>
+          {/*************************************************************************************************************** */}
+          <div className=" font-bold sm:text-[20px] text-[16px] justify-between flex">
+            <div>Full Text:</div>
             <div>
               <img
                 src={Modify}
                 alt="Modify"
                 onClick={() => setActiveFive((modifyFive) => !modifyFive)}
-                className={modifyFive ? "hidden" : ""}
+                className={modifyFive ? "hidden" : "w-[21px] h-[21px]"}
               />
             </div>
           </div>
@@ -184,7 +275,7 @@ function ModifyModInput() {
               type="text"
               className={
                 modifyFive
-                  ? "my-[10px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
+                  ? "mt-[10px] mb-[122px] p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-blue-500"
                   : "hidden"
               }
               placeholder="Integral Text"
