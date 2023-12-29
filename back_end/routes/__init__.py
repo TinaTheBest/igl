@@ -4,3 +4,4 @@ from .Favorit import Favorit
 from .models import db, Acount
 from .auth import auth
 from .recherche import recherche
+from .User import user
