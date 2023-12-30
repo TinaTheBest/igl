@@ -47,7 +47,7 @@ function NavBarAdmin() {
           <div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
             <Link
               onClick={() => setActiveOne((activeOne) => !activeOne)}
-              to="/UserFirstPage"
+              to="/AdminFirstPage"
               className=""
             >
               <div
@@ -64,7 +64,7 @@ function NavBarAdmin() {
               </div>
             </Link>
             <Link
-              to="/UserFirstPage/UserFav"
+              to="/AdminFirstPage/AdminUpload"
               className=""
               onClick={() => setActiveTwo((activeTwo) => !activeTwo)}
             >
@@ -105,10 +105,10 @@ function NavBarAdmin() {
       >
         <div className="sm:hidden  pl-[21px] pt-[13.88px] ">
           <ul>
-            <Link to="/UserFirstPage">
+            <Link to="/AdminFirstPage">
               <li className="pb-[13.88px] hover:text-[#005BC5]">Moderators</li>
             </Link>
-            <Link to="/UserFirstPage/UserFav">
+            <Link to="/AdminFirstPage/AdminUpload">
               <li className="pb-[13.88px] hover:text-[#005BC5]">
                 Upload Articles
               </li>

@@ -5,18 +5,30 @@ import axios from "axios";
 function DetailsMod(props) {
   let navigate = useNavigate();
   const validate = async (articleId) => {
-    try {
-      await axios.post(
-        `http://127.0.0.1:5000/ModArticles/Valider/${articleId}`
-      );
-    } catch (error) {
-      console.error("Error validating:", error);
-    }
+    axios
+      .post(
+        `http://127.0.0.1:5000/ModArticles/Valider/${articleId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Response:", response.data);
+        // Traitez la réponse comme nécessaire
+      })
+      .catch((error) => {
+        console.error("Error validating:", error);
+        // Traitez l'erreur comme nécessaire
+      });
   };
   const supprimer = async (articleId) => {
     try {
       await axios.post(
-        `http://127.0.0.1:5000/ModArticles/delete_document/${articleId}`
+        `http://127.0.0.1:5000/ModArticles/delete_document/${articleId}`,
+        { articleId }
       );
     } catch (error) {
       console.error("Error validating:", error);

@@ -1,6 +1,7 @@
 import React from 'react'
 import NavbarAdmin from '../../Components.jsx/navbarAdmin'
 import DashboardModer from '../../Components.jsx/DashboardModer'
+import UploadUrl from '../../Components.jsx/UploadUrl'
 
 function AdminFirstPage() {
   return (
