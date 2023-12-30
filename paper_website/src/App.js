@@ -21,7 +21,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ModeratorDetails from "./Pages/Moderator/ModeratorDetails";
 import PageLogin from "./Pages/PageLogin";
 import PageSignUp from "./Pages/PageSignUp";
-import AdminFirstPage from "./Pages/Administrator/AdminFirstPage";
 function App() {
   return (
     <div className="bg-[#E7F1FF] min-h-screen p-0 m-0 relative">
@@ -41,31 +40,29 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Login />}></Route>
-            {/*Authentification*****************************************************************************/}
+            {/*Authentification********************************************************************<***********/}
             <Route path="/PageLogin" element={<Login />}></Route>
             <Route path="/PageSignUp" element={<SignUp />}></Route>
-            <Route
-              path="/AdminFirstPage"
-              element={<AdminFirstPage />}
-            ></Route>
             {/*Moderator**************************************************************************************/}
-
             <Route
               path="/ModeratorFirstPage"
               element={<ModeratorFirstPage />}
             ></Route>
             <Route
-              path="/ModeratorFirstPage/ModeratorModify"
+              path="/ModeratorFirstPage/ModeratorDetails/modify/:id"
               element={<ModeratorModify />}
             ></Route>
             <Route
-              path="/ModeratorFirstPage/ModeratorDetails"
+              path="/ModeratorFirstPage/ModeratorDetails/:id"
               element={<ModeratorDetails />}
-            ></Route>
+            />
             {/*User*****************************************************************************************/}
-            <Route path="/UserFirstPage" element={<UserFirstPage />}></Route>
             <Route
-              path="/UserFirstPage/UserDetails"
+              path="/UserFirstPage/:id"
+              element={<UserFirstPage />}
+            ></Route>
+            <Route
+              path="/UserFirstPage/UserDetails/:id"
               element={<UserDetails />}
             ></Route>
             <Route path="/UserFilters" element={<UserFilters />}></Route>
@@ -78,4 +75,3 @@ function App() {
 }
 
 export default App;
-
