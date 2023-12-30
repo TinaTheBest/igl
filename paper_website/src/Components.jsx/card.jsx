@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import heart from "../assets/heart.svg";
 import heartSelected from "../assets/heartSelected.svg";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,41 +13,37 @@ function Card(props) {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState();
 
-  console.log(props.id)
   const checkIsFavorite = async () => {
     try {
       const response = await axios.get(
         `http://127.0.0.1:5000/users/isfav/${state.user_id}/${props.id}`
       );
-      setIsFavorite(response.data.isFavorite);
+      setIsFavorite(response.data.isfav)
     } catch (error) {
       console.error("Error checking favorite status:", error);
     }
   };
-
   checkIsFavorite();
+  console.log(state.user_id, props.id)
 
-  const addFavorite = async (articleId) => {
+
+  const addFavorite = async () => {
     try {
-      await axios.post(`http://127.0.0.1:5000/favorits/AjouterFavorit/${state.user_id}/${articleId}`, {
-        articleId,
+      const response = await axios.post(`http://127.0.0.1:5000/favorits/AjouterFavorit/${state.user_id}/${props.id}`, {
+        props,
       });
       setIsFavorite(true);
+      console.log(response.data.message);
     } catch (error) {
       console.error("Error adding favorite:", error);
     }
   };
 
-  const deleteFavorite = async (articleId) => {
+  const deleteFavorite = async () => {
     try {
-      await axios.post(
-        `http://127.0.0.1:5000/favorits/delete_favorit/${state.user_id}/${articleId}`,
-        {
-          articleId,
-        }
-      );
+      const response = await axios.delete(`http://127.0.0.1:5000/favorits/delete_favorit/${state.user_id}/${props.id}`);
       setIsFavorite(false);
-      console.log("Favorite deleted");
+      console.log(response.data.message);
     } catch (error) {
       console.error("Error deleting favorite:", error);
     }
@@ -93,7 +89,7 @@ function Card(props) {
               alt="Heart"
               style={{ cursor: "pointer" }}
               onClick={() =>
-                isFavorite ? deleteFavorite(props.id) : addFavorite(props.id)
+                isFavorite ? deleteFavorite() : addFavorite()
               }
             />
           </div>
