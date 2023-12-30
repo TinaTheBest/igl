@@ -27,21 +27,8 @@ function UserFav() {
       </div>
       <div className="flex flex-wrap mx-[10px] gap-[15px]">
         {articles.map((article) => (
-          <CardFav key={article.id} {...article.source} />
+          <CardFav key={article._id} id={article._id} {...article.source} />
         ))}
-
-        <CardFav
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
       </div>
     </>
   );
