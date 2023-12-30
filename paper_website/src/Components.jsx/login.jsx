@@ -25,7 +25,10 @@ function Login() {
       // Check the status in the response
       if (response.data.status === 'user') {
         // Redirect to '/home' if the status is 'user'
-        navigate('/UserFirstPage');
+        console.log(response.data.id)
+        navigate('/UserFirstPage/' + response.data.id, {
+          state: { user_id: response.data.id },
+        });
       } else {
         if (response.data.status === 'moderateur') {
           // Redirect to '/home' if the status is 'user'

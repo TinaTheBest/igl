@@ -1,27 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import heart from "../assets/heart.svg";
 import heartSelected from "../assets/heartSelected.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Card(props) {
-  const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(true);
+  const location = useLocation();
 
-  /* const checkIsFavorite = async (articleId,userId) => {
+  // Accédez à l'état de localisation qui contient l'article
+  const { state } = location;
+
+  const navigate = useNavigate();
+  const [isFavorite, setIsFavorite] = useState();
+
+  console.log(props.id)
+  const checkIsFavorite = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/users/isfav/${userId}/${articleId}`
+        `http://127.0.0.1:5000/users/isfav/${state.user_id}/${props.id}`
       );
       setIsFavorite(response.data.isFavorite);
     } catch (error) {
       console.error("Error checking favorite status:", error);
     }
-  };*/
+  };
+
+  checkIsFavorite();
 
   const addFavorite = async (articleId) => {
     try {
-      await axios.post("http://127.0.0.1:5000/favorits/AjouterFavorit", {
+      await axios.post(`http://127.0.0.1:5000/favorits/AjouterFavorit/${state.user_id}/${articleId}`, {
         articleId,
       });
       setIsFavorite(true);
@@ -32,14 +40,14 @@ function Card(props) {
 
   const deleteFavorite = async (articleId) => {
     try {
-      setIsFavorite(false);
-      console.log("Favorite deleted");
       await axios.post(
-        `http://127.0.0.1:5000/favorits/delete_favorit/${articleId}`,
+        `http://127.0.0.1:5000/favorits/delete_favorit/${state.user_id}/${articleId}`,
         {
           articleId,
         }
       );
+      setIsFavorite(false);
+      console.log("Favorite deleted");
     } catch (error) {
       console.error("Error deleting favorite:", error);
     }

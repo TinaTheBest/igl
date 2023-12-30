@@ -39,13 +39,13 @@ def valider_doc(user_id, doc_id):
 
 
 
-@Favorit.route('/delete_favorit/<document_id>', methods=['DELETE'])
-def delete_document(document_id):
+@Favorit.route('/delete_favorit/<user_id>/<document_id>', methods=['DELETE'])
+def delete_document(user_id,document_id):
     # Utilisez la méthode es.delete pour supprimer le document par ID
     try:
         data = request.json
 
-        index_name = data.get("id")
+        index_name = user_id
         
         es.delete(index=index_name, id=document_id)
         return jsonify({"message": "Document supprimé avec succès"}), 200

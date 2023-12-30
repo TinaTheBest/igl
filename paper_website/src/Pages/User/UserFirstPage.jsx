@@ -2,7 +2,7 @@ import NavBar from "../../Components.jsx/navbar";
 import Card from "../../Components.jsx/card";
 import FilSer from "../../Components.jsx/FilSer";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 function UserFirstPage() {
   const [articles, setArticles] = useState([]);
 
@@ -29,81 +29,8 @@ function UserFirstPage() {
       </div>
       <div className="flex flex-wrap mx-[10px] gap-[15px]">
         {articles.map((article) => (
-          <Card key={article.id} {...article.source} />
+          <Card key={article._id} id={article._id} {...article._source} />
         ))}
-
-        <Card
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
-        <Card
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
-        <Card
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
-        <Card
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
-        <Card
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
-        <Card
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
       </div>
     </>
   );
