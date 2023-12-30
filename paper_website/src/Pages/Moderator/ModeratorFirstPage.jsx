@@ -25,20 +25,8 @@ function ModeratorFirstPage() {
       <NavBarMod />
       <div className="sm:mt-[84px] mt-[65px]">
         {articles.map((article) => (
-          <CardMod key={article.id} {...article.source} />
+          <CardMod key={article.id} id={article.id} {...article.source} />
         ))}
-        <CardMod
-          id="yusra"
-          title="yusra"
-          authors="yusra"
-          institutions="yusra"
-          keywords="yusra"
-          abstract="yusra"
-          references="yusra"
-          publication_date="yusra"
-          full_text="yusra"
-          pdf_url="yusra"
-        />
       </div>
     </>
   );

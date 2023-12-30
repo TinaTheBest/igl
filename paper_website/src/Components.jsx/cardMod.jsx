@@ -16,8 +16,6 @@ function CardMod(props) {
         <div className="bg-white rounded-[20px] sm:mx-[40.8px] mx-[10px] mb-[15px] shadow-lg">
           <div className="flex justify-between items-center gap-[37.33px] p-[20px]">
             <div>
-              {console.log(props)}
-
               <div
                 className="font-semibold text-[#005BC5] sm:text-[20px] fond-bold text-[13px]"
                 onClick={() =>

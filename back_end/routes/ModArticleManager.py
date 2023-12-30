@@ -28,7 +28,8 @@ def valider_doc(document_id):
     index_name = "article_valide"
     if not es.indices.exists(index=index_name):
         es.indices.create(index=index_name)
-    es.index(index=index_name,id=document_id, body=document)
+
+    es.index(index=index_name,id=document_id, body=document_data)
     es.delete(index="article_non_valide", id=document_id)
     return jsonify({"message": "Document ajouté avec succès"}), 201
 
@@ -38,13 +39,20 @@ def valider_doc(document_id):
 def update_document(document_id):
     # Récupérer les données mises à jour depuis la requête
     updated_data = request.json
+
+    # Define your Elasticsearch index
     index_name = "article_non_valide"
+
+    # Vérifier si l'index existe, le créer s'il n'existe pas
     if not es.indices.exists(index=index_name):
         es.indices.create(index=index_name)
-    # Utiliser la méthode es.update pour mettre à jour le document
-    es.update(index=index_name, id=document_id, body={"doc": updated_data})
 
-    return jsonify({"message": "Document mis à jour avec succès"}), 200
+    # Utiliser la méthode es.update pour mettre à jour le document
+    try:
+        es.update(index=index_name, id=document_id, body={"doc": updated_data})
+        return jsonify({"message": "Document mis à jour avec succès"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @ModArticle.route('/delete_document/<document_id>', methods=['DELETE'])
@@ -60,6 +68,7 @@ def delete_document(document_id):
 @ModArticle.route('/get_article_details/<article_id>', methods=['GET'])
 def get_article_details(article_id):
     index_name = "article_non_valide"
+
     create_index_if_not_exists(index_name)
 
     # Fetch article details based on the provided article_id

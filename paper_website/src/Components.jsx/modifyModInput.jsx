@@ -1,6 +1,8 @@
 import NavBarMod from "./navbarMod";
 import Modify from "../assets/modify.svg";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ModifyModInput(props) {
   console.log("props in ModifyModInput:", props);
@@ -12,6 +14,8 @@ function ModifyModInput(props) {
   const [modifySix, setActiveSix] = useState(false);
   const [modifySeven, setActiveSeven] = useState(false);
   const [modifyEight, setActiveEight] = useState(false);
+
+  let navigate = useNavigate();
 
   const {
     id,
@@ -26,6 +30,40 @@ function ModifyModInput(props) {
     pdf_url,
   } = props;
 
+  const [formData, setFormData] = useState({
+    title: title,
+    authors: authors,
+    institutions: institutions,
+    keywords: keywords,
+    abstract: abstract,
+    references: references,
+    publication_date: publication_date,
+    full_text: full_text,
+  });
+
+  function handleInputChange(event) {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  }
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:5000/ModArticles/update_document/${props.id}`,
+        formData
+      );
+
+      // Handle the response, e.g., redirect to a new page, update state, etc.
+      console.log("SignUp successful:", response.data);
+      navigate("/ModeratorFirstPage/ModeratorDetails/" + props.id, {
+        state: { article: formData },
+      })
+    } catch (error) {
+      console.error("Error during Sign Up:", error);
+      // Handle error, e.g., show an error message to the user
+    }
+  };
   return (
     <>
       <style>
@@ -64,6 +102,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={title}
+              value={formData.title}
+              name="title"
+              onChange={handleInputChange}
             />
           </div>
           <div
@@ -93,6 +134,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={abstract}
+              value={formData.abstract}
+              name="abstract"
+              onChange={handleInputChange}
             />
           </div>
           <div
@@ -122,6 +166,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={publication_date}
+              value={formData.publication_date}
+              name="publication_date"
+              onChange={publication_date}
             />
           </div>
           <div
@@ -151,6 +198,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={authors}
+              value={formData.authors}
+              name="authors"
+              onChange={handleInputChange}
             />
           </div>
           <div
@@ -181,6 +231,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={institutions}
+              value={formData.institutions}
+              name="institutions"
+              onChange={handleInputChange}
             />
           </div>
           <div
@@ -210,6 +263,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={references}
+              value={formData.references}
+              name="references"
+              onChange={handleInputChange}
             />
           </div>
           <div
@@ -239,6 +295,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={keywords}
+              value={formData.keywords}
+              name="keywords"
+              onChange={handleInputChange}
             />
           </div>
           <div
@@ -270,6 +329,9 @@ function ModifyModInput(props) {
                   : "hidden"
               }
               placeholder={full_text}
+              value={formData.full_text}
+              name="full_text"
+              onChange={handleInputChange}
             />
           </div>
           {/*************************************************************************************************************** */}
@@ -284,7 +346,7 @@ function ModifyModInput(props) {
                 Discard
               </div>
               <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:text-[18px] text-[13px] font-semibold py-[10px] px-[25px] text-white bg-[#1B9DF0] sm:mr-[15px]">
-                Save changes
+                <button onClick={handleFormSubmit}>Save changes</button>
               </div>
             </div>
           </div>

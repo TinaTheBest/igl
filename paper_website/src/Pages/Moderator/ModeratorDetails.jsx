@@ -22,7 +22,7 @@ function ModeratorDetails() {
     full_text,
     pdf_url,
   } = state ? state.article : {};
-
+  console.log(id)
   return (
     <>
       <NavBarMod />

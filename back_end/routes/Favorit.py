@@ -6,12 +6,11 @@ es = Elasticsearch(['http://elasticsearch:9200'])
 Favorit = Blueprint('favorits', __name__)
 
 
-@Favorit.route('/get_all_fav', methods=['GET'])
-def get_all_fav():
+@Favorit.route('/get_all_fav/<user_id>', methods=['GET'])
+def get_all_fav(user_id):
 
-    data = request.json
 
-    index_name = data.get("id")
+    index_name = user_id
     # Define your Elasticsearch index
     if not es.indices.exists(index=index_name):
         es.indices.create(index=index_name)
