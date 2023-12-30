@@ -127,16 +127,13 @@ function DetailsMod(props) {
               supprimer(props.id);
             }}> Delete </button>
           </div>
-          <div
-            className=" text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] "
-            onClick={() => {
+          <div className=" text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] ">
+            <button onClick={() => {
               navigate(
                 "/ModeratorFirstPage/ModeratorDetails/modify/" + props.id,
                 { state: { article: { props } } }
               );
-            }}
-          >
-            Modify
+            }}> Modify </button>
           </div>
           <div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:mr-[15px] sm:text-[18px] text-[13px] ">
             <button onClick={() => {
