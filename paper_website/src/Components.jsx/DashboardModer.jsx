@@ -160,6 +160,7 @@ function DashboardModer() {
 
         const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
         const [editableMode, setEditableMode] = useState(false);
+        const [addMode, setaddMode] = useState(false);
         
         const handleDeleteClick = (row) => {
             // setSelectedModerator(row);
@@ -185,11 +186,16 @@ function DashboardModer() {
           setEditableId(row.id);
           // Switch off editable mode when clicking a new row
           setEditableMode(false);
+          setaddMode(false);
         };
       
         const handleModifyClick = () => {
             // Toggle editable mode
             setEditableMode(!editableMode);
+          };
+          const handleaddClick = () => {
+            // Toggle editable mode
+            setaddMode(!addMode);
           };
         
             
@@ -213,7 +219,7 @@ function DashboardModer() {
                 placeholder="Search..."
                 onChange={handleRechercheMod}
                  />
-                 <button className='bg-[#1B9DF0] h-[30.78px] text-white border rounded-[13px] shadow-sm p-1 ml-2 px-[70px] text-[14px]'> Add </button>
+                 <button className='bg-[#1B9DF0] h-[30.78px] text-white border rounded-[13px] shadow-sm p-1 ml-2 px-[70px] text-[14px]' onClick={handleaddClick}> Add </button>
               </div>
               <DataTable
                 className='border-blue-100 rounded-[20px]'
@@ -229,65 +235,72 @@ function DashboardModer() {
             
             </div>
             <div className='bg-white border-[3px] border-blue-100 rounded-[20px] w-[300px] items-center'>
-              {selectedModerator ? (
+              {(selectedModerator || addMode )? (
                 <div className='items-center px-[30px] pt-[15px] '>
                   <div>
-                  <div className="text-slate-400 text-base font-medium pt-[10px]">Individual moderator</div> 
-                  {editableMode ? (
+                  <div className="text-slate-400 text-base font-medium text-[10px] pt-[10px]">Individual moderator</div> 
+                  {(editableMode || addMode )? (
                    <input
                      type="text"
-                     value={editableName}
+                     value={editableMode ? editableName : ''}
                      onChange={(e) => setEditableName(e.target.value)}
-                     className="border border-gray-300 p-1 rounded"
+                     className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
+                     placeholder="Enter the moderator's name"
                      />
                    ) : (
                     <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.name}</div>
                     )}
-                  <div className="border-b mt-[10px]  w-full h-[0px] border-[0.2px] border-gray-200"></div>
+                  <div className="border-b mt-[10px] w-full h-[0px] border-0 border-gray-200"></div>
+
                   </div>
                   <div>
-                  <div className="text-slate-400 text-base font-medium pt-[10px]">Email</div> 
-                  {editableMode ? (
+                  <div className="text-slate-400 text-base font-medium text-[10px] pt-[10px]">Email</div> 
+                  {(editableMode || addMode )? (
                    <input
                      type="text"
-                     value={editableEmail}
+                     value={editableMode ? editableEmail : ''}
                      onChange={(e) => setEditableEmail(e.target.value)}
-                     className="border border-gray-300 p-1 rounded"
+                     className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
+                     placeholder="Enter the moderator's mail"
                      />
                    ) : (
                     <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.email}</div>
                     )}
                 
-                  <div className="border-b mt-[10px]  w-full h-[0px] border-[0.2px] border-gray-200"></div>
+                <div className="border-b mt-[10px] w-full h-[0px] border-0 border-gray-200"></div>
+
                   </div>
                   <div>
-                  <div className="text-slate-400 text-base font-medium pt-[10px]">Password</div>  
-                  {editableMode ? (
+                  <div className="text-slate-400 text-base font-medium text-[10px] pt-[10px]">Password</div>  
+                  {(editableMode || addMode )? (
                    <input
                      type="text"
-                     value={editablePassword}
+                     value={editableMode ? editablePassword : ''}
                      onChange={(e) => setEditablePassword(e.target.value)}
-                     className="border border-gray-300 p-1 rounded"
+                     className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
+                     placeholder="Enter the moderator's pwd"
                      />
                    ) : (
                     <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.password}</div>
                     )}
-                  <div className="border-b mt-[10px]  w-full h-[0px] border-[0.2px] border-gray-200"></div>
+                  <div className="border-b mt-[10px] w-full h-[0px] border-0 border-gray-200"></div>
+
                   </div>
                   <div>
-                  <div className="text-slate-400 text-base font-medium pt-[10px]">ID</div>  
-                  {editableMode ? (
+                  <div className="text-slate-400 text-base font-medium text-[10px] pt-[10px]">ID</div>  
+                  {(editableMode || addMode )? (
                    <input
                      type="text"
-                     value={editableId}
+                     value={editableMode ? editableId : ''}
                      onChange={(e) => setEditableId(e.target.value)}
-                     className="border border-gray-300 p-1 rounded"
+                     className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
+                     placeholder="Enter the moderator's ID"
                      />
                    ) : (
                     <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.id}</div>
                     )}
                   </div>
-                  {editableMode ? (
+                  {(editableMode || addMode )? (
                   <div className='flex justify-between py-[20px] '> 
                   <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] text-[#1B9DF0]  text-[13px] justify-center items-center ' onClick={handleModifyClick}>Approve</button>
                   <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] bg-[#1B9DF0] text-white text-[13px] justify-center items-center'  onClick={handleDeleteClick}>Cancel</button>
