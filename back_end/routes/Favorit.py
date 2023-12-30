@@ -43,8 +43,6 @@ def valider_doc(user_id, doc_id):
 def delete_document(user_id,document_id):
     # Utilisez la méthode es.delete pour supprimer le document par ID
     try:
-        data = request.json
-
         index_name = user_id
         
         es.delete(index=index_name, id=document_id)
