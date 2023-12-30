@@ -5,9 +5,10 @@ import article from "../assets/article.svg";
 import menu from "../assets/menu.svg";
 import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function NavBar() {
+function NavBar(id) {
+  const navigate = useNavigate();
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -44,25 +45,26 @@ function NavBar() {
             <img src={menu} alt="Menu" />
           </div>
 
-          <div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
-            <Link
-              onClick={() => setActiveOne((activeOne) => !activeOne)}
-              to="/UserFirstPage"
-              className=""
+          <div
+            className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]"
+            onClick={() => {
+              setActiveOne((activeOne) => !activeOne);
+              navigate(`/UserFirstPage/${id}`);
+            }}
+          >
+            <div
+              className={
+                activeOne
+                  ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
+                  : "flex items-center gap-[7.11px] "
+              }
             >
-              <div
-                className={
-                  activeOne
-                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
-                    : "flex items-center gap-[7.11px] "
-                }
-              >
-                <img src={activeOne ? article : article_non} alt="Article" />
-                <div className={activeOne ? "" : "text-[#6E6E9B]"}>
-                  Find Articles
-                </div>
+              <img src={activeOne ? article : article_non} alt="Article" />
+              <div className={activeOne ? "" : "text-[#6E6E9B]"}>
+                Find Articles
               </div>
-            </Link>
+            </div>
+
             <Link
               to="/UserFirstPage/UserFav"
               className=""

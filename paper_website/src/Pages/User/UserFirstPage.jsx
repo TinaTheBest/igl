@@ -3,9 +3,11 @@ import Card from "../../Components.jsx/card";
 import FilSer from "../../Components.jsx/FilSer";
 import axios from "axios";
 import React, { useState } from "react";
+import { useLocation } from "react-router";
 function UserFirstPage() {
+  const location = useLocation();
+  const { state } = location;
   const [articles, setArticles] = useState([]);
-
   const fetchArticles = async () => {
     try {
       const response = await axios.get(
@@ -21,8 +23,7 @@ function UserFirstPage() {
 
   return (
     <>
-      <NavBar />
-
+      <NavBar id={state.user_id} />
       <div className="sm:mt-[84px] mt-[65px]">
         <FilSer />
         {/*<FilSer />Lina should Add Filters component div hdik just to fix margin top bch mattscrollach navbar*/}
