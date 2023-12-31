@@ -25,7 +25,7 @@ def get_data():
 
     return jsonify({"message": "GET request received", "data_from_db": formatted_data})
 
-@moderation_bp.route('/remove_moderator', methods=['POST'])
+@auth.route('/remove_moderator', methods=['POST'])
 def remove_moderator():
     try:
         data_from_request = request.json
