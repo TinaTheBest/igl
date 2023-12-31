@@ -8,7 +8,9 @@ function SignUp() {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   function handleInputChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -16,6 +18,20 @@ function SignUp() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    // Validate if the password matches the confirmation password
+    if (formData.password !== formData.confirmPassword) {
+      console.error("Passwords do not match");
+      setPasswordsMatch(false); // Set state to indicate passwords don't match
+      return;
+    }
+
+    // Validate if the password matches the confirmation password
+    if (formData.password !== formData.confirmPassword) {
+      console.error("Passwords do not match");
+      // Handle error, e.g., show an error message to the user
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -95,7 +111,13 @@ function SignUp() {
 
             <div className="flex flex-col py-2">
               <label>Confirm password</label>
-              <input className="border p-2 rounded-[12.5px]" type="password" />
+              <input
+                className="border p-2 rounded-[12.5px]"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+              />
             </div>
             <p className="flex items-center my-[5px]">
               <input className="mr-2" type="checkbox" />
@@ -114,6 +136,9 @@ function SignUp() {
               </span>
             </div>
           </form>
+          {!passwordsMatch && (
+            <p className="text-red-500 text-center">Passwords don't match.</p>
+          )}
         </div>
       </div>
     </>

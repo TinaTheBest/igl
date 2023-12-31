@@ -68,21 +68,23 @@ function Details(props) {
               {props.references}
             </div>
             <div className="font-bold sm:text-[20px] text-[16px]">
-            Key Words :{" "}
-          </div>
-          <div className="pb-[14px] sm:text-[16px] text-[13px] ">
-            {" "}
-            {keywords}
-          </div>
+              Key Words :{" "}
+            </div>
+            <div className="pb-[14px] sm:text-[16px] text-[13px] ">
+              {" "}
+              {keywords}
+            </div>
             <div className="font-bold sm:text-[20px] text-[16px]">
               Full text :
             </div>
             <div className="pb-[14px] sm:text-[16px] text-[13px] ">
               {props.full_text}
             </div>
-            <div className="flex items-center w-full justify-center mr-[365.7px] h-[68px] rounded-[17px] sm:mt-[122px] sm:mb-[122px] mt-[40px]  mb-[40px] bg-[#1B9DF0] sm:text-[20px] text-[16px] text-white font-semibold">
-              Link to pdf
-            </div>
+            <a href={pdf_url}>
+              <div className="flex items-center w-full justify-center mr-[365.7px] h-[68px] rounded-[17px] sm:mt-[122px] sm:mb-[122px] mt-[40px]  mb-[40px] bg-[#1B9DF0] sm:text-[20px] text-[16px] text-white font-semibold">
+                Link to pdf
+              </div>
+            </a>
           </div>
         </div>
       </div>
