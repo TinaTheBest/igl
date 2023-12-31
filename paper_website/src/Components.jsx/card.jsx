@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import heart from "../assets/heart.svg";
 import heartSelected from "../assets/heartSelected.svg";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,9 +22,12 @@ function Card(props) {
     }
   };
 
-  if (userId != null) {
-    checkIsFavorite();
-  }
+
+  useEffect(() => {
+    if (userId != null) {
+      checkIsFavorite();
+    }
+  }, []);
 
   const addFavorite = async () => {
     try {

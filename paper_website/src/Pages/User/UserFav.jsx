@@ -1,7 +1,7 @@
 import NavBar from "../../Components.jsx/navbar";
 import CardFav from "../../Components.jsx/cardFav";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 
 function UserFav() {

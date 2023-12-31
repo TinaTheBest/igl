@@ -2,7 +2,7 @@ import NavBar from "../../Components.jsx/navbar";
 import Card from "../../Components.jsx/card";
 import FilSer from "../../Components.jsx/FilSer";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 function UserFirstPage() {
@@ -20,8 +20,10 @@ function UserFirstPage() {
       console.error("Error fetching articles:", error);
     }
   };
+  useEffect(() => {
+    fetchArticles();
 
-  fetchArticles();
+  }, []);
 
   return (
     <>
