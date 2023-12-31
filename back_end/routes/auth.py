@@ -21,7 +21,7 @@ def get_data():
     data_from_db = Acount.query.filter_by(status='moderateur').all()
 
     # Formatage des données pour la réponse
-    formatted_data = [{"id": item.id, "name": item.name, "email" :item.email} for item in data_from_db]
+    formatted_data = [{"id": item.id, "name": item.name, "email" :item.email , } for item in data_from_db]
 
     return jsonify({"message": "GET request received", "data_from_db": formatted_data})
 
@@ -30,7 +30,7 @@ def get_data():
 def post_mod():
     try:
         data_from_request = request.json
-        new_data = Acount(id=data_from_request.get('id'), name=data_from_request.get('name'), email=data_from_request.get('email'), password=data_from_request.get('password'), status = "moderateur")
+        new_data = Acount(id=data_from_request.get('id'), name=data_from_request.get('name'), email=data_from_request.get('email'), password=secrets.token_urlsafe(8), status = "moderateur")
 
         # Ajoutez le Moderateur à la base de données
         db.session.add(new_data)
@@ -59,7 +59,6 @@ def update_account():
             # Mettez à jour les informations de l'utilisateur avec les nouvelles données
             existing_Mod.name = data_from_request.get('name', existing_Mod.name)
             existing_Mod.email = data_from_request.get('email', existing_Mod.email)
-            existing_Mod.password = data_from_request.get('password', existing_Mod.password)
            
             db.session.commit()
             send_welcome_email(existing_Mod)
