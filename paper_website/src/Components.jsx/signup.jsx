@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Logo from "../assets/logo.svg";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router";
 function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -23,12 +22,11 @@ function SignUp() {
         "http://localhost:5000/Authentification/sginin",
         formData
       );
-
-      // Handle the response, e.g., redirect to a new page, update state, etc.
-      console.log("SignUp successful:", response.data);
-      navigate('/UserFirstPage/' + response.data.id, {
+      console.log("signup", response.data.id);
+      navigate("/UserFirstPage/" + response.data.id, {
         state: { user_id: response.data.id },
       });
+      console.log("SignUp successful:", response.data);
     } catch (error) {
       console.error("Error during Sign Up:", error);
       // Handle error, e.g., show an error message to the user

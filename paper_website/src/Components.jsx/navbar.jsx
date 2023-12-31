@@ -5,9 +5,11 @@ import article from "../assets/article.svg";
 import menu from "../assets/menu.svg";
 import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function NavBar(id) {
+function NavBar(props) {
+  const userId = props.id;
+
   const navigate = useNavigate();
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
@@ -45,30 +47,36 @@ function NavBar(id) {
             <img src={menu} alt="Menu" />
           </div>
 
-          <div
-            className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]"
-            onClick={() => {
-              setActiveOne((activeOne) => !activeOne);
-              navigate(`/UserFirstPage/${id}`);
-            }}
-          >
+          <div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
             <div
-              className={
-                activeOne
-                  ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
-                  : "flex items-center gap-[7.11px] "
-              }
+              onClick={() => {
+                setActiveOne((activeOne) => !activeOne);
+                navigate("/UserFirstPage/" + userId, {
+                  state: { user_id: userId },
+                });
+              }}
             >
-              <img src={activeOne ? article : article_non} alt="Article" />
-              <div className={activeOne ? "" : "text-[#6E6E9B]"}>
-                Find Articles
+              <div
+                className={
+                  activeOne
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
+                    : "flex items-center gap-[7.11px] "
+                }
+              >
+                <img src={activeOne ? article : article_non} alt="Article" />
+                <div className={activeOne ? "" : "text-[#6E6E9B]"}>
+                  Find Articles
+                </div>
               </div>
             </div>
 
-            <Link
-              to="/UserFirstPage/UserFav"
-              className=""
-              onClick={() => setActiveTwo((activeTwo) => !activeTwo)}
+            <div
+              onClick={() => {
+                setActiveTwo((activeTwo) => !activeTwo);
+                navigate(`/UserFirstPage/UserFav/` + userId, {
+                  state: { user_id: userId },
+                });
+              }}
             >
               <div
                 className={
@@ -82,7 +90,7 @@ function NavBar(id) {
                   My favorite articles
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
 
           <div className="hidden sm:flex sm:gap-[10.67px] sm:items-center sm:w-[220.971px] ">
@@ -107,14 +115,29 @@ function NavBar(id) {
       >
         <div className="sm:hidden  pl-[21px] pt-[13.88px] ">
           <ul>
-            <Link to="/UserFirstPage">
-              <li className="pb-[13.88px] hover:text-[#005BC5]">Articles</li>
-            </Link>
-            <Link to="/UserFirstPage/UserFav">
-              <li className="pb-[13.88px] hover:text-[#005BC5]">
-                Favourtie Articles
-              </li>
-            </Link>
+            <li
+              className="pb-[13.88px] hover:text-[#005BC5]"
+              onClick={() => {
+                navigate("/UserFirstPage/" + userId, {
+                  state: { user_id: userId },
+                });
+              }}
+            >
+              Articles
+            </li>
+
+            <li
+              className="pb-[13.88px] hover:text-[#005BC5]"
+              onClick={() => {
+                setActiveTwo((activeTwo) => !activeTwo);
+                navigate(`/UserFirstPage/UserFav/` + userId, {
+                  state: { user_id: userId },
+                });
+              }}
+            >
+              Favourtie Articles
+            </li>
+
             <li className="pb-[13.88px] hover:text-[#005BC5]">Help</li>
             <li className="pb-[13.88px] hover:text-[#005BC5]">My Account</li>
             <li className="pb-[13.88px] hover:text-[#005BC5]">Log Out</li>

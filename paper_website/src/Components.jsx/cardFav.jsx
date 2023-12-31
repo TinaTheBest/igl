@@ -1,7 +1,7 @@
 import heart from "../assets/heart.svg";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-function CardMod(props) {
+function CardFav(props) {
+  console.log("CardFav", props);
   let navigate = useNavigate();
   return (
     <>
@@ -28,7 +28,7 @@ function CardMod(props) {
           <div className="w-full bg-[#E7E7EE] h-[0.889px] mb-[11px]"></div>
           <div className="flex justify-between">
             <div
-              className="flex text-[#1B9DF0] font-bold sm:text-[14.22px] text-[13px] border-[1px] border-[#1B9DF0] w-[160px] rounded-xl px-4 py-2"
+              className="flex text-[#1B9DF0] font-bold sm:text-[14.22px] text-[13px] border-[1px] border-[#1B9DF0] w-[160px] rounded-xl px-4  py-2"
               onClick={() =>
                 navigate("/UserFirstPage/UserDetails/" + props.id, {
                   state: { article: props },
@@ -45,4 +45,4 @@ function CardMod(props) {
     </>
   );
 }
-export default CardMod;
+export default CardFav;

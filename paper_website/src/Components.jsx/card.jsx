@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import heart from "../assets/heart.svg";
 import heartSelected from "../assets/heartSelected.svg";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -6,33 +6,34 @@ import axios from "axios";
 
 function Card(props) {
   const location = useLocation();
-
   // Accédez à l'état de localisation qui contient l'article
   const { state } = location;
-
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const userId = state ? state.user_id : null;
   const checkIsFavorite = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/users/isfav/${state.user_id}/${props.id}`
+        `http://127.0.0.1:5000/users/isfav/${userId}/${props.id}`
       );
-      setIsFavorite(response.data.isfav)
+      setIsFavorite(response.data.isfav);
     } catch (error) {
       console.error("Error checking favorite status:", error);
     }
   };
-  useEffect(() => {
-    checkIsFavorite();
-  }, []);
 
+  if (userId != null) {
+    checkIsFavorite();
+  }
 
   const addFavorite = async () => {
     try {
-      const response = await axios.post(`http://127.0.0.1:5000/favorits/AjouterFavorit/${state.user_id}/${props.id}`, {
-        props,
-      });
+      const response = await axios.post(
+        `http://127.0.0.1:5000/favorits/AjouterFavorit/${userId}/${props.id}`,
+        {
+          props,
+        }
+      );
       setIsFavorite(true);
       console.log(response.data.message);
     } catch (error) {
@@ -42,16 +43,15 @@ function Card(props) {
 
   const deleteFavorite = async () => {
     try {
-      const response = await axios.delete(`http://127.0.0.1:5000/favorits/delete_favorit/${state.user_id}/${props.id}`);
+      const response = await axios.delete(
+        `http://127.0.0.1:5000/favorits/delete_favorit/${userId}/${props.id}`
+      );
       setIsFavorite(false);
       console.log(response.data.message);
     } catch (error) {
       console.error("Error deleting favorite:", error);
     }
   };
-
-  // Appeler checkIsFavorite lors de l'affichage initial du composant
-  // checkIsFavorite(props.id);
 
   return (
     <>
@@ -76,7 +76,7 @@ function Card(props) {
           <div className="w-full bg-[#E7E7EE] h-[0.889px] mb-[11px]"></div>
           <div className="flex justify-between">
             <div
-              className="flex text-[#1B9DF0] font-bold sm:text-[14.22px] text-[13px] border-[1px] border-[#1B9DF0] w-[160px] rounded-xl px-4 py-2"
+              className="flex text-[#1B9DF0] font-bold sm:text-[14.22px] text-[13px] border-[1px] border-[#1B9DF0] sm:w-[160px] rounded-xl px-4 py-2"
               onClick={() =>
                 navigate("/UserFirstPage/UserDetails/" + props.id, {
                   state: { article: props },
@@ -89,9 +89,13 @@ function Card(props) {
               src={isFavorite ? heartSelected : heart}
               alt="Heart"
               style={{ cursor: "pointer" }}
-              onClick={() =>
-                isFavorite ? deleteFavorite() : addFavorite()
-              }
+              onClick={() => {
+                if (userId != null) {
+                  isFavorite ? deleteFavorite() : addFavorite();
+                } else {
+                  console.error("User ID is null");
+                }
+              }}
             />
           </div>
         </div>
