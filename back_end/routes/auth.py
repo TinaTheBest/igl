@@ -25,6 +25,27 @@ def get_data():
 
     return jsonify({"message": "GET request received", "data_from_db": formatted_data})
 
+@moderation_bp.route('/remove_moderator', methods=['POST'])
+def remove_moderator():
+    try:
+        data_from_request = request.json
+        moderator_id = data_from_request.get('id')
+
+        # Check if the moderator exists
+        moderator_to_remove = Acount.query.filter_by(id=user_id, status="moderateur").first()
+
+        if moderator_to_remove:
+            # Remove the moderator from the database
+            db.session.delete(moderator_to_remove)
+            db.session.commit()
+
+            return jsonify({"message": "Moderator removed successfully"})
+        else:
+            return jsonify({"message": "Moderator not found"})
+
+    except IntegrityError as e:
+        db.session.rollback()
+        return jsonify({"error": "Error removing moderator"})
 
 @auth.route('/AjouterMod', methods=['POST'])
 def post_mod():
