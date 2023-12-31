@@ -74,6 +74,11 @@ def update_account():
 def post_data():
     try:
         data_from_request = request.json
+        user = Acount.query.filter_by(email=data_from_request.get('email')).first()
+
+        if user :
+             return jsonify({"message": "Already exist "})
+
         new_data = Acount(name=data_from_request.get('name'), email=data_from_request.get('email'), password=data_from_request.get('password'), status = "user")
 
         # Ajoutez la nouvelle donnée à la base de données
