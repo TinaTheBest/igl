@@ -79,7 +79,7 @@ def post_data():
         # Ajoutez la nouvelle donnée à la base de données
         db.session.add(new_data)
         db.session.commit()
-        return jsonify({"message": "POST request received"})
+        return jsonify({"message": "POST request received", "id" : new_data.id})
     except IntegrityError as e:
         db.session.rollback()
         return jsonify({"error": "ID must be unique"})
