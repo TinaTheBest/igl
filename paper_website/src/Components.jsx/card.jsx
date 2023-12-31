@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import heart from "../assets/heart.svg";
 import heartSelected from "../assets/heartSelected.svg";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ function Card(props) {
   const { state } = location;
 
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const checkIsFavorite = async () => {
     try {
@@ -23,8 +23,9 @@ function Card(props) {
       console.error("Error checking favorite status:", error);
     }
   };
-  checkIsFavorite();
-  console.log(state.user_id, props.id)
+  useEffect(() => {
+    checkIsFavorite();
+  }, []);
 
 
   const addFavorite = async () => {
