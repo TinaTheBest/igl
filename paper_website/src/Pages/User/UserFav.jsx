@@ -1,7 +1,7 @@
 import NavBar from "../../Components.jsx/navbar";
 import CardFav from "../../Components.jsx/cardFav";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router";
 
 function UserFav() {
@@ -27,7 +27,7 @@ function UserFav() {
       <div className="sm:mt-[84px] mt-[65px]">
         {/*<FilSer />Lina should Add Filters component div hdik just to fix margin top bch mattscrollach navbar*/}
       </div>
-      <div className="flex flex-wrap mx-[10px] gap-[15px]">
+      <div className="flex flex-wrap mx-[40px] gap-[15px]">
         {articles.map((article) => {
           console.log("props", article.source);
           return (
