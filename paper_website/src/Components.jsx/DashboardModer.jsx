@@ -52,6 +52,7 @@ function DashboardModer() {
             "http://127.0.0.1:5000/Authentification/get_moderateurs"
           );
           setmoderateurs(response.data.data_from_db);
+          setOriginalModerateurs(response.data.data_from_db);
         } catch (error) {
           console.error("Error fetching articles:", error);
         }
@@ -67,7 +68,8 @@ function DashboardModer() {
               "email": newModeratorEmail,
             }
           );
-          console.log("cc",response.data);
+          fetchmoderateurs();
+          console.log("cc");
           
 
         } catch (error) {
@@ -77,21 +79,23 @@ function DashboardModer() {
 
       const deletemoderateurs = async () => {
         try {
-          const response = await axios.delete(
+          await axios.delete(
             "http://127.0.0.1:5000/Authentification/remove_moderator",
-            selectedModerator
-           
+            { data: { "id": selectedModerator.id } }
           );
-          console.log(response.data.message);
+      
+          // Fetch the updated list of moderators after deletion
+          fetchmoderateurs();
         } catch (error) {
           console.error("Error removing moderateur:", error);
         }
       };
+      
     
       // Call the fetchArticles function when the component renders
       
       
-      const [records,setrecords]=useState(moderateurs) ;   
+      
       
       useEffect(() => {
          fetchmoderateurs();
@@ -174,15 +178,24 @@ function DashboardModer() {
             setEditableMode(!editableMode);
           };
         
-        
+    const [originalModerateurs, setOriginalModerateurs] = useState([]);  
             
+    const [records,setrecords]=useState(moderateurs) ;   
+    function handleRechercheMod(event) {
+      const inputValue = event.target.value.toLowerCase();
     
-    function handleRechercheMod(event)   {
-        const newData = moderateurs.filter(row => {
-            return row.name.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setrecords(newData)
+      // If the search input is empty, reset the data to the original array
+      if (inputValue === '') {
+        setmoderateurs(originalModerateurs);
+      } else {
+        // Use originalModerateurs for filtering
+        const newData = originalModerateurs.filter(row => {
+          return row.name.toLowerCase().includes(inputValue);
+        });
+        setmoderateurs(newData);
+      }
     }
+    
         
   return (
     
@@ -201,7 +214,7 @@ function DashboardModer() {
               <DataTable
                 className='border-blue-100 rounded-[20px]'
                 columns={columns}
-                data={records}
+                data={moderateurs}
                 selectableRows
                 onRowClicked={handleRowClicked}
                 pagination
