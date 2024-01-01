@@ -14,7 +14,7 @@ function CardFav(props) {
   
         `}
       </style>
-      <div className="bg-white rounded-[35px] sm:w-[296px] mx-[10px] w-full sm:mx-[0px] items-center font-dm-sans">
+      <div className="bg-white rounded-[35px] sm:w-[285px] mx-[10px] w-full sm:mx-[0px] items-center font-dm-sans">
         <div className="flex-col items-center p-[25px]">
           <div className="pb-[11px] font-bold sm:text-[16px] text-[16px]">
             {props.title}
