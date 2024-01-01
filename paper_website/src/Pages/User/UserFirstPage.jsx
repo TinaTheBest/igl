@@ -10,6 +10,7 @@ function UserFirstPage() {
   const { state } = location;
   const userId = state ? state.user_id : null;
   const [articles, setArticles] = useState([]);
+  const [filter, setFilter] = useState(false);
   const fetchArticles = async () => {
     try {
       const response = await axios.get(
@@ -22,17 +23,25 @@ function UserFirstPage() {
   };
   useEffect(() => {
     fetchArticles();
-
   }, []);
 
   return (
     <>
       <NavBar id={userId} />
       <div className="sm:mt-[84px] mt-[65px]">
-        <FilSer />
-        {/*<FilSer />Lina should Add Filters component div hdik just to fix margin top bch mattscrollach navbar*/}
+        {console.log(filter)}
+        <div>
+          <FilSer OnClick={() => setFilter(!filter)} />
+        </div>
+        {console.log(filter)}
       </div>
-      <div className="flex flex-wrap mx-[10px] gap-[15px]">
+      <div
+        className={
+          filter
+            ? "flex flex-wrap ml-[350px] mr-[30px] gap-[12px] mt-[5px]"
+            : "flex flex-wrap mx-[40px] gap-[12px] mt-[5px]"
+        }
+      >
         {articles.map((article) => (
           <Card key={article._id} id={article._id} {...article._source} />
         ))}

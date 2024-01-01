@@ -56,15 +56,13 @@ function NavBar(props) {
                 });
               }}
             >
-              <div
-                className={
-                  activeOne
-                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7] hover:text-[#537FE7]"
-                    : "flex items-center gap-[7.11px] hover:text-[#537FE7]"
-                }
-              >
-                <img src={activeOne ? article : article_non} alt="Article" />
-                <div className={activeOne ? "" : "text-[#6E6E9B]"}>
+              <div className="flex items-center gap-[7.11px] hover:border-b-2 hover:border-[#537FE7] ">
+                <img
+                  src={activeOne ? article : article_non}
+                  alt="Article"
+                  className="hidden"
+                />
+                <div className="text-[#6E6E9B] hover:text-black">
                   Find Articles
                 </div>
               </div>
@@ -80,13 +78,15 @@ function NavBar(props) {
             >
               <div
                 className={
-                  activeTwo
-                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7] hover:text-[#537FE7]"
-                    : "flex items-center gap-[7.11px] hover:text-[#537FE7] "
+                  "flex items-center gap-[7.11px] hover:border-b-2 hover:border-[#537FE7] "
                 }
               >
-                <img src={activeTwo ? article : article_non} alt="Article" />
-                <div className={activeTwo ? "" : "text-[#6E6E9B]"}>
+                <img
+                  src={activeTwo ? article : article_non}
+                  alt="Article"
+                  className="hidden"
+                />
+                <div className="text-[#6E6E9B] hover:text-black">
                   My favorite articles
                 </div>
               </div>
