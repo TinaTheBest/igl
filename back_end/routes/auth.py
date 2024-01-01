@@ -25,14 +25,14 @@ def get_data():
 
     return jsonify({"message": "GET request received", "data_from_db": formatted_data})
 
-@auth.route('/remove_moderator', methods=['POST'])
+@auth.route('/remove_moderator', methods=['DELETE'])
 def remove_moderator():
     try:
         data_from_request = request.json
         moderator_id = data_from_request.get('id')
 
         # Check if the moderator exists
-        moderator_to_remove = Acount.query.filter_by(id=user_id, status="moderateur").first()
+        moderator_to_remove = Acount.query.filter_by(id=moderator_id, status="moderateur").first()
 
         if moderator_to_remove:
             # Remove the moderator from the database
