@@ -59,8 +59,8 @@ function NavBar(props) {
               <div
                 className={
                   activeOne
-                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
-                    : "flex items-center gap-[7.11px] "
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7] hover:text-[#537FE7]"
+                    : "flex items-center gap-[7.11px] hover:text-[#537FE7]"
                 }
               >
                 <img src={activeOne ? article : article_non} alt="Article" />
@@ -81,8 +81,8 @@ function NavBar(props) {
               <div
                 className={
                   activeTwo
-                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
-                    : "flex items-center gap-[7.11px] "
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7] hover:text-[#537FE7]"
+                    : "flex items-center gap-[7.11px] hover:text-[#537FE7] "
                 }
               >
                 <img src={activeTwo ? article : article_non} alt="Article" />
@@ -100,7 +100,10 @@ function NavBar(props) {
             <div>
               <img src={account} alt="Account" />
             </div>
-            <div className="sm:flex sm:text-white  sm:bg-[#1B9DF0] sm:h-[39.11px] sm:w-[92.66px] sm:px-[21.3px] sm:py-[8.89px] sm:rounded-[20px] sm:text-[14.222px] hover:bg-opacity-80">
+            <div
+              className="sm:flex sm:text-white  sm:bg-[#1B9DF0] sm:h-[39.11px] sm:w-[92.66px] sm:px-[21.3px] sm:py-[8.89px] sm:rounded-[20px] sm:text-[14.222px] hover:bg-opacity-90"
+              onClick={() => navigate("/PageLogin")}
+            >
               LogOut
             </div>
           </div>
@@ -140,7 +143,12 @@ function NavBar(props) {
 
             <li className="pb-[13.88px] hover:text-[#005BC5]">Help</li>
             <li className="pb-[13.88px] hover:text-[#005BC5]">My Account</li>
-            <li className="pb-[13.88px] hover:text-[#005BC5]">Log Out</li>
+            <li
+              className="pb-[13.88px] hover:text-[#005BC5]"
+              onClick={() => navigate(`/PageLogin`)}
+            >
+              Log Out
+            </li>
           </ul>
         </div>
       </div>
