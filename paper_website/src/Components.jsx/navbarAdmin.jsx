@@ -6,8 +6,10 @@ import menu from "../assets/menu.svg";
 import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function NavBarAdmin() {
+  const navigate = useNavigate();
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
@@ -90,7 +92,10 @@ function NavBarAdmin() {
             <div>
               <img src={account} alt="Account" />
             </div>
-            <div className="sm:flex sm:text-white  sm:bg-[#1B9DF0] sm:h-[39.11px] sm:w-[92.66px] sm:px-[21.3px] sm:py-[8.89px] sm:rounded-[20px] sm:text-[14.222px] hover:bg-opacity-80">
+            <div
+              className="sm:flex sm:text-white  sm:bg-[#1B9DF0] sm:h-[39.11px] sm:w-[92.66px] sm:px-[21.3px] sm:py-[8.89px] sm:rounded-[20px] sm:text-[14.222px] hover:bg-opacity-90"
+              onClick={() => navigate("/PageLogin")}
+            >
               LogOut
             </div>
           </div>
@@ -115,7 +120,12 @@ function NavBarAdmin() {
             </Link>
             <li className="pb-[13.88px] hover:text-[#005BC5]">Help</li>
             <li className="pb-[13.88px] hover:text-[#005BC5]">My Account</li>
-            <li className="pb-[13.88px] hover:text-[#005BC5]">Log Out</li>
+            <li
+              className="pb-[13.88px] hover:text-[#005BC5]"
+              onClick={() => navigate("/PageLogin")}
+            >
+              Log Out
+            </li>
           </ul>
         </div>
       </div>
