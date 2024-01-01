@@ -32,7 +32,7 @@ def remove_moderator():
         moderator_id = data_from_request.get('id')
 
         # Check if the moderator exists
-        moderator_to_remove = Acount.query.filter_by(id=user_id, status="moderateur").first()
+        moderator_to_remove = Acount.query.filter_by(id=moderator_id, status="moderateur").first()
 
         if moderator_to_remove:
             # Remove the moderator from the database
