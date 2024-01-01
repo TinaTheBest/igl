@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import TagsInput from './TagsInput';
 import RadioSort from './RadioSort';
+import DateSlider from './DateSlider';
 
 const ExtendedFilter = ({ onSearch }) => {
   const [authorTags, setAuthorTags] = useState([]);
@@ -82,7 +83,7 @@ const ExtendedFilter = ({ onSearch }) => {
         tags={institutionTags}
         onTagRemove={(tag) => setInstitutionTags(institutionTags.filter((t) => t !== tag))}
       />
-
+      
       <div className="my-4 ml-auto flex">
         <button
           className="bg-[#1B9DF0] w-[136.89px] text-white px-4 py-2 rounded-[17.778px] hover:bg-blue-700 "

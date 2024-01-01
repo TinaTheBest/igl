@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component';
 import Noselected from "../assets/Noselected.svg";
 import modify from "../assets/modify.svg";
 import edit from "../assets/edit.svg";
 import deletee from "../assets/deletee.svg";
 import ConfirmationModal from './ConfirmationModal';
+import axios from "axios";
 
 
 function DashboardModer() {
@@ -20,10 +21,7 @@ function DashboardModer() {
           selector: row => row.email,
           sortable:true,
         },
-        {
-          name: "password",
-          selector: row => row.password
-        },
+        
         {
             name: "ID",
             selector: row => row.id
@@ -46,121 +44,101 @@ function DashboardModer() {
           },
           
       ];
-        const data = [
-          {
-            id: 1,
-            name: 'Alice',
-            email: 'alice@example.com',
-            password: 'alice123'
+      const [moderateurs, setmoderateurs] = useState([]);
+      
+      const fetchmoderateurs = async () => {
+        try {
+          const response = await axios.get(
+            "http://127.0.0.1:5000/Authentification/get_moderateurs"
+          );
+          setmoderateurs(response.data.data_from_db);
+        } catch (error) {
+          console.error("Error fetching articles:", error);
+        }
+      };
+
+      const addmoderateurs = async () => {
+        try {
+          const response = await axios.post(
+            "http://127.0.0.1:5000/Authentification/AjouterMod",
+            {
+              "id": newModeratorId,
+              "name": newModeratorName,
+              "email": newModeratorEmail,
+            }
+          );
+          console.log("cc",response.data);
+          
+
+        } catch (error) {
+          console.error("Error adding moderateur :", error);
+        }
+      };
+
+      const deletemoderateurs = async () => {
+        try {
+          const response = await axios.delete(
+            "http://127.0.0.1:5000/Authentification/remove_moderator",
+            selectedModerator
            
-          },
-          {
-            id: 2,
-            name: 'Bob',
-            email: 'bob@example.com',
-            password: 'bob456'
-          },
-          {
-            id: 3,
-            name: 'Charlie',
-            email: 'charlie@example.com',
-            password: 'charlie789'
-          },
-          {
-            id: 4,
-            name: 'David',
-            email: 'david@example.com',
-            password: 'david987'
-          },
-          {
-            id: 5,
-            name: 'Alice',
-            email: 'alice@example.com',
-            password: 'alice123'
-          },
-          {
-            id: 6,
-            name: 'Bob',
-            email: 'bob@example.com',
-            password: 'bob456'
-          },
-          {
-            id: 7,
-            name: 'Charlie',
-            email: 'charlie@example.com',
-            password: 'charlie789'
-          },
-          {
-            id: 8,
-            name: 'David',
-            email: 'david@example.com',
-            password: 'david987'
-          },
-          {
-            id: 9,
-            name: 'Eva',
-            email: 'eva@example.com',
-            password: 'eva543'
-          },
-          {
-            id: 10,
-            name: 'Bob',
-            email: 'bob@example.com',
-            password: 'bob456'
-          },
-          {
-            id: 11,
-            name: 'Charlie',
-            email: 'charlie@example.com',
-            password: 'charlie789'
-          },
-          {
-            id: 12,
-            name: 'David',
-            email: 'david@example.com',
-            password: 'david987'
-          },
-          {
-            id: 13,
-            name: 'Eva',
-            email: 'eva@example.com',
-            password: 'eva543'
-          },
-          {
-            id: 14,
-            name: 'Bob',
-            email: 'bob@example.com',
-            password: 'bob456'
-          },
-          {
-            id: 15,
-            name: 'Charlie',
-            email: 'charlie@example.com',
-            password: 'charlie789'
-          },
-          {
-            id: 16,
-            name: 'David',
-            email: 'david@example.com',
-            password: 'david987'
-          },
-          {
-            id: 17,
-            name: 'Eva',
-            email: 'eva@example.com',
-            password: 'eva543'
-          }
-        ];
+          );
+          console.log(response.data.message);
+        } catch (error) {
+          console.error("Error removing moderateur:", error);
+        }
+      };
+    
+      // Call the fetchArticles function when the component renders
+      
+      
+      const [records,setrecords]=useState(moderateurs) ;   
+      
+      useEffect(() => {
+         fetchmoderateurs();
+      }, []);
+
+      console.log(moderateurs);
+
+    
 
         const [selectedModerator, setSelectedModerator] = useState(null);
         const [editableName, setEditableName] = useState('');
         const [editableEmail, setEditableEmail] = useState('');
-        const [editablePassword, setEditablePassword] = useState('');
+       
         const [editableId, setEditableId] = useState('');
 
         const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
         const [editableMode, setEditableMode] = useState(false);
         const [addMode, setaddMode] = useState(false);
+
+        // Inside your component function
+        const [newModeratorName, setNewModeratorName] = useState('');
+        const [newModeratorEmail, setNewModeratorEmail] = useState('');
+        const [newModeratorId, setNewModeratorId] = useState('');
+
+        const handleaddClick = () => {
+          // Clear existing editable fields
+          setEditableName('');
+          setEditableEmail('');
+          setEditableId('');
+      
+          // // Capture the values entered in the input fields for the new moderator
+          // setNewModeratorName(newModeratorName);
+          // setNewModeratorEmail(newModeratorEmail);
+          // setNewModeratorId(newModeratorId);
+      
+          // Toggle add mode
+          setaddMode(!addMode);
+          setEditableMode(!editableMode);
+      };
+      const handleapprouveaddClick = () => {
+        addmoderateurs();
+        
+      };
+      const handleapprouveModifyClick = () => {
+            
+      };
+        
         
         const handleDeleteClick = (row) => {
             // setSelectedModerator(row);
@@ -168,21 +146,23 @@ function DashboardModer() {
           };
         
           const handleConfirmDelete = () => {
-            // Implement the logic to delete the moderator
-            // You can use selectedModerator.id to identify the moderator to delete
+
+            deletemoderateurs();
             setDeleteModalOpen(false);
           };
         
           const handleCancelDelete = () => {
             setDeleteModalOpen(false);
           };
+          
+          
       
         const handleRowClicked = (row) => {
           // Handle row click here
           setSelectedModerator(row);
           setEditableName(row.name);
           setEditableEmail(row.email);
-          setEditablePassword(row.password);
+          
           setEditableId(row.id);
           // Switch off editable mode when clicking a new row
           setEditableMode(false);
@@ -193,15 +173,12 @@ function DashboardModer() {
             // Toggle editable mode
             setEditableMode(!editableMode);
           };
-          const handleaddClick = () => {
-            // Toggle editable mode
-            setaddMode(!addMode);
-          };
+        
         
             
-    const [records,setrecords]=useState(data) ;   
+    
     function handleRechercheMod(event)   {
-        const newData = data.filter(row => {
+        const newData = moderateurs.filter(row => {
             return row.name.toLowerCase().includes(event.target.value.toLowerCase())
         })
         setrecords(newData)
@@ -241,12 +218,13 @@ function DashboardModer() {
                   <div className="text-slate-400 text-base font-medium text-[10px] pt-[10px]">Individual moderator</div> 
                   {(editableMode || addMode )? (
                    <input
-                     type="text"
-                     value={editableMode ? editableName : ''}
-                     onChange={(e) => setEditableName(e.target.value)}
-                     className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
-                     placeholder="Enter the moderator's name"
-                     />
+                   type="text"
+                   value={addMode ? newModeratorName : editableName}
+                   onChange={(e) => addMode ? setNewModeratorName(e.target.value) : setEditableName(e.target.value)}
+                   className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
+                   placeholder="Enter the moderator's name"
+               />
+               
                    ) : (
                     <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.name}</div>
                     )}
@@ -258,8 +236,8 @@ function DashboardModer() {
                   {(editableMode || addMode )? (
                    <input
                      type="text"
-                     value={editableMode ? editableEmail : ''}
-                     onChange={(e) => setEditableEmail(e.target.value)}
+                     value={addMode ? newModeratorEmail : editableEmail}
+                     onChange={(e) => addMode ? setNewModeratorEmail(e.target.value) : setEditableEmail(e.target.value)}
                      className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
                      placeholder="Enter the moderator's mail"
                      />
@@ -270,29 +248,14 @@ function DashboardModer() {
                 <div className="border-b mt-[10px] w-full h-[0px] border-0 border-gray-200"></div>
 
                   </div>
-                  <div>
-                  <div className="text-slate-400 text-base font-medium text-[10px] pt-[10px]">Password</div>  
-                  {(editableMode || addMode )? (
-                   <input
-                     type="text"
-                     value={editableMode ? editablePassword : ''}
-                     onChange={(e) => setEditablePassword(e.target.value)}
-                     className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
-                     placeholder="Enter the moderator's pwd"
-                     />
-                   ) : (
-                    <div className="text-sky-950 text-sm font-normal tracking-tight pt-[10px]">{selectedModerator.password}</div>
-                    )}
-                  <div className="border-b mt-[10px] w-full h-[0px] border-0 border-gray-200"></div>
-
-                  </div>
+                  
                   <div>
                   <div className="text-slate-400 text-base font-medium text-[10px] pt-[10px]">ID</div>  
                   {(editableMode || addMode )? (
                    <input
                      type="text"
-                     value={editableMode ? editableId : ''}
-                     onChange={(e) => setEditableId(e.target.value)}
+                     value={editableMode ? newModeratorId : editableId  }
+                     onChange={(e) => addMode ? setNewModeratorId(e.target.value) : setEditableId(e.target.value)}
                      className="w-full p-1 rounded-[8px] focus:outline-none border-[0.5px] border-blue-200 text-[13px]"
                      placeholder="Enter the moderator's ID"
                      />
@@ -302,7 +265,7 @@ function DashboardModer() {
                   </div>
                   {(editableMode || addMode )? (
                   <div className='flex justify-between py-[20px] '> 
-                  <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] text-[#1B9DF0]  text-[13px] justify-center items-center ' onClick={handleModifyClick}>Approve</button>
+                  <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] text-[#1B9DF0]  text-[13px] justify-center items-center ' onClick={addMode ? handleapprouveaddClick : handleapprouveModifyClick }>Approve</button>
                   <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] bg-[#1B9DF0] text-white text-[13px] justify-center items-center'  onClick={handleDeleteClick}>Cancel</button>
                 </div>
                    ) : (
@@ -315,7 +278,7 @@ function DashboardModer() {
                   
                 </div>
               ) : (
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col items-center '>
                   <img
                     className='pt-[100px]'
                     src={Noselected}
