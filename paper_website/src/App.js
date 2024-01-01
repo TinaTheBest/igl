@@ -1,26 +1,16 @@
 import "./App.css";
-import NavBar from "./Components.jsx/navbar";
-import CardMod from "./Components.jsx/cardMod";
-import Card from "./Components.jsx/card";
-import Details from "./Components.jsx/details";
-import TagsInput from "./Components.jsx/TagsInput";
-import x from "./assets/x.svg";
-import DetailsMod from "./Components.jsx/detailsMod";
-import ModifyMod from "./Components.jsx/modifyMod";
-import ModifyModInput from "./Components.jsx/modifyModInput";
-import NavBarMod from "./Components.jsx/navbarMod";
-import Login from "./Components.jsx/login";
-import SignUp from "./Components.jsx/signup";
 import ModeratorFirstPage from "./Pages/Moderator/ModeratorFirstPage";
 import ModeratorModify from "./Pages/Moderator/ModeratorModify";
+import ModeratorDetails from "./Pages/Moderator/ModeratorDetails";
 import UserFirstPage from "./Pages/User/UserFirstPage";
 import UserFav from "./Pages/User/UserFav";
 import UserDetails from "./Pages/User/UserDetails";
 import UserFilters from "./Pages/User/UserFilters";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ModeratorDetails from "./Pages/Moderator/ModeratorDetails";
 import PageLogin from "./Pages/PageLogin";
 import PageSignUp from "./Pages/PageSignUp";
+import AdminUpload from "./Pages/Administrator/AdminUpload";
+import AdminFirstPage from "./Pages/Administrator/AdminFirstPage";
 function App() {
   return (
     <div className="bg-[#E7F1FF] min-h-screen p-0 m-0 relative">
@@ -39,10 +29,16 @@ function App() {
   </div>*/}
         <Router>
           <Routes>
-            <Route path="/" element={<Login />}></Route>
-            {/*Authentification********************************************************************<***********/}
-            <Route path="/PageLogin" element={<Login />}></Route>
-            <Route path="/PageSignUp" element={<SignUp />}></Route>
+            <Route path="/" element={<PageLogin />}></Route>
+            {/*Authentification*******************************************************************************/}
+            <Route path="/PageLogin" element={<PageLogin />}></Route>
+            <Route path="/PageSignUp" element={<PageSignUp />}></Route>
+            {/*Administrateur*********************************************************************************/}
+            <Route path="/AdminFirstPage" element={<AdminFirstPage />}></Route>
+            <Route
+              path="/AdminFirstPage/AdminUpload"
+              element={<AdminUpload />}
+            ></Route>
             {/*Moderator**************************************************************************************/}
             <Route
               path="/ModeratorFirstPage"
@@ -66,7 +62,10 @@ function App() {
               element={<UserDetails />}
             ></Route>
             <Route path="/UserFilters" element={<UserFilters />}></Route>
-            <Route path="/UserFirstPage/UserFav" element={<UserFav />}></Route>
+            <Route
+              path="/UserFirstPage/UserFav/:id"
+              element={<UserFav />}
+            ></Route>
           </Routes>
         </Router>
       </div>
