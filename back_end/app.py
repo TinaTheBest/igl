@@ -1,7 +1,7 @@
 
 
 from flask import Flask, jsonify
-from routes import admin_bp, ModArticle, Favorit, auth, db, recherche,user
+from routes import admin_bp, ModArticle, Favorit, auth, db, rech,user
 
 from flask_cors import CORS 
 from elasticsearch import Elasticsearch
@@ -31,7 +31,7 @@ app.register_blueprint(admin_bp, url_prefix='/articles')
 app.register_blueprint(ModArticle, url_prefix='/ModArticles')
 app.register_blueprint(Favorit, url_prefix='/favorits')
 app.register_blueprint(auth ,url_prefix ='/Authentification')
-app.register_blueprint(recherche ,url_prefix ='/recherche')
+app.register_blueprint(rech ,url_prefix ='/recherche')
 app.register_blueprint(user ,url_prefix ='/users')
 
 from flask_mail import Mail, Message

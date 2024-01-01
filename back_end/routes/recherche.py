@@ -7,10 +7,10 @@ from elasticsearch import Elasticsearch
 es = Elasticsearch(['http://elasticsearch:9200'])
 # Création du Blueprint
 
-recherche = Blueprint('recherche', __name__)
+rech = Blueprint('recherche', __name__)
 
 
-@recherche.route('/resultat', methods=['POST'])
+@rech.route('/resultat', methods=['POST'])
 def recherche():
     term =  request.form.get('search_term')
     
@@ -43,7 +43,7 @@ def recherche():
 
     return jsonify(response_data)
     
-@recherche.route('/filtrage', methods=['POST'])
+@rech.route('/filtrage', methods=['POST'])
     
 
 
