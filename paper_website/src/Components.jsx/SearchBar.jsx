@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import axios from "axios";
 const SearchBar = () => {
   // State to hold the search term
   const [searchTerm, setSearchTerm] = useState('');
@@ -7,9 +7,22 @@ const SearchBar = () => {
   // Function to handle search changes
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    // Add any additional logic you want to perform with the search term
+    recherchegenerale();
   };
+  const recherchegenerale = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/recherche/resultat",
+        { data: { "search_term": searchTerm } }
+      );
+      
+      console.log("cc",response.data);
+      
 
+    } catch (error) {
+      console.error("Error adding moderateur :", error);
+    }
+  };
   return (
     <div className="flex w-full h-[49.78px] gap-[17.78px] justify-between items-center space-x-2">
       <input

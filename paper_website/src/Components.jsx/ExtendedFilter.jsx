@@ -9,6 +9,9 @@ const ExtendedFilter = ({ onSearch }) => {
   const [keywordTags, setKeywordTags] = useState([]);
   const [institutionTags, setInstitutionTags] = useState([]);
   const [sortingOption, setSortingOption] = useState('A-Z'); // Default sorting option
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
   
   const handleSearch = () => {
     // Call the onSearch prop with the current tags
@@ -24,7 +27,7 @@ const ExtendedFilter = ({ onSearch }) => {
 
 
   return (
-    <div className='w-[292.44px] p-[28.44px] bg-white rounded-[10.67px] flex-col justify-start items-start gap-[17.78px] inline-flex'> 
+    <div className='w-[292.44px] p-[28.44px] bg-white rounded-[10.67px] flex-col justify-start items-start gap-[17.78px] inline-flex ' > 
       <div className="w-[235.56px] h-7 justify-between items-center inline-flex">
         <div className="text-zinc-900 text-[21.33px] font-bold font-['DM Sans']">Filters</div>
         <div className="text-blue-500 text-sm font-medium font-['DM Sans'] underline">Reset All</div>
@@ -83,7 +86,27 @@ const ExtendedFilter = ({ onSearch }) => {
         tags={institutionTags}
         onTagRemove={(tag) => setInstitutionTags(institutionTags.filter((t) => t !== tag))}
       />
+
+      <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
+       {/* Date Inputs */}
+       <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Start Date</div>
+      <input
+        type="date"
+        value={startDate}
+        onChange={(e) => setStartDate(e.target.value)}
+        className="w-[235.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
+      />
+
+      <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">End Date</div>
+      <input
+        type="date"
+        value={endDate}
+        onChange={(e) => setEndDate(e.target.value)}
+        className="w-[235.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
+      />
+
       
+
       <div className="my-4 ml-auto flex">
         <button
           className="bg-[#1B9DF0] w-[136.89px] text-white px-4 py-2 rounded-[17.778px] hover:bg-blue-700 "
