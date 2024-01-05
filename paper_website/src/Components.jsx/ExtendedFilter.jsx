@@ -1,8 +1,8 @@
 // FilterBar.js
 import React, { useState } from 'react';
 import TagsInput from './TagsInput';
-import RadioSort from './RadioSort';
-import DateSlider from './DateSlider';
+
+
 
 const ExtendedFilter = ({ onSearch }) => {
   const [authorTags, setAuthorTags] = useState([]);
