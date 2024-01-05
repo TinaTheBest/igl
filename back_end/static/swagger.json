@@ -1,0 +1,530 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Paper",
+      "version": "1.0.0",
+      "title": "Recherche des articles scientifique",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "servers": [
+        {
+          "url": "/"
+        }
+      ],
+      "tags": [
+        {
+          "name": "Paper",
+          "description": "recherche des articles scientifique "
+        }
+      ],
+    "paths": {
+      "/upload": {
+        "post": {
+          "summary": "Extraction d'informations à partir d'un PDF",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "description": "URL du PDF à extraire",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "URL du PDF à traiter"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Succès : le document a été téléchargé avec succès."
+            },
+            "500": {
+              "description": "Erreur interne du serveur lors de l'extraction ou du téléchargement du PDF."
+            }
+          }
+        }
+      },
+        "/recherche/resultat": {
+          "post": {
+            "summary": "Recherche d'articles basée sur certains critères.",
+            "parameters": [
+              {
+                "name": "search_term",
+                "in": "formData",
+                "type": "string",
+                "description": "Terme de recherche pour les articles."
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Renvoie les résultats de recherche."
+              },
+              "404": {
+                "description": "L'index 'article_valide' n'existe pas."
+              }
+            }
+          }
+        },
+        "/recherche/filtrage": {
+          "post": {
+            "summary": "Filtrage des résultats de recherche d'articles basé sur différents critères.",
+            "parameters": [
+              {
+                "name": "auteur_filter",
+                "in": "formData",
+                "type": "string",
+                "description": "Filtre pour les auteurs."
+              },
+              {
+                "name": "institution",
+                "in": "formData",
+                "type": "string",
+                "description": "Filtre pour l'institution."
+              },
+              {
+                "name": "date_debut",
+                "in": "formData",
+                "type": "string",
+                "format": "date",
+                "description": "Date de début pour le filtrage."
+              },
+              {
+                "name": "date_fin",
+                "in": "formData",
+                "type": "string",
+                "format": "date",
+                "description": "Date de fin pour le filtrage."
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Renvoie les résultats filtrés."
+              }
+            }
+          }
+        },
+        "/ModArticles/get_all_data": {
+            "get": {
+              "summary": "Récupère tous les articles non validés",
+              "responses": {
+                "200": {
+                  "description": "Liste des articles non validés"
+                }
+              }
+            }
+          },
+          "/ModArticles/Valider/{document_id}": {
+            "post": {
+              "summary": "Valide un document spécifique",
+              "parameters": [
+                {
+                  "name": "document_id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string",
+                  "description": "Identifiant unique du document à valider"
+                }
+              ],
+              "responses": {
+                "201": {
+                  "description": "Document ajouté avec succès"
+                }
+              }
+            }
+          },
+          "/ModArticles/update_document/{document_id}": {
+            "put": {
+              "summary": "Mise à jour d'un document spécifique",
+              "parameters": [
+                {
+                  "name": "document_id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string",
+                  "description": "Identifiant unique du document à mettre à jour"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Document mis à jour avec succès"
+                }
+              }
+            }
+          },
+          "/ModArticles/delete_document/{document_id}": {
+            "delete": {
+              "summary": "Suppression d'un document spécifique",
+              "parameters": [
+                {
+                  "name": "document_id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string",
+                  "description": "Identifiant unique du document à supprimer"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Document supprimé avec succès"
+                }
+              }
+            }
+          },
+          "/ModArticles/get_article_details/{article_id}": {
+            "get": {
+              "summary": "Récupère les détails d'un article spécifique",
+              "parameters": [
+                {
+                  "name": "article_id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string",
+                  "description": "Identifiant unique de l'article à récupérer"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Détails de l'article récupérés avec succès"
+                }
+              }
+            }},
+             "/favorits/get_all_fav": {
+                  "get": {
+                    "summary": "Récupère tous les favoris",
+                    "parameters": [
+                      {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "string",
+                        "description": "Identifiant de l'index Elasticsearch"
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Liste des favoris récupérée avec succès"
+                      }
+                    }
+                  }
+                },
+                "/favorits/AjouterFavorit": {
+                  "post": {
+                    "summary": "Ajoute un favori",
+                    "parameters": [
+                      {
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "type": "string",
+                        "description": "Identifiant de l'index Elasticsearch"
+                      }
+                     
+                    ],
+                    "responses": {
+                      "201": {
+                        "description": "Favori ajouté avec succès"
+                      }
+                    }
+                  }
+                },
+                "/favorits/delete_favorit/{document_id}": {
+                  "delete": {
+                    "summary": "Supprime un favori spécifique",
+                    "parameters": [
+                      {
+                        "name": "document_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "Identifiant unique du document à supprimer"
+                      },
+                      {
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "type": "string",
+                        "description": "Identifiant de l'index Elasticsearch"
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Favori supprimé avec succès"
+                      }
+                    }
+                  }
+                },
+                "/Authentification/get_moderateurs": {
+                  "get": {
+                    "summary": "Obtenir la liste des modérateurs",
+                    "responses": {
+                      "200": {
+                        "description": "Succès",
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string"
+                            },
+                            "data_from_db": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "integer"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "email": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "/Authentification/remove_moderator": {
+                  "delete": {
+                    "summary": "Supprimer un modérateur par ID",
+                    "parameters": [
+                      {
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "type": "integer",
+                        "description": "ID du modérateur à supprimer"
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Modérateur supprimé avec succès"
+                      },
+                      "404": {
+                        "description": "Modérateur non trouvé"
+                      }
+                    }
+                  }
+                },
+                "/Authentification/AjouterMod": {
+                  "post": {
+                    "summary": "Ajouter un nouveau modérateur",
+                    "parameters": [
+                      {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Modérateur ajouté avec succès"
+                      },
+                      "400": {
+                        "description": "Erreur d'intégrité, ID doit être unique"
+                      }
+                    }
+                  }
+                }, 
+                "/Authentification/sginin": {
+                  "post": {
+                    "summary": "Inscription d'un nouvel utilisateur",
+                    "parameters": [
+                      {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Informations de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "password": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Utilisateur inscrit avec succès"
+                      },
+                      "400": {
+                        "description": "Erreur d'intégrité, ID doit être unique ou utilisateur existe déjà"
+                      }
+                    }
+                  }
+                },
+                "/Authentification/login": {
+                  "post": {
+                    "summary": "Connexion d'un utilisateur",
+                    "parameters": [
+                      {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Informations de connexion",
+                        "required": true,
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "email": {
+                              "type": "string"
+                            },
+                            "password": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Connexion réussie"
+                      },
+                      "401": {
+                        "description": "Informations d'identification incorrectes ou utilisateur inexistant"
+                      }
+                    }
+                  }
+                },
+                "/Authentification/reset_pass": {
+                  "post": {
+                    "summary": "Réinitialisation du mot de passe d'un utilisateur",
+                    "parameters": [
+                      {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Email de l'utilisateur pour réinitialisation",
+                        "required": true,
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "email": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Réinitialisation du mot de passe réussie"
+                      },
+                      "404": {
+                        "description": "Utilisateur non trouvé"
+                      }
+                    }
+                  }
+                },
+                 "/Authentification/update_account": {
+                  "put": {
+                    "summary": "Mise à jour des informations d'un compte utilisateur",
+                    "parameters": [
+                      {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Informations de mise à jour de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "Identifiant unique de l'utilisateur à mettre à jour"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Nouveau nom de l'utilisateur (optionnel)"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "Nouvel email de l'utilisateur (optionnel)"
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "responses": {
+                      "200": {
+                        "description": "Mise à jour réussie des informations de l'utilisateur"
+                      },
+                      "404": {
+                        "description": "Utilisateur non trouvé"
+                      },
+                      "500": {
+                        "description": "Erreur interne du serveur lors de la mise à jour"
+                      }
+                    }}
+},"/users/get_all_data": {
+  "get": {
+    "summary": "Récupérer toutes les données validées",
+    "responses": {
+      "200": {
+        "description": "Succès : retourne toutes les données validées de l'index Elasticsearch."
+      }
+    }
+  }
+},
+"/users/isfav/{id_user}/{id_doc}": {
+  "get": {
+    "summary": "Vérifiez si un document est en favori pour un utilisateur spécifique",
+    "parameters": [
+      {
+        "name": "id_user",
+        "in": "path",
+        "description": "ID de l'utilisateur",
+        "required": true,
+        "type": "string"
+      },
+      {
+        "name": "id_doc",
+        "in": "path",
+        "description": "ID du document",
+        "required": true,
+        "type": "string"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Succès : retourne si le document est favori pour l'utilisateur donné."
+      },
+      "404": {
+        "description": "L'index de l'utilisateur n'a pas été trouvé."
+      },
+      "default": {
+        "description": "Le document n'est pas trouvé dans les favoris de l'utilisateur."
+      }
+    }
+  }
+}}}

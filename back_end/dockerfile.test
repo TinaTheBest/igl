@@ -1,0 +1,17 @@
+# Utilisez une image Alpine Linux avec Python
+FROM python:3.9-alpine
+
+# Définissez le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copiez les fichiers nécessaires dans le conteneur
+COPY . .
+
+# Installez les dépendances
+RUN apk add --no-cache \
+    build-base \
+    mariadb-dev \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Commande par défaut pour exécuter les tests (ajoutez votre commande de test ici)
+CMD ["pytest", "tests/"] 
