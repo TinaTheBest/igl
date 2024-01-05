@@ -12,9 +12,8 @@ rech = Blueprint('recherche', __name__)
 
 @rech.route('/resultat', methods=['POST'])
 def recherche():
-    term =  request.form.get('search_term')
-    
-
+    term =  request.json.get('search_term')
+    print("hello",term)
     # Construction de la requête Elasticsearch pour la recherche initiale
     query = {
         "query": {
@@ -22,7 +21,7 @@ def recherche():
                 "must": [
                     {"multi_match": {
                         "query": term,
-                        "fields": ["titre", "auteurs", "mots_cles", "institution"]
+                        "fields": ["title", "authors", "keywords", "institution"]
                     }}
                 ]
             }
