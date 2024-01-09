@@ -11,6 +11,7 @@ COPY . .
 RUN apk add --no-cache \
     build-base \
     mariadb-dev \
+    linux-headers \
     && pip install --no-cache-dir -r requirements.txt
 
 # Exposez le port sur lequel votre application Flask va écouter
@@ -18,4 +19,3 @@ EXPOSE 5000
 
 # Commande pour lancer votre application Flask
 CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
-
