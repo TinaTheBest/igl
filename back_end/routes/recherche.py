@@ -43,40 +43,56 @@ def recherche():
     return jsonify(response_data)
     
 @rech.route('/filtrage', methods=['POST'])
-    
-
-
 def filtre():
-    # Récupérez les résultats stockés dans la session Flask
-   # search_results = session.get('search_results', [])
-    
-    # Récupérez les filtres spécifiés par l'utilisateur
-    auteur_filter = request.form.get('auteur_filter')    
-    institution_filter = request.form.get('institution')
-    date_debut_filter = request.form.get('date_debut')
-    date_fin_filter = request.form.get('date_fin')
-    global hits
-    # Appliquez les filtres
-    filtered_results = apply_filters(hits, auteur_filter, institution_filter, date_debut_filter, date_fin_filter)
+     """
+    Filtrage des résultats de recherche d'articles basé sur différents critères.
+    ---
+    parameters:
+      - name: auteur_filter
+        in: formData
+        type: string
+        description: Filtre pour les auteurs.
+      - name: institution
+        in: formData
+        type: string
+        description: Filtre pour l'institution.
+      - name: date_debut
+        in: formData
+        type: string
+        format: date
+        description: Date de début pour le filtrage.
+      - name: date_fin
+        in: formData
+        type: string
+        format: date
+        description: Date de fin pour le filtrage.
+    responses:
+      200:
+        description: Renvoie les résultats filtrés.
+    """
+     auteur_filter = request.json.get('authors')    
+     institution_filter = request.json.get('institutions')
+     date_debut_filter = request.json.get('date_debut')
+     date_fin_filter = request.json.get('date_fin')
+     keyword_filter=request.json.get('keywords')
+     global hits
+     filtered_results = apply_filters(hits, auteur_filter, institution_filter, date_debut_filter, date_fin_filter,keyword_filter)
+     return jsonify(filtered_results)
 
-    # Afficher les résultats filtrés dans la console
-    print(filtered_results)
-    
-    return jsonify(filtered_results)
-
-def apply_filters(results, auteur_filter, institution_filter, date_debut_filter, date_fin_filter):
-    # Appliquer les filtres nécessaires
-    # Vous pouvez adapter cette fonction en fonction de vos critères de filtrage réels
+def apply_filters(results, auteur_filter, institution_filter, date_debut_filter, date_fin_filter,keyword_filter):
+    """
+    Applique les filtres sur les résultats de la recherche.
+    """
     filtered_results = results
 
     if auteur_filter:
-        filtered_results = [result for result in filtered_results if auteur_filter.lower() in str(result.get('_source', {}).get('auteurs', [])).lower()]
+        filtered_results = [result for result in filtered_results if auteur_filter.lower() in str(result.get('_source', {}).get('authors', [])).lower()]
 
     if institution_filter:
-        filtered_results = [result for result in filtered_results if institution_filter.lower() in str(result.get('_source', {}).get('institution', '')).lower()]
-
-    # Appliquer le filtre par période de dates si spécifié
+        filtered_results = [result for result in filtered_results if institution_filter.lower() in str(result.get('_source', {}).get('institutions', '')).lower()]
+    if keyword_filter:
+        filtered_results = [result for result in filtered_results if keyword_filter.lower() in str(result.get('_source', {}).get('keywords', [])).lower() ]
     if date_debut_filter and date_fin_filter:
-        filtered_results = [result for result in filtered_results if date_debut_filter <= result.get('_source', {}).get('date_publication') <= date_fin_filter]
-
+        filtered_results = [result for result in filtered_results if date_debut_filter <= result.get('_source', {}).get('publication_date') <= date_fin_filter]
+    
     return filtered_results
