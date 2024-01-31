@@ -98,14 +98,16 @@ def post_data():
         user = Acount.query.filter_by(email=data_from_request.get('email')).first()
 
         if user :
-             return jsonify({"message": "Already exist "})
+             return jsonify({"message": "This Account Already exist " , "auth": False})
 
-        new_data = Acount(name=data_from_request.get('name'), email=data_from_request.get('email'), password=data_from_request.get('password'), status = "user")
+        if not user :
+            new_data = Acount(name=data_from_request.get('name'), email=data_from_request.get('email'), password=data_from_request.get('password'), status = "user")
 
-        # Ajoutez la nouvelle donnée à la base de données
-        db.session.add(new_data)
-        db.session.commit()
-        return jsonify({"message": "POST request received", "id" : new_data.id})
+             # Ajoutez la nouvelle donnée à la base de données
+            db.session.add(new_data)
+            db.session.commit()
+            return jsonify({"message": "POST request received", "id" : new_data.id,"auth":True})
+
     except IntegrityError as e:
         db.session.rollback()
         return jsonify({"error": "ID must be unique"})

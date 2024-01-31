@@ -15,6 +15,7 @@ function SignUp() {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [Signin, setSignin] = useState("");
 
   function handleInputChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -52,20 +53,25 @@ function SignUp() {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/Authentification/sginin",
-        formData
-      );
-      console.log("signup", response.data.id);
-      navigate("/UserFirstPage/" + response.data.id, {
-        state: { user_id: response.data.id },
-      });
-      console.log("SignUp successful:", response.data);
-    } catch (error) {
+    axios.post(
+      "http://localhost:5000/Authentification/sginin",
+      formData
+    ).then(response => {
+      if (response.data.auth) {
+        setSignin("");
+        navigate("/UserFirstPage/" + response.data.id, {
+          state: { user_id: response.data.id },
+        });
+        console.log("yyyaaaaaw hna navigate");
+        console.log("SignUp successful:", response.data);
+      } else {
+        setSignin(response.data.message);
+      }
+    }).catch(error => {
       console.error("Error during Sign Up:", error);
-      // Handle error, e.g., show an error message to the user
-    }
+      // Gérer l'erreur, par exemple afficher un message d'erreur à l'utilisateur
+    });
+
   };
 
   return (
@@ -107,9 +113,8 @@ function SignUp() {
             <div className="flex flex-col py-2">
               <label>Email address</label>
               <input
-                className={`border p-2 rounded-[12.5px] ${
-                  emailError ? "border-red-500" : ""
-                }`}
+                className={`border p-2 rounded-[12.5px] ${emailError ? "border-red-500" : ""
+                  }`}
                 type="text"
                 name="email"
                 value={formData.email}
@@ -122,9 +127,8 @@ function SignUp() {
             <div className="flex flex-col py-2">
               <label>Password</label>
               <input
-                className={`border p-2 rounded-[12.5px] ${
-                  passwordError ? "border-red-500" : ""
-                }`}
+                className={`border p-2 rounded-[12.5px] ${passwordError ? "border-red-500" : ""
+                  }`}
                 type="password"
                 name="password"
                 value={formData.password}
@@ -163,6 +167,8 @@ function SignUp() {
           {!passwordsMatch && (
             <p className="text-red-500 text-center">Passwords don't match.</p>
           )}
+          <p className="text-red-500 text-center">{Signin}</p>
+
         </div>
       </div>
     </>

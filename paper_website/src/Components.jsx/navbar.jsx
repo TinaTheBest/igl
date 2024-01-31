@@ -14,6 +14,18 @@ function NavBar(props) {
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem('token'); // Effacer le token d'authentification
+      window.history.replaceState({}, '', '/PageLogin'); // Remplacer l'état de l'historique avec la page de connexion
+      navigate('/PageLogin');
+    } catch (error) {
+      console.error("Une erreur s'est produite lors de la déconnexion :", error);
+      // Gérer l'erreur ou afficher un message d'erreur
+    }
+  };
+
   return (
     <>
       <style>
@@ -62,9 +74,9 @@ function NavBar(props) {
                   alt="Article"
                   className="hidden"
                 />
-                <div className="text-[#6E6E9B] hover:text-black">
+                <button className="text-[#6E6E9B] hover:text-black">
                   Find Articles
-                </div>
+                </button>
               </div>
             </div>
 
@@ -86,9 +98,9 @@ function NavBar(props) {
                   alt="Article"
                   className="hidden"
                 />
-                <div className="text-[#6E6E9B] hover:text-black">
+                <button className="text-[#6E6E9B] hover:text-black">
                   My favorite articles
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -100,12 +112,12 @@ function NavBar(props) {
             <div>
               <img src={account} alt="Account" />
             </div>
-            <div
+            <button
               className="sm:flex sm:text-white  sm:bg-[#1B9DF0] sm:h-[39.11px] sm:w-[92.66px] sm:px-[21.3px] sm:py-[8.89px] sm:rounded-[20px] sm:text-[14.222px] hover:bg-opacity-90"
-              onClick={() => navigate("/PageLogin")}
+              onClick={handleLogout}
             >
               LogOut
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -126,7 +138,7 @@ function NavBar(props) {
                 });
               }}
             >
-              Articles
+              <button>Articles</button>
             </li>
 
             <li
@@ -138,16 +150,18 @@ function NavBar(props) {
                 });
               }}
             >
-              Favourtie Articles
+              <button>Favourtie Articles</button>
             </li>
 
-            <li className="pb-[13.88px] hover:text-[#005BC5]">Help</li>
-            <li className="pb-[13.88px] hover:text-[#005BC5]">My Account</li>
+            <li className="pb-[13.88px] hover:text-[#005BC5]">
+              <button>Help</button></li>
+            <li className="pb-[13.88px] hover:text-[#005BC5]">
+              <button>My Account</button></li>
             <li
               className="pb-[13.88px] hover:text-[#005BC5]"
-              onClick={() => navigate(`/PageLogin`)}
+              onClick={handleLogout}
             >
-              Log Out
+              <button>Log Out</button>
             </li>
           </ul>
         </div>

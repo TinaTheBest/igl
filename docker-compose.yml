@@ -45,8 +45,8 @@ services:
     volumes:
     - ./back_end:/app
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #   ports:
-  #     - "3000:3000"  # You can change this port to the one used by your frontend app
+  frontend:
+    build:
+      context: ./paper_website
+    ports:
+      - "3000:3000"
