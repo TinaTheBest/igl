@@ -2,6 +2,8 @@ import { useState } from "react";
 import Logo from "../assets/logo.svg";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+
 function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -11,10 +13,22 @@ function SignUp() {
     confirmPassword: "",
   });
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   function handleInputChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
+
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    return re.test(password);
+  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -26,10 +40,15 @@ function SignUp() {
       return;
     }
 
-    // Validate if the password matches the confirmation password
-    if (formData.password !== formData.confirmPassword) {
-      console.error("Passwords do not match");
-      // Handle error, e.g., show an error message to the user
+    if (!validateEmail(formData.email)) {
+      setEmailError("Invalid email address");
+      return;
+    }
+
+    if (!validatePassword(formData.password)) {
+      setPasswordError(
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
+      );
       return;
     }
 
@@ -55,9 +74,7 @@ function SignUp() {
         {`
           .font-dm-sans {
             font-family: 'DM Sans', 'sans-serif';
-          
           }
-  
         `}
       </style>
       <div className="flex justify-between font-dm-sans">
@@ -90,25 +107,33 @@ function SignUp() {
             <div className="flex flex-col py-2">
               <label>Email address</label>
               <input
-                className="border p-2 rounded-[12.5px] "
+                className={`border p-2 rounded-[12.5px] ${
+                  emailError ? "border-red-500" : ""
+                }`}
                 type="text"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
               />
+              {emailError && (
+                <p className="text-red-500 text-sm mt-1">{emailError}</p>
+              )}
             </div>
             <div className="flex flex-col py-2">
               <label>Password</label>
-
               <input
-                className="border p-2 rounded-[12.5px]"
+                className={`border p-2 rounded-[12.5px] ${
+                  passwordError ? "border-red-500" : ""
+                }`}
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
               />
+              {passwordError && (
+                <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+              )}
             </div>
-
             <div className="flex flex-col py-2">
               <label>Confirm password</label>
               <input
@@ -119,10 +144,6 @@ function SignUp() {
                 onChange={handleInputChange}
               />
             </div>
-            <p className="flex items-center my-[5px]">
-              <input className="mr-2" type="checkbox" />
-              Terms and Conditions
-            </p>
             <button
               type="submit"
               className="border w-full my-[5px] py-2 rounded-[12.5px] bg-[#1B9DF0] hover:bg-opacity-90 text-white"
@@ -130,10 +151,13 @@ function SignUp() {
               Sign Up
             </button>
             <div className="text-center">
-              Have an account? ?{" "}
-              <span className="text-[#0F3DDE] hover:text-[#0C2A92]">
+              Have an account?{" "}
+              <Link
+                to="/PageLogin"
+                className="text-[#0F3DDE] hover:text-[#0C2A92]"
+              >
                 Sign In
-              </span>
+              </Link>
             </div>
           </form>
           {!passwordsMatch && (
@@ -144,4 +168,5 @@ function SignUp() {
     </>
   );
 }
+
 export default SignUp;
