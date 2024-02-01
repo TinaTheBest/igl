@@ -13,7 +13,7 @@ rech = Blueprint('recherche', __name__)
 @rech.route('/resultat', methods=['POST'])
 def recherche():
     term =  request.json.get('search_term')
-    print("hello",term)
+    print("hello ",term)
     # Construction de la requête Elasticsearch pour la recherche initiale
     query = {
         "query": {
@@ -21,12 +21,11 @@ def recherche():
                 "must": [
                     {"multi_match": {
                         "query": term,
-                        "fields": ["title", "authors", "keywords", "institution"]
+                        "fields": ["title", "authors", "keywords", "institutions"]
                     }}
                 ]
             }
         },
-        "sort": {"date_publication": {"order": "desc"}}
     }
     
     if not es.indices.exists(index='article_valide'):
@@ -76,6 +75,7 @@ def filtre():
      date_fin_filter = request.json.get('date_fin')
      keyword_filter=request.json.get('keywords')
      global hits
+     
      filtered_results = apply_filters(hits, auteur_filter, institution_filter, date_debut_filter, date_fin_filter,keyword_filter)
      return jsonify(filtered_results)
 

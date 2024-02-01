@@ -57,12 +57,22 @@ function ModifyModInput(props) {
       // Handle the response, e.g., redirect to a new page, update state, etc.
       console.log("SignUp successful:", response.data);
       navigate("/ModeratorFirstPage/ModeratorDetails/" + props.id, {
-        state: { article: formData },
+        state: {
+          article: {
+            id: props.id,
+            ...formData
+          }
+        }
+        ,
       })
     } catch (error) {
       console.error("Error during Sign Up:", error);
       // Handle error, e.g., show an error message to the user
     }
+  };
+
+  const handleClick = () => {
+    navigate(-1);
   };
   return (
     <>
@@ -168,7 +178,7 @@ function ModifyModInput(props) {
               placeholder={publication_date}
               value={formData.publication_date}
               name="publication_date"
-              onChange={publication_date}
+              onChange={handleInputChange}
             />
           </div>
           <div
@@ -343,7 +353,7 @@ function ModifyModInput(props) {
               }}
             >
               <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:ml-[15px] sm:text-[18px] text-[13px] font-semibold py-[10px] px-[50px] border-[1.828px] border-[#1B9DF0]">
-                Discard
+                <button onClick={handleClick} >Discard</button>
               </div>
               <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:text-[18px] text-[13px] font-semibold py-[10px] px-[25px] text-white bg-[#1B9DF0] sm:mr-[15px]">
                 <button onClick={handleFormSubmit}>Save changes</button>
