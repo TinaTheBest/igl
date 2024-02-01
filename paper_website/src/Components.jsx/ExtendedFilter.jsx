@@ -1,10 +1,12 @@
 // FilterBar.js
 import React, { useState } from 'react';
 import TagsInput from './TagsInput';
+import { HiOutlineX } from "react-icons/hi";
 
 
 
-const ExtendedFilter = ({ onSearch }) => {
+
+const ExtendedFilter = ({ onSearch , onHide }) => { 
   const [authorTags, setAuthorTags] = useState([]);
   const [keywordTags, setKeywordTags] = useState([]);
   const [institutionTags, setInstitutionTags] = useState([]);
@@ -21,20 +23,33 @@ const ExtendedFilter = ({ onSearch }) => {
       institutionTags,
     });
   };
+
   const handleSortingChange = (option) => {
     setSortingOption(option);
   };
-
+  
+  const resetAllInputs = () => {
+    setAuthorTags([]);
+    setKeywordTags([]);
+    setInstitutionTags([]);
+    setSortingOption('A-Z');
+    setStartDate('');
+    setEndDate('');
+  };
 
   return (
-    <div className='w-[292.44px] p-[28.44px] bg-white rounded-[10.67px] flex-col justify-start items-start gap-[17.78px] inline-flex ' > 
-      <div className="w-[235.56px] h-7 justify-between items-center inline-flex">
-        <div className="text-zinc-900 text-[21.33px] font-bold font-['DM Sans']">Filters</div>
-        <div className="text-blue-500 text-sm font-medium font-['DM Sans'] underline">Reset All</div>
+    <div className='w-[296px] px-[15.44px] py-[10.22px] bg-white rounded-[17.8px] flex-col justify-start items-start gap-[17.78px] inline-flex mr-2 ' > 
+      <div className="w-[270.56px] px-1  h-7 justify-between  flex">
+        <div className=" text-zinc-900 text-[21.33px] font-bold font-['DM Sans']">Filter</div>
+        <button onClick={resetAllInputs} className="text-blue-500 text-sm font-medium font-['DM Sans'] underline">Reset All</button>
+        <button onClick={onHide} className="text-black text-sm font-medium font-['DM Sans'] focus:outline-none">
+        <HiOutlineX size={26} />
+        </button>
+       
       </div>
-      <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
+      <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
        {/* <RadioSort/> */}
-       <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Sort By</div>
+       <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Sort By</div>
        <div className='flex gap-[21.33px]'>
       <div className="flex items-center">
         <input
@@ -59,9 +74,9 @@ const ExtendedFilter = ({ onSearch }) => {
         <label htmlFor="sortRecents" className="ml-2">Recents</label>
       </div>
       </div>
-      <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
+      <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
 
-      <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Key words</div>
+      <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Key words</div>
       <TagsInput
         placeholder="Enter author..."
         onAddTag={(tag) => setAuthorTags([...authorTags, tag])}
@@ -69,8 +84,8 @@ const ExtendedFilter = ({ onSearch }) => {
         onTagRemove={(tag) => setAuthorTags(authorTags.filter((t) => t !== tag))}
       />
 
-      <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
-      <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Authors</div>
+      <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
+      <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Authors</div>
       <TagsInput
         placeholder="Enter keyword..."
         onAddTag={(tag) => setKeywordTags([...keywordTags, tag])}
@@ -78,8 +93,8 @@ const ExtendedFilter = ({ onSearch }) => {
         onTagRemove={(tag) => setKeywordTags(keywordTags.filter((t) => t !== tag))}
       />
 
-      <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
-      <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Institutions</div>
+      <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
+      <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Institutions</div>
       <TagsInput
         placeholder="Enter institution..."
         onAddTag={(tag) => setInstitutionTags([...institutionTags, tag])}
@@ -87,22 +102,22 @@ const ExtendedFilter = ({ onSearch }) => {
         onTagRemove={(tag) => setInstitutionTags(institutionTags.filter((t) => t !== tag))}
       />
 
-      <div className="border-b my-2 w-[235.56px] h-[0px] border border-gray-200"></div>
+      <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
        {/* Date Inputs */}
-       <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Start Date</div>
+       <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Start Date</div>
       <input
         type="date"
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
-        className="w-[235.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
+        className="w-[270.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
       />
 
-      <div className="w-[235.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">End Date</div>
+      <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">End Date</div>
       <input
         type="date"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
-        className="w-[235.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
+        className="w-[270.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
       />
 
       

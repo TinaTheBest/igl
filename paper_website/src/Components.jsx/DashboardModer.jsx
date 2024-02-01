@@ -86,6 +86,8 @@ function DashboardModer() {
       
           // Fetch the updated list of moderators after deletion
           fetchmoderateurs();
+          
+
         } catch (error) {
           console.error("Error removing moderateur:", error);
         }
@@ -103,9 +105,9 @@ function DashboardModer() {
             "http://127.0.0.1:5000/Authentification/update_account",
             requestData
           );
-    
-          console.log("User updated successfully:",editableId, response.data);
           fetchmoderateurs();
+          console.log("User updated successfully:",editableId, response.data);
+          
           // Additional logic after successful update
         } catch (error) {
           console.error("Error updating user:", error);
@@ -155,11 +157,20 @@ function DashboardModer() {
           setEditableMode(!editableMode);
       };
       const handleapprouveaddClick = () => {
-        addmoderateurs();
+         addmoderateurs();
+        // After adding moderator, fetch the updated moderator list
+        fetchmoderateurs();
+        setNewModeratorName('');
+        setNewModeratorEmail('');
+        setNewModeratorId('');
+
+        // setaddMode(!addMode);
+        // setEditableMode(!editableMode);
         
       };
       const handleapprouveModifyClick = () => {
-        modifyModerateurs();    
+        modifyModerateurs();   
+        
       };
         
         
