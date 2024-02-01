@@ -28,20 +28,20 @@ const ExtendedFilter = ({ onSearch , onHide }) => {
     setSortingOption(option);
   };
   
-  const resetAllInputs = () => {
-    setAuthorTags([]);
-    setKeywordTags([]);
-    setInstitutionTags([]);
-    setSortingOption('A-Z');
-    setStartDate('');
-    setEndDate('');
-  };
+  // const resetAllInputs = () => {
+  //   setAuthorTags([]);
+  //   setKeywordTags([]);
+  //   setInstitutionTags([]);
+  //   setSortingOption('A-Z');
+  //   setStartDate('');
+  //   setEndDate('');
+  // };
 
   return (
     <div className='w-[296px] px-[15.44px] py-[10.22px] bg-white rounded-[17.8px] flex-col justify-start items-start gap-[17.78px] inline-flex mr-2 ' > 
       <div className="w-[270.56px] px-1  h-7 justify-between  flex">
         <div className=" text-zinc-900 text-[21.33px] font-bold font-['DM Sans']">Filter</div>
-        <button onClick={resetAllInputs} className="text-blue-500 text-sm font-medium font-['DM Sans'] underline">Reset All</button>
+        {/* <button onClick={resetAllInputs} className="text-blue-500 text-sm font-medium font-['DM Sans'] underline">Reset All</button> */}
         <button onClick={onHide} className="text-black text-sm font-medium font-['DM Sans'] focus:outline-none">
         <HiOutlineX size={26} />
         </button>
