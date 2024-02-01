@@ -43,6 +43,13 @@ def extract_article_information():
         add_url_payload = {"url": pdf_url}
         headers = {'x-api-key': 'sec_BLQNaXe3CClcBiztl4hROyliTYoV3BVt', 'Content-Type': 'application/json'}
         response_add_url = requests.post(add_url_endpoint, headers=headers, json=add_url_payload)
+        
+        text = text.replace("\n", " ")
+        art = {
+                "full_text": text,
+                "pdf_url": pdf_url,
+              }
+
 
         if response_add_url.status_code == 200:
             source_id = response_add_url.json().get('sourceId')
@@ -53,35 +60,117 @@ def extract_article_information():
             user_messages_payload = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'The pdf is a scientific article, Extract the title,authors(just names),institutions,keywords, abstract,references and publication date found in the article and generate a response in json form, for the keywords you must find a title "keywords" miniscule or uppercase or both  if not found do not extract them and let the response empty("keywords":"") and for the abstract extract him as it is mentionned in the article (all the paragraph) and do not generate it by your self and for references you probablly find a title "references" miniscule or uppercase  in the article extract from there the references.knowing that each information requested has its own title in the generated response("title","authors","institutions","keywords","abstract","references","publication_date")'},
+                    {'role': 'user', 'content': 'Extract the title of the article and generate a string response in " ", generate just the specific response without meta informations because i will store it in a json variable, Provide responses without preamble '},
+                ]
+            }
+            user_messages_payload1 = {
+                'sourceId': source_id,
+                'messages': [
+                    {'role': 'user', 'content': 'Extract the authors of the article just their names and generate a string response in " " with "," between authors, generate just the specific response without meta informations because i will store it in a json variable, Provide responses without preamble '},
+                ]
+            }
+            user_messages_payload2 = {
+                'sourceId': source_id,
+                'messages': [
+                    {'role': 'user', 'content': 'extract the institutions of the article, generate a string response in " " with "," between institutions, generate just the specific response because i will store it in a json variable, Provide responses without preamble '},
+                ]
+            }
+            user_messages_payload3 = {
+                'sourceId': source_id,
+                'messages': [
+                    {'role': 'user', 'content': 'extract the content of the title "keywords" you find it in uppercase or lowercase, generate a string response in " " with "," between keywords, generate just the specific response without meta informations because i will store it in a json variable, Provide responses without preamble '},
+                ]
+            }
+            user_messages_payload4 = {
+                'sourceId': source_id,
+                'messages': [
+                    {'role': 'user', 'content': 'Extract the abstract found in the article, and do not generate it by your self, generate a string response in " " without any meta informations, Provide responses without preamble'},
+                ]
+            }
+            user_messages_payload5 = {
+                'sourceId': source_id,
+                'messages': [
+                    {'role': 'user', 'content': 'extract the content of the title "references" you find it in uppercase or lowercase, generate a string response in " " with "," between references, generate just the specific response because i will store it in a json variable and don not extract just numbers,Provide responses without preamble '},
+                ]
+            }
+            user_messages_payload6 = {
+                'sourceId': source_id,
+                'messages': [
+                    {'role': 'user', 'content': 'Find or estimate the publication date of the article, generate a string response in " ",generate just the specific response just the date without meta informations because i will store it in a json variable, Provide responses without preamble'},
                 ]
             }
 
             response_chat = requests.post(chat_endpoint, headers=headers, json=user_messages_payload)
-            text = text.replace("\n", " ")
-            art = {
-                    "full_text": text,
-                    "pdf_url": pdf_url,
-                  }
+            response_chat1 = requests.post(chat_endpoint, headers=headers, json=user_messages_payload1)
+            response_chat2 = requests.post(chat_endpoint, headers=headers, json=user_messages_payload2)
+            response_chat3 = requests.post(chat_endpoint, headers=headers, json=user_messages_payload3)
+            response_chat4 = requests.post(chat_endpoint, headers=headers, json=user_messages_payload4)
+            response_chat5 = requests.post(chat_endpoint, headers=headers, json=user_messages_payload5)
+            response_chat6 = requests.post(chat_endpoint, headers=headers, json=user_messages_payload6)
 
+          
 
-            if response_chat.status_code == 200:
+            if response_chat.status_code == 200  :
                 result_content = response_chat.json().get('content')
             else:
                 logger.error(f'Error sending message. Status: {response_chat.status_code}, Error: {response_chat.text}')
                 return jsonify({"error": "Failed to send message to external service"}), 500
 
+            if  response_chat1.status_code == 200  :
+                result_content1 = response_chat1.json().get('content')
+            else:
+                logger.error(f'Error sending message. Status: {response_chat1.status_code}, Error: {response_chat1.text}')
+                return jsonify({"error": "Failed to send message to external service"}), 500
+            
+            if  response_chat2.status_code == 200  :
+                result_content2 = response_chat2.json().get('content')
+            else:
+                logger.error(f'Error sending message. Status: {response_chat2.status_code}, Error: {response_chat2.text}')
+                return jsonify({"error": "Failed to send message to external service"}), 500
+
+            if  response_chat3.status_code == 200  :
+                result_content3 = response_chat3.json().get('content')
+            else:
+                logger.error(f'Error sending message. Status: {response_chat3.status_code}, Error: {response_chat3.text}')
+                return jsonify({"error": "Failed to send message to external service"}), 500
+
+            if response_chat4.status_code == 200  :
+                result_content4 = response_chat4.json().get('content')
+            else:
+                logger.error(f'Error sending message. Status: {response_chat4.status_code}, Error: {response_chat4.text}')
+                return jsonify({"error": "Failed to send message to external service"}), 500
+            
+            if response_chat5.status_code == 200  :
+                result_content5 = response_chat5.json().get('content')
+            else:
+                logger.error(f'Error sending message. Status: {response_chat5.status_code}, Error: {response_chat5.text}')
+                return jsonify({"error": "Failed to send message to external service"}), 500
+
+            if response_chat6.status_code == 200  :
+                result_content6 = response_chat6.json().get('content')
+            else:
+                logger.error(f'Error sending message. Status: {response_chat6.status_code}, Error: {response_chat6.text}')
+                return jsonify({"error": "Failed to send message to external service"}), 500
+
+
             # Create Elasticsearch connection
             es = Elasticsearch(['http://elasticsearch:9200'])
-            index_name = 'article_non_valide'
+            index_name = 'article_valide'
 
             document={
-                "result_content":result_content,
-                "art":art,
+                "title":result_content,
+                "authors":result_content1,
+                "institutions":result_content2,
+                "keywords":result_content3,
+                "abstract":result_content4,
+                "references":result_content5,
+                "publication_date":result_content6,
+                "full_text": text,
+                "pdf_url": pdf_url,
             }
             document_id += 1
             # Store extracted information in Elasticsearch
-            es.index(index=index_name, id=document_id, body=document)
+            es.index(index=index_name, body=document)
             
             return jsonify({"message": "Document upload successful"}), 201
         else:
