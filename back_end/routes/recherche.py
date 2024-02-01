@@ -8,39 +8,79 @@ es = Elasticsearch(['http://elasticsearch:9200'])
 # Création du Blueprint
 
 rech = Blueprint('recherche', __name__)
+from flask import Blueprint, jsonify, request
+from elasticsearch import Elasticsearch
 
+# Connect to Elasticsearch
+es = Elasticsearch(['http://elasticsearch:9200'])
+
+# Create Blueprint
+rech = Blueprint('recherche', __name__)
 
 @rech.route('/resultat', methods=['POST'])
 def recherche():
-    term =  request.json.get('search_term')
-    print("hello",term)
-    # Construction de la requête Elasticsearch pour la recherche initiale
+    term = request.json.get('search_term')
+    print("Search term:", term)
+
+    # Construct Elasticsearch query for the initial search
     query = {
         "query": {
             "bool": {
-                "must": [
-                    {"multi_match": {
-                        "query": term,
-                        "fields": ["title", "authors", "keywords", "institution"]
-                    }}
+                "should": [
+                    {
+                        "multi_match": {
+                            "query": term,
+                            "fields": ["title", "authors", "keywords", "institutions"],
+                            "fuzziness": "AUTO"
+                        }
+                    },
+                    {
+                        "wildcard": {
+                            "title": {
+                                "value": f"*{term}*"
+                            }
+                        }
+                    },
+                    {
+                        "wildcard": {
+                            "authors": {
+                                "value": f"*{term}*"
+                            }
+                        }
+                    },
+                    {
+                        "wildcard": {
+                            "keywords": {
+                                "value": f"*{term}*"
+                            }
+                        }
+                    },
+                    {
+                        "wildcard": {
+                            "institutions": {
+                                "value": f"*{term}*"
+                            }
+                        }
+                    }
                 ]
             }
-        },
-        "sort": {"date_publication": {"order": "desc"}}
+        }
     }
-    
+
     if not es.indices.exists(index='article_valide'):
         print("The index 'article_valide' does not exist.")
-        
-    # Exécution de la requête Elasticsearch pour la recherche initiale
+
+    # Execute Elasticsearch query for the initial search
     results = es.search(index='article_valide', body=query)
-    global hits # une variable globale pour stocker les resultat de la recherche pour les utiliser dans filtre 
-    # Stockez les résultats dans une variable
+
+    # Store the results in a variable
     hits = results['hits']['hits']
 
+    # Extract necessary information from hits
     response_data = [{'id': hit['_id'], 'source': hit['_source']} for hit in hits]
 
     return jsonify(response_data)
+
     
 @rech.route('/filtrage', methods=['POST'])
 def filtre():

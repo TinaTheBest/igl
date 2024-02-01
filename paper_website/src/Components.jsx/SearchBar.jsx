@@ -6,9 +6,16 @@ const  SearchBar = ({ onSearch }) => {
 
   // Function to handle search changes
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    console.log(searchTerm);
-    recherchegenerale();
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    
+    // Trigger search only if the search term is non-empty
+    if (newSearchTerm.trim() !== '') {
+      recherchegenerale(newSearchTerm);
+    } else {
+      // If search term is empty, revert to showing all cards
+      onSearch([]);
+    }
   };
   // Function to handle search when Enter key is pressed
   const handleKeyPress = (e) => {
