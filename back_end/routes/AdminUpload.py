@@ -155,7 +155,7 @@ def extract_article_information():
 
             # Create Elasticsearch connection
             es = Elasticsearch(['http://elasticsearch:9200'])
-            index_name = 'article_valide'
+            index_name = 'article_non_valide'
 
             document={
                 "title":result_content,
