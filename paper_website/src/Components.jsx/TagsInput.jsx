@@ -1,7 +1,7 @@
 // src/components/TagsInput.js
 import React, { useState, useEffect } from 'react';
 
-const TagsInput = ({ onAddTag }) => {
+const TagsInput = ({ onAddTag,onTagRemove }) => {
   const [tags, setTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
@@ -26,8 +26,10 @@ const TagsInput = ({ onAddTag }) => {
   
   const handleTagRemove = (tag) => {
     const updatedTags = tags.filter((t) => t !== tag);
-    setTags(updatedTags);
+    setTags(updatedTags); // Update local state in TagsInput component
+    onTagRemove(tag); // Call onTagRemove function to remove tag from parent component
   };
+  
 
   useEffect(() => {
     console.log("Tags state:", tags);

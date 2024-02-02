@@ -105,7 +105,9 @@ const ExtendedFilter = ({ onHide , onfilter }) => {
   placeholder="Enter author..."
   onAddTag={(tag) => setAuthorTags([...authorTags, tag])} // Update authorTags state here
   tags={authorTags}
-  onTagRemove={(tag) => setAuthorTags(authorTags.filter((t) => t !== tag))}
+  onTagRemove={(tag) => {
+    setAuthorTags(authorTags.filter((t) => t !== tag));
+  }}
 />
 
 
