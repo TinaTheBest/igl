@@ -78,7 +78,7 @@ function UserFirstPage() {
           {!filter && (
             <div className="w-full">
               <SearchBar onSearch={handleSearchResults} />
-              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-2 mt-[15px] mx-3">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 mt-[15px] ml-3">
                 {searchResults.length > 0
                   ? searchResults.map((result) => (
                       <Card key={result.id} id={result.id} {...result.source} />

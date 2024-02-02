@@ -58,7 +58,7 @@ const ExtendedFilter = ({ onHide , onfilter }) => {
         </button>
        
       </div>
-      <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
+      {/* <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div> */}
        {/* <RadioSort/> */}
        <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Sort By</div>
        <div className='flex gap-[21.33px]'>
