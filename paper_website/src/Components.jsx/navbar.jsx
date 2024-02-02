@@ -6,6 +6,7 @@ import menu from "../assets/menu.svg";
 import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MdMenu } from "react-icons/md";
 
 function NavBar(props) {
   const userId = props.id;
@@ -17,11 +18,14 @@ function NavBar(props) {
 
   const handleLogout = () => {
     try {
-      localStorage.removeItem('token'); // Effacer le token d'authentification
-      window.history.replaceState({}, '', '/PageLogin'); // Remplacer l'état de l'historique avec la page de connexion
-      navigate('/PageLogin');
+      localStorage.removeItem("token"); // Effacer le token d'authentification
+      window.history.replaceState({}, "", "/PageLogin"); // Remplacer l'état de l'historique avec la page de connexion
+      navigate("/PageLogin");
     } catch (error) {
-      console.error("Une erreur s'est produite lors de la déconnexion :", error);
+      console.error(
+        "Une erreur s'est produite lors de la déconnexion :",
+        error
+      );
       // Gérer l'erreur ou afficher un message d'erreur
     }
   };
@@ -50,13 +54,13 @@ function NavBar(props) {
         </div>
         <div
           //className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
-          className="mr-[6px] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px] shadow-lg"
+          className="sm:mr-[6px] mr-11 w-[64px] h-[54px] flex justify-center sm:justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px] shadow-lg"
         >
           <div
-            className="sm:hidden  pl-[20px] pr-[20px] mr-[10px] ursor-pointer transition-colors duration-[0.4s]"
+            className="sm:hidden  pl-[10px] pr-[10px] cursor-pointer transition-colors duration-[0.4s]"
             onClick={() => setNav((nav) => !nav)}
           >
-            <img src={menu} alt="Menu" />
+            <MdMenu className="w-[25px] h-[25px]" />
           </div>
 
           <div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
@@ -154,9 +158,11 @@ function NavBar(props) {
             </li>
 
             <li className="pb-[13.88px] hover:text-[#005BC5]">
-              <button>Help</button></li>
+              <button>Help</button>
+            </li>
             <li className="pb-[13.88px] hover:text-[#005BC5]">
-              <button>My Account</button></li>
+              <button>My Account</button>
+            </li>
             <li
               className="pb-[13.88px] hover:text-[#005BC5]"
               onClick={handleLogout}

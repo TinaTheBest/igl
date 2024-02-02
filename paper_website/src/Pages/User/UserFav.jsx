@@ -27,7 +27,7 @@ function UserFav() {
       <div className="sm:mt-[84px] mt-[65px]">
         {/*<FilSer />Lina should Add Filters component div hdik just to fix margin top bch mattscrollach navbar*/}
       </div>
-      <div className="flex flex-wrap mx-[40px] gap-[12px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-[15px] mx-11 pb-[15px]">
         {articles.map((article) => {
           console.log("props", article.source);
           return (
