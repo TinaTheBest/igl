@@ -56,7 +56,7 @@ function UserFirstPage() {
     <>
       <NavBar id={userId} />
       <div className="sm:mt-[84px] mt-[65px]">
-      <div className="flex flex-col sm:flex-row items-start justify-center mb-4 mx-11 sm:mb-0">
+        <div className="flex flex-col sm:flex-row items-start justify-center mb-4 mx-11 sm:mb-0">
           {isExtendedFilterVisible ? (
             <ExtendedFilter
               onfilter={handlefilterResults}
@@ -118,7 +118,6 @@ function UserFirstPage() {
           </div>
         )}
       </div>
-      
     </>
   );
 }
