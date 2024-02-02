@@ -60,9 +60,9 @@ function NavBarAdmin() {
                 }
               >
                 <img src={activeOne ? article : article_non} alt="Article" />
-                <div className={activeOne ? "" : "text-[#6E6E9B]"}>
+                <button className={activeOne ? "" : "text-[#6E6E9B]"}>
                   Moderators
-                </div>
+                </button>
               </div>
             </Link>
             <Link
@@ -78,9 +78,9 @@ function NavBarAdmin() {
                 }
               >
                 <img src={activeTwo ? article : article_non} alt="Article" />
-                <div className={activeTwo ? "" : "text-[#6E6E9B]"}>
+                <button className={activeTwo ? "" : "text-[#6E6E9B]"}>
                   Upload Articles
-                </div>
+                </button>
               </div>
             </Link>
           </div>
