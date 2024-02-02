@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import TagsInput from './TagsInput';
 import { HiOutlineX } from "react-icons/hi";
+import axios from 'axios';
 
 
 
 
-const ExtendedFilter = ({ onSearch , onHide }) => { 
+const ExtendedFilter = ({ onHide , onfilter }) => { 
   const [authorTags, setAuthorTags] = useState([]);
   const [keywordTags, setKeywordTags] = useState([]);
   const [institutionTags, setInstitutionTags] = useState([]);
@@ -15,15 +16,6 @@ const ExtendedFilter = ({ onSearch , onHide }) => {
   const [endDate, setEndDate] = useState('');
 
   
-  const handleSearch = () => {
-    // Call the onSearch prop with the current tags
-    onSearch({
-      authorTags,
-      keywordTags,
-      institutionTags,
-    });
-  };
-
   const handleSortingChange = (option) => {
     setSortingOption(option);
   };
@@ -36,6 +28,25 @@ const ExtendedFilter = ({ onSearch , onHide }) => {
   //   setStartDate('');
   //   setEndDate('');
   // };
+  
+  const filtregenerale = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/recherche/filtrage",
+        { "authors": authorTags,
+          "keywords": keywordTags,
+          "institutions": institutionTags,
+          "date_debut": startDate,
+          "date_fin": endDate
+        }
+      );
+
+      console.log("cc", response.data);
+      onfilter(response.data);
+    } catch (error) {
+      console.error("Error here fl fitre :", error);
+    }
+  };
 
   return (
     <div className='w-[296px] px-[15.44px] py-[10.22px] bg-white rounded-[17.8px] flex-col justify-start items-start gap-[17.78px] inline-flex mr-2 ' > 
@@ -78,19 +89,19 @@ const ExtendedFilter = ({ onSearch , onHide }) => {
 
       <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Key words</div>
       <TagsInput
-        placeholder="Enter author..."
-        onAddTag={(tag) => setAuthorTags([...authorTags, tag])}
-        tags={authorTags}
-        onTagRemove={(tag) => setAuthorTags(authorTags.filter((t) => t !== tag))}
+        placeholder="Enter keyword..."
+        onAddTag={(tag) => setKeywordTags([...keywordTags, tag])}
+        tags={keywordTags}
+        onTagRemove={(tag) => setKeywordTags(keywordTags.filter((t) => t !== tag))}
       />
 
       <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
       <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Authors</div>
       <TagsInput
-        placeholder="Enter keyword..."
-        onAddTag={(tag) => setKeywordTags([...keywordTags, tag])}
-        tags={keywordTags}
-        onTagRemove={(tag) => setKeywordTags(keywordTags.filter((t) => t !== tag))}
+        placeholder="Enter author..."
+        onAddTag={(tag) => setAuthorTags([...authorTags, tag])}
+        tags={authorTags}
+        onTagRemove={(tag) => setAuthorTags(authorTags.filter((t) => t !== tag))}
       />
 
       <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
@@ -125,7 +136,7 @@ const ExtendedFilter = ({ onSearch , onHide }) => {
       <div className="my-4 ml-auto flex">
         <button
           className="bg-[#1B9DF0] w-[136.89px] text-white px-4 py-2 rounded-[17.778px] hover:bg-blue-700 "
-          onClick={handleSearch}
+          onClick={filtregenerale}
         >
           Search
         </button>

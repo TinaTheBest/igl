@@ -16,7 +16,7 @@ function UserFirstPage() {
   const [filter, setFilter] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
   const [filterResults, setfilterResults] = useState([]);
-
+  const [showBigShadow, setShowBigShadow] = useState(false); // State for controlling the visibility of the big shadow
   const handleSearchResults = (searchResults) => {
     console.log("Handling search results in UserFirstPage:", searchResults);
     setSearchResults(searchResults);
@@ -56,11 +56,11 @@ function UserFirstPage() {
     <>
       <NavBar id={userId} />
       <div className="sm:mt-[84px] mt-[65px]">
-        <div className="flex items-start justify-center mb-4 mx-11 sm:mb-0">
+      <div className="flex flex-col sm:flex-row items-start justify-center mb-4 mx-11 sm:mb-0">
           {isExtendedFilterVisible ? (
             <ExtendedFilter
               onfilter={handlefilterResults}
-              onSearch={handleSearch}
+              // onSearch={handleSearch}
               onHide={() => {
                 toggleExtendedFilter();
                 setFilter(true);
@@ -118,6 +118,7 @@ function UserFirstPage() {
           </div>
         )}
       </div>
+      
     </>
   );
 }

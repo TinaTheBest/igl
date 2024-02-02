@@ -7,7 +7,7 @@ const FilterButton = ({ onClick }) => {
     <div className='mr-2'>
         <button onClick={onClick} >
             
-            <div className=' px-[17.78px] py-[10.22px] rounded-[17.8px] bg-[#ffffff] sm:w-[296px] h-[49.78px] shadow '>
+            <div className=' px-[17.78px] py-[10.22px] rounded-[17.8px] bg-[#ffffff] w-[296px]   h-[49.78px] shadow sm:my-0 my-4  '>
                 <div className=' flex justify-between  items-center  '>
                   <div className=" text-zinc-900 text-[21.33px] font-bold font-['DM Sans']">Filter</div>
                   <HiAdjustments size={26} />
