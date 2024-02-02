@@ -52,7 +52,7 @@ function DetailsMod(props) {
       <NavBarMod />
       <div className="bg-white rounded-[20px] mx-[10px] sm:mx-[40px] mt-[65px] sm:mt-[84px] font-dm-sans">
         <div className="font-bold text-[#005BC5] sm:pl-[32.89px] sm:pt-[39.11px]  p-[20px] pb-[20px] sm:text-[22px] text-[16px]">
-          {id}
+          {title}
         </div>
         <div className="sm:px-[32.89px] px-[20px]">
           <div className=" font-bold sm:text-[20px] text-[16px]">Title :</div>
