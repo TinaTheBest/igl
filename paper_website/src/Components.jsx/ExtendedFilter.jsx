@@ -1,5 +1,5 @@
 // FilterBar.js
-import React, { useState } from 'react';
+import React, { useState , useEffect }  from 'react';
 import TagsInput from './TagsInput';
 import { HiOutlineX } from "react-icons/hi";
 import axios from 'axios';
@@ -14,8 +14,8 @@ const ExtendedFilter = ({ onHide , onfilter }) => {
   const [sortingOption, setSortingOption] = useState('A-Z'); // Default sorting option
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-
   
+ 
   const handleSortingChange = (option) => {
     setSortingOption(option);
   };
@@ -31,22 +31,26 @@ const ExtendedFilter = ({ onHide , onfilter }) => {
   
   const filtregenerale = async () => {
     try {
+      console.log("authortags are here", authorTags);
+      console.log("keywords are here", keywordTags);
+      console.log("institutions are here ", institutionTags);
       const response = await axios.post(
         "http://127.0.0.1:5000/recherche/filtrage",
-        { "authors": authorTags,
+        {
+          "authors": authorTags,
           "keywords": keywordTags,
           "institutions": institutionTags,
           "date_debut": startDate,
           "date_fin": endDate
         }
       );
-
       console.log("cc", response.data);
       onfilter(response.data);
     } catch (error) {
       console.error("Error here fl fitre :", error);
     }
   };
+  
 
   return (
     <div className='w-[296px] px-[15.44px] py-[10.22px] bg-white rounded-[17.8px] flex-col justify-start items-start gap-[17.78px] inline-flex mr-2 ' > 
@@ -98,11 +102,12 @@ const ExtendedFilter = ({ onHide , onfilter }) => {
       <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
       <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Authors</div>
       <TagsInput
-        placeholder="Enter author..."
-        onAddTag={(tag) => setAuthorTags([...authorTags, tag])}
-        tags={authorTags}
-        onTagRemove={(tag) => setAuthorTags(authorTags.filter((t) => t !== tag))}
-      />
+  placeholder="Enter author..."
+  onAddTag={(tag) => setAuthorTags([...authorTags, tag])} // Update authorTags state here
+  tags={authorTags}
+  onTagRemove={(tag) => setAuthorTags(authorTags.filter((t) => t !== tag))}
+/>
+
 
       <div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200"></div>
       <div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">Institutions</div>

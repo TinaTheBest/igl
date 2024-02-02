@@ -1,31 +1,37 @@
 // src/components/TagsInput.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const TagsInput = () => {
+const TagsInput = ({ onAddTag }) => {
   const [tags, setTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
- // function to handle when the ENTER is clicked
+
   const handleInputKeyDown = (e) => {
     if (e.key === 'Enter' && inputValue.trim() !== '') {
-      setTags([...tags, inputValue.trim()]);
+      setTags((prevTags) => [...prevTags, inputValue.trim()]);
       setInputValue('');
     }
   };
-  // function to handle when the button add is clicked
+
   const handleAddTag = () => {
     if (inputValue.trim() !== '') {
-      setTags([...tags, inputValue.trim()]);
-      setInputValue('');
+      onAddTag(inputValue.trim()); // Pass the newly added tag to the parent component
+      setTags((prevTags) => [...prevTags, inputValue.trim()]); // Update the tags state in the component
+      setInputValue(''); // Clear the input value
     }
   };
+  
   const handleTagRemove = (tag) => {
     const updatedTags = tags.filter((t) => t !== tag);
     setTags(updatedTags);
   };
+
+  useEffect(() => {
+    console.log("Tags state:", tags);
+  }, [tags]);
 
   return (
     <div className="flex flex-wrap gap-2 max-w-[235px]">
