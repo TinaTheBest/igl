@@ -1,5 +1,6 @@
 from flask import Blueprint, Flask, jsonify,  render_template, request, redirect, url_for, session
 from elasticsearch import Elasticsearch
+from datetime import datetime
 
 
 
@@ -8,7 +9,6 @@ es = Elasticsearch(['http://elasticsearch:9200'])
 # Création du Blueprint
 
 rech = Blueprint('recherche', __name__)
-
 
 @rech.route('/resultat', methods=['POST'])
 def recherche():
@@ -57,13 +57,21 @@ def recherche():
                     }
                 ]
             }
-        }
+        },
+        "sort": [
+            {
+                "publication_date": {
+                    "order": "desc",
+                    "unmapped_type": "date"
+                }
+            }
+        ]
     }
 
     if not es.indices.exists(index='article_valide'):
         print("The index 'article_valide' does not exist.")
 
-    # Execute Elasticsearch query for the initial search
+    # Execute Elasticsearch query for the initial search with sorting
     results = es.search(index='article_valide', body=query)
 
     # Store the results in a variable
@@ -136,8 +144,8 @@ def apply_filters(results, auteur_filter, institution_filter, date_debut_filter,
         ]
 
     if date_debut_filter and date_fin_filter:
-        date_debut_filter = datetime.strptime(date_debut_filter, '%y-%m-%d').date()
-        date_fin_filter = datetime.strptime(date_fin_filter, '%y-%m-%d').date()
+        date_debut_filter = datetime.strptime(date_debut_filter, '%Y-%m-%d').date()
+        date_fin_filter = datetime.strptime(date_fin_filter, '%Y-%m-%d').date()
 
         filtered_results = [
             result for result in filtered_results
