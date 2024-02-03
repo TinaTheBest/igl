@@ -7,6 +7,12 @@ import secrets
 auth = Blueprint('Authentification', __name__)
 
 def send_welcome_email(mod):
+    """
+    Fonction pour envoyer un e-mail de bienvenue à un modérateur.
+
+    :param mod: Objet représentant le modérateur avec les attributs 'name' et 'email'.
+    :type mod: Acount
+    """
     subject = "Bienvenue en tant que modérateur"
     body = f"\n\nBonjour {mod.name},\n\nVotre compte de modérateur a été créé avec succès.\nVotre EMAIL : {mod.email}\nVotre Password : {mod.password}\nCordialement,\nVotre application Paper"
 
@@ -17,6 +23,12 @@ def send_welcome_email(mod):
 
 @auth.route('/get_moderateurs', methods=['GET'])
 def get_data():
+    """
+    Endpoint pour obtenir les données des modérateurs depuis la base de données.
+
+    :return: Renvoie un message indiquant si la requête a réussi et les données des modérateurs.
+    :rtype: flask.Response
+    """
     # Exemple de lecture de données depuis la base de données
     data_from_db = Acount.query.filter_by(status='moderateur').all()
 
@@ -27,6 +39,12 @@ def get_data():
 
 @auth.route('/remove_moderator', methods=['DELETE'])
 def remove_moderator():
+    """
+    Endpoint pour supprimer un modérateur de la base de données.
+
+    :return: Renvoie un message indiquant si la suppression a réussi.
+    :rtype: flask.Response
+    """
     try:
         data_from_request = request.json
         moderator_id = data_from_request.get('id')
@@ -49,6 +67,12 @@ def remove_moderator():
 
 @auth.route('/AjouterMod', methods=['POST'])
 def post_mod():
+    """
+    Endpoint pour ajouter un modérateur à la base de données.
+
+    :return: Renvoie un message indiquant si la requête a réussi.
+    :rtype: flask.Response
+    """
     try:
         data_from_request = request.json
         new_data = Acount(id=data_from_request.get('id'), name=data_from_request.get('name'), email=data_from_request.get('email'), password=secrets.token_urlsafe(8), status = "moderateur")
@@ -69,6 +93,12 @@ def post_mod():
 
 @auth.route('/update_account', methods=['PUT'])
 def update_account():
+    """
+    Endpoint pour mettre à jour les informations d'un utilisateur dans la base de données.
+
+    :return: Renvoie un message indiquant si la mise à jour a réussi.
+    :rtype: flask.Response
+    """
     try:
         data_from_request = request.json
         user_id = data_from_request.get('id')
@@ -93,6 +123,12 @@ def update_account():
 
 @auth.route('/sginin', methods=['POST'])
 def post_data():
+    """
+    Endpoint pour ajouter un nouvel utilisateur à la base de données.
+
+    :return: Renvoie un message indiquant si la requête a réussi.
+    :rtype: flask.Response
+    """
     try:
         data_from_request = request.json
         user = Acount.query.filter_by(email=data_from_request.get('email')).first()
@@ -115,6 +151,12 @@ def post_data():
 
 @auth.route('/login', methods=['POST','GET'])
 def login():
+    """
+    Endpoint pour gérer le processus de connexion d'un utilisateur.
+
+    :return: Renvoie un message indiquant si la connexion a réussi et le statut de l'utilisateur.
+    :rtype: flask.Response
+    """
     data_from_request = request.json
     user = Acount.query.filter_by(email=data_from_request.get('email'), password=data_from_request.get('password')).first()
 
@@ -127,6 +169,12 @@ def login():
 
 @auth.route('/reset_pass', methods=['POST'])
 def resetPassword():
+    """
+    Endpoint pour réinitialiser le mot de passe d'un utilisateur.
+
+    :return: Renvoie un message indiquant si la réinitialisation a réussi.
+    :rtype: flask.Response
+    """
     data_from_request = request.json
     user = Acount.query.filter_by(email=data_from_request.get('email')).first()
 

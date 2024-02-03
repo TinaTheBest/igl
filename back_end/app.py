@@ -1,4 +1,3 @@
-from flask_swagger_ui import get_swaggerui_blueprint
 from flask import Flask, jsonify
 from .routes import admin_bp, ModArticle, Favorit, auth, db, rech,user
 from flask_cors import CORS 
@@ -13,19 +12,9 @@ es = Elasticsearch(['http://elasticsearch:9200'])
 app = Flask(__name__)
 
 CORS(app)  
-### swagger specific ###
-SWAGGER_URL = '/swagger'
-API_URL = '/static/swagger.json'
-SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-    config={
-        'app_name': "Paper-Recherche des articles scientifiques "
-    }
-)
-app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
-### end swagger specific ###
-
+@app.route('/documentation/<path:filename>')
+def documentation(filename):
+    return send_from_directory('documentation/_build/html', filename)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://user:pass@mysql/db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

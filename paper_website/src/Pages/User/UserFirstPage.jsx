@@ -79,9 +79,21 @@ function UserFirstPage() {
             <div className="w-full">
               <SearchBar onSearch={handleSearchResults} />
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 mt-[15px] ml-3">
-                {searchResults.length > 0
-                  ? searchResults.map((result) => (
-                      <Card key={result.id} id={result.id} {...result.source} />
+                {filterResults.length > 0
+                  ? filterResults.map((result) => (
+                      <Card
+                        key={result._id}
+                        id={result._id}
+                        {...result._source}
+                      />
+                    ))
+                  : searchResults.length > 0
+                  ? searchResults.map((article) => (
+                      <Card
+                        key={article.id}
+                        id={article.id}
+                        {...article.source}
+                      />
                     ))
                   : articles.map((article) => (
                       <Card

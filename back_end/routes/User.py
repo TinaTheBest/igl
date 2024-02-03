@@ -7,6 +7,12 @@ user = Blueprint('users', __name__)
 
 @user.route('/get_all_data', methods=['GET'])
 def get_all_data():
+    """
+    Endpoint pour obtenir toutes les données validées.
+
+    :return: Renvoie toutes les données validées.
+    :rtype: flask.Response
+    """
     # Check if the validated articles index exists
     valid_index_name = "article_valide"
     if not es.indices.exists(index=valid_index_name):
@@ -17,11 +23,20 @@ def get_all_data():
 
     # Extract relevant information from the search results
     hits = results['hits']['hits']
-    
+
     return jsonify(hits)
 
 @user.route('/isfav/<id_user>/<id_doc>', methods=['GET'])
 def isfav(id_user, id_doc):
+    """
+    Endpoint pour vérifier si un document est dans les favoris d'un utilisateur.
+
+    :param str id_user: Identifiant de l'utilisateur.
+    :param str id_doc: Identifiant du document.
+
+    :return: Renvoie un dictionnaire indiquant si le document est dans les favoris de l'utilisateur.
+    :rtype: flask.Response
+    """
     # Check if the user's favorite index exists
     fav_index_name = id_user
     if not es.indices.exists(index=fav_index_name):
@@ -34,5 +49,8 @@ def isfav(id_user, id_doc):
     except Exception as e:
         # Document not found
         return jsonify({"isfav": False})
+
+
+
 
 
