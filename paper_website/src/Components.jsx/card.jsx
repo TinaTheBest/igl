@@ -77,7 +77,7 @@ function Card(props) {
               {props.absract}
             </div>
           </div>
-
+          <div className="w-full bg-[#E7E7EE] h-[0.889px] mb-[11px]"></div>
           <div
             className="flex justify-between w-full"
             style={{ marginTop: 'auto' }}
