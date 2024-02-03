@@ -9,6 +9,24 @@ import axios from "axios";
 
 
 function DashboardModer() {
+  const [moderateurs, setmoderateurs] = useState([]);
+  const [selectedModerator, setSelectedModerator] = useState(null);
+  const [editableName, setEditableName] = useState('');
+  const [editableEmail, setEditableEmail] = useState('');
+  const [editableId, setEditableId] = useState('');
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [editableMode, setEditableMode] = useState(false);
+  const [addMode, setaddMode] = useState(false);
+   // Inside your component function
+  const [newModeratorName, setNewModeratorName] = useState('');
+  const [newModeratorEmail, setNewModeratorEmail] = useState('');
+  const [newModeratorId, setNewModeratorId] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [originalModerateurs, setOriginalModerateurs] = useState([]);  
+            
+    const [records,setrecords]=useState(moderateurs) ;   
+        
+
     const columns=[
         {
           name:'Name',
@@ -44,7 +62,10 @@ function DashboardModer() {
           },
           
       ];
-      const [moderateurs, setmoderateurs] = useState([]);
+      useEffect(() => {
+        fetchmoderateurs();
+      }, []); 
+
       
       const fetchmoderateurs = async () => {
         try {
@@ -86,7 +107,6 @@ function DashboardModer() {
       
           // Fetch the updated list of moderators after deletion
           fetchmoderateurs();
-          
 
         } catch (error) {
           console.error("Error removing moderateur:", error);
@@ -114,83 +134,96 @@ function DashboardModer() {
         }
       };
       
-      
-      
-      
-      
-      useEffect(() => {
-         fetchmoderateurs();
-      }, []);
+       console.log(moderateurs);
 
-      console.log(moderateurs);
-
-    
-
-        const [selectedModerator, setSelectedModerator] = useState(null);
-        const [editableName, setEditableName] = useState('');
-        const [editableEmail, setEditableEmail] = useState('');
-       
-        const [editableId, setEditableId] = useState('');
-
-        const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-        const [editableMode, setEditableMode] = useState(false);
-        const [addMode, setaddMode] = useState(false);
-
-        // Inside your component function
-        const [newModeratorName, setNewModeratorName] = useState('');
-        const [newModeratorEmail, setNewModeratorEmail] = useState('');
-        const [newModeratorId, setNewModeratorId] = useState('');
-
+        //******************************** handle the add click ********************************//
         const handleaddClick = () => {
           // Clear existing editable fields
           setEditableName('');
           setEditableEmail('');
           setEditableId('');
-      
-          // // Capture the values entered in the input fields for the new moderator
-          // setNewModeratorName(newModeratorName);
-          // setNewModeratorEmail(newModeratorEmail);
-          // setNewModeratorId(newModeratorId);
-      
           // Toggle add mode
           setaddMode(!addMode);
           setEditableMode(!editableMode);
-      };
-      const handleapprouveaddClick = () => {
-         addmoderateurs();
-        // After adding moderator, fetch the updated moderator list
-        fetchmoderateurs();
-        setNewModeratorName('');
-        setNewModeratorEmail('');
-        setNewModeratorId('');
-
-        // setaddMode(!addMode);
-        // setEditableMode(!editableMode);
+         };
+         //******************************** handle the approove add click ********************************//
+         const handleapprouveaddClick = () => {
+          // Validate input fields
+          if (!newModeratorName || !newModeratorEmail || !newModeratorId) {
+            setErrorMessage("Veuillez remplir tous les champs !");
+            return;
+          }
+          // Vérifier si l'ID existe déjà
+            const idExists = moderateurs.some(moderateur => moderateur.id === newModeratorId);
+            if (idExists) {
+             setErrorMessage("Cet ID existe déjà !");
+            return;
+            }
+          // Add new moderator
+          addmoderateurs()
+            .then(() => {
+              // Fetch the updated list of moderators
+              return fetchmoderateurs();
+            })
+            .then(() => {
+              // Clear input fields or reset state as needed
+              setNewModeratorName('');
+              setNewModeratorEmail('');
+              setNewModeratorId('');
+              // Clear error message if operation is successful
+              setErrorMessage('');
+            })
+            .catch((error) => {
+              console.error("Error approving addition of moderator:", error);
+              // Handle error if necessary
+            });
+        };
         
-      };
-      const handleapprouveModifyClick = () => {
-        modifyModerateurs();   
-        
-      };
-        
-        
+        //******************************** handle the modify click ********************************//
+        const handleModifyClick = () => {
+          // Toggle editable mode
+          setEditableMode(!editableMode);
+        };
+      
+        //******************************** handle the approove modify click ********************************//
+        const handleapprouveModifyClick = () => {
+          // Modify moderator
+          modifyModerateurs()
+            .then(() => {
+              // Fetch the updated list of moderators
+              return fetchmoderateurs();
+            })
+            .then(() => {
+              // Additional logic after successful modification
+              console.log("Moderator modified successfully");
+            })
+            .catch((error) => {
+              console.error("Error approving modification of moderator:", error);
+            });
+            setSelectedModerator(!selectedModerator);
+        };
+        //******************************** handle the delete click ********************************//
+      
         const handleDeleteClick = (row) => {
             // setSelectedModerator(row);
             setDeleteModalOpen(true);
           };
-        
-          const handleConfirmDelete = () => {
-
-            deletemoderateurs();
+        //******************************** handle the confirm delete click ********************************//
+          const handleConfirmDelete = (confirm) => {
+            if (confirm) {
+              deletemoderateurs();
+            }
             setDeleteModalOpen(false);
+            setSelectedModerator(!selectedModerator);
           };
-        
+        //******************************** handle the cancel delete click ********************************//
           const handleCancelDelete = () => {
             setDeleteModalOpen(false);
           };
-          
-          
-      
+          const  handleCancelnodifyeClick = () => {
+            setSelectedModerator(!selectedModerator);
+          };
+        //******************************** handle the crow click ********************************// 
         const handleRowClicked = (row) => {
           // Handle row click here
           setSelectedModerator(row);
@@ -203,14 +236,7 @@ function DashboardModer() {
           setaddMode(false);
         };
       
-        const handleModifyClick = () => {
-            // Toggle editable mode
-            setEditableMode(!editableMode);
-          };
-        
-    const [originalModerateurs, setOriginalModerateurs] = useState([]);  
-            
-    const [records,setrecords]=useState(moderateurs) ;   
+       //******************************** handle the search function ********************************// 
     function handleRechercheMod(event) {
       const inputValue = event.target.value.toLowerCase();
     
@@ -230,7 +256,7 @@ function DashboardModer() {
   return (
     
         <div className='rounded-[30px]  mx-[30px] bg-white p-8'>
-            
+         
           <div className='sm:flex gap-5 rounded-[20px] '>
             <div className='flex-grow border-[3px] p-[5px]  border-blue-100 rounded-[20px]'>
               <div className='flex '>
@@ -309,7 +335,7 @@ function DashboardModer() {
                   {(editableMode || addMode )? (
                   <div className='flex justify-between py-[20px] '> 
                   <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] text-[#1B9DF0]  text-[13px] justify-center items-center ' onClick={addMode ? handleapprouveaddClick : handleapprouveModifyClick }>Approve</button>
-                  <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] bg-[#1B9DF0] text-white text-[13px] justify-center items-center'  onClick={handleDeleteClick}>Cancel</button>
+                  <button className=' h-[30px] px-[35px]  rounded-[10px] shadow border border-[#1B9DF0] bg-[#1B9DF0] text-white text-[13px] justify-center items-center'  onClick={handleCancelnodifyeClick}>Cancel</button>
                 </div>
                    ) : (
                     <div className='flex justify-between py-[20px] '> 
@@ -332,10 +358,14 @@ function DashboardModer() {
                   </div>
                 </div>
               )}
+              {/* Error message */}
+             {errorMessage && (
+             <div className="pl-4 text-sm text-red-500">{errorMessage}</div>
+             )}   
             </div>
           </div>
           <ConfirmationModal isOpen={isDeleteModalOpen} onClose={handleCancelDelete} onConfirm={handleConfirmDelete} />
-
+          
         </div>
       );
  
