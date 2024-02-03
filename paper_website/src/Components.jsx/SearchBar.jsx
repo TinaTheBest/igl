@@ -32,8 +32,7 @@ const SearchBar = ({ searchTerm, onSearch, onSearchChange }) => {
   };
 
   useEffect(() => {
-    if (searchTerm > 0)
-      recherchegenerale();
+    recherchegenerale();
   });
 
   return (

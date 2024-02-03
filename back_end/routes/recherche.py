@@ -65,7 +65,7 @@ def recherche():
                     "unmapped_type": "date"
                 }
             }
-        ]
+        ], "size": 10000
     }
 
     if not es.indices.exists(index='article_valide'):
