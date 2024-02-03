@@ -33,9 +33,9 @@ function Login() {
         if (response.data.status === 'moderateur') {
           // Redirect to '/home' if the status is 'user'
           navigate('/ModeratorFirstPage');
-        }
+        } else if (response.data.status === 'Admin') navigate("/AdminFirstPage")
         // Display error message if status is not 'user'
-        setErrorMessage('This Account does not exist. Check your information.');
+        else setErrorMessage('This Account does not exist. Check your information.');
       }
 
       // Handle the response, e.g., redirect to a new page, update state, etc.

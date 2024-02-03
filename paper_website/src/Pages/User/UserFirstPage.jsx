@@ -16,20 +16,17 @@ function UserFirstPage() {
   const [filter, setFilter] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
   const [filterResults, setfilterResults] = useState([]);
-  const [showBigShadow, setShowBigShadow] = useState(false); // State for controlling the visibility of the big shadow
-  const handleSearchResults = (searchResults) => {
-    console.log("Handling search results in UserFirstPage:", searchResults);
-    setSearchResults(searchResults);
-  };
+  const [searchTerm, setSearchTerm] = useState('');
+
+
   const handlefilterResults = (filterResults) => {
     console.log("Handling filter results in UserFirstPage:", filterResults);
     setfilterResults(filterResults);
   };
+
   const fetchArticles = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:5000/users/get_all_data"
-      );
+      const response = await axios.get("http://127.0.0.1:5000/users/get_all_data");
       setArticles(response.data);
     } catch (error) {
       console.error("Error fetching articles:", error);
@@ -40,13 +37,27 @@ function UserFirstPage() {
     fetchArticles();
   }, []);
 
-  const [isExtendedFilterVisible, setExtendedFilterVisibility] =
-    useState(false);
+  useEffect(() => {
+    const storedSearchTerm = localStorage.getItem(userId); // Récupérer le terme de recherche spécifique à l'utilisateur
+    if (storedSearchTerm) {
+      setSearchTerm(storedSearchTerm);
+    }
+  }, [userId]);
 
-  const handleSearch = (tags) => {
-    // Implement your search logic here using the 'tags' object
-    console.log("Searching with tags:", tags);
+  useEffect(() => {
+    localStorage.setItem(userId, searchTerm); // Stocker le terme de recherche spécifique à l'utilisateur
+  }, [searchTerm, userId]);
+
+  const handleSearchResults = (results) => {
+    setSearchResults(results);
+    localStorage.setItem('searchResults', JSON.stringify(results));
   };
+
+  const handleSearchChange = (newSearchTerm) => {
+    setSearchTerm(newSearchTerm);
+  };
+
+  const [isExtendedFilterVisible, setExtendedFilterVisibility] = useState(false);
 
   const toggleExtendedFilter = () => {
     setfilterResults([]);
@@ -75,28 +86,37 @@ function UserFirstPage() {
               }}
             />
           )}
-          {filter && <SearchBar onSearch={handleSearchResults} />}
+          {filter &&
+            <SearchBar
+              searchTerm={searchTerm}
+              onSearch={handleSearchResults}
+              onSearchChange={handleSearchChange}
+            />}
           {!filter && (
             <div className="w-full">
-              <SearchBar onSearch={handleSearchResults} />
+              <SearchBar
+                searchTerm={searchTerm}
+                onSearch={handleSearchResults}
+                onSearchChange={handleSearchChange}
+              />
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 mt-[15px] ml-3">
                 {filterResults.length > 0
                   ? filterResults.map((result) => (
-                      <Card
-                        key={result._id}
-                        id={result._id}
-                        {...result._source}
-                      />
-                    ))
+                    <Card
+                      key={result._id}
+                      id={result._id}
+                      {...result._source}
+                    />
+                  ))
                   : searchResults.length > 0
-                  ? searchResults.map((article) => (
+                    ? searchResults.map((article) => (
                       <Card
                         key={article.id}
                         id={article.id}
                         {...article.source}
                       />
                     ))
-                  : articles.map((article) => (
+                    : articles.map((article) => (
                       <Card
                         key={article._id}
                         id={article._id}
@@ -116,17 +136,25 @@ function UserFirstPage() {
                   : "hidden"
               }
             >
-              {searchResults.length > 0
-                ? searchResults.map((result) => (
-                    <Card key={result.id} id={result.id} {...result.source} />
-                  ))
-                : articles.map((article) => (
+              {searchResults.length > 0 ? (
+                // Check if there are search results
+                searchResults.map((result) => (
+                  <Card key={result.id} id={result.id} {...result.source} />
+                ))
+              ) : (
+                searchTerm.length === 0 ? (
+                  // Render articles if searchTerm is empty
+                  articles.map((article) => (
                     <Card
                       key={article._id}
                       id={article._id}
                       {...article._source}
                     />
-                  ))}
+                  ))
+                ) : null // Render nothing if searchTerm is not empty
+              )}
+
+
             </div>
           </div>
         )}
