@@ -30,6 +30,7 @@ const ExtendedFilter = ({ onHide, onfilter }) => {
 
   const filtregenerale = async () => {
     try {
+      console.log("date", startDate);
       console.log("authortags are here", authorTags);
       console.log("keywords are here", keywordTags);
       console.log("institutions are here ", institutionTags);

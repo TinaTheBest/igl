@@ -67,6 +67,7 @@ def recherche():
     results = es.search(index='article_valide', body=query)
 
     # Store the results in a variable
+    global hits
     hits = results['hits']['hits']
 
     # Extract necessary information from hits
@@ -93,7 +94,7 @@ def filtre():
     :status 200: Renvoie les résultats filtrés.
     """
     auteur_filter = request.json.get('authors', [])  # Récupérer comme une liste
-    institution_filter = request.json.get('institutions')
+    institution_filter = request.json.get('institutions',[])
     date_debut_filter = request.json.get('date_debut')
     date_fin_filter = request.json.get('date_fin')
     keyword_filter = request.json.get('keywords', [])  # Récupérer comme une liste
@@ -102,30 +103,47 @@ def filtre():
     filtered_results = apply_filters(hits, auteur_filter, institution_filter, date_debut_filter, date_fin_filter, keyword_filter)
     return jsonify(filtered_results)
 
-def apply_filters(results, auteur_filter, institution_filter, date_debut_filter, date_fin_filter,keyword_filter):
-    """
-    Applique les filtres sur les résultats de la recherche.
-    """
+def apply_filters(results, auteur_filter, institution_filter, date_debut_filter, date_fin_filter, keyword_filter):
     filtered_results = results
 
     if auteur_filter:
-        # Itérer sur chaque auteur dans le filtre
-        for auteur in auteur_filter:
-            # Utiliser une condition pour filtrer les résultats
-            filtered_results = [result for result in filtered_results if any(auteur.lower() in author.lower() for author in result.get('_source', {}).get('authors', []))]
+        # Convert the filter to a set for faster membership tests
+        auteur_set = set(auteur.lower() for auteur in auteur_filter)
 
-        """filtered_results = [result for result in filtered_results if auteur_filter.lower() in str(result.get('_source', {}).get('authors', [])).lower()]"""
+        filtered_results = [
+            result for result in filtered_results
+            if auteur_set.issubset(author.strip().lower() for author in result.get('_source', {}).get('authors', '').split(','))
+        ]
 
     if institution_filter:
-        filtered_results = [result for result in filtered_results if institution_filter.lower() in str(result.get('_source', {}).get('institutions', '')).lower()]
-    if keyword_filter:
-         # Itérer sur chaque mot-clé dans le filtre
-        for keyword in keyword_filter:
-            # Utiliser une condition pour filtrer les résultats
-            filtered_results = [result for result in filtered_results if any(keyword.lower() in kw.lower() for kw in result.get('_source', {}).get('keywords', []))]
+         institution_set = set(institution.lower() for institution in institution_filter)
 
-        """filtered_results = [result for result in filtered_results if keyword_filter.lower() in str(result.get('_source', {}).get('keywords', [])).lower() ]"""
+         filtered_results = [
+            result for result in filtered_results
+            if institution_set.issubset(institution.strip().lower() for institution in result.get('_source', {}).get('institutions', '').split(','))
+        ]
+
+
+
+
+    if keyword_filter:
+        # Convert the filter to a set for faster membership tests
+        keyword_set = set(keyword.lower() for keyword in keyword_filter)
+
+        filtered_results = [
+            result for result in filtered_results
+            if keyword_set.issubset(keyword.strip().lower() for keyword in result.get('_source', {}).get('keywords', '').split(','))
+        ]
+
     if date_debut_filter and date_fin_filter:
-        filtered_results = [result for result in filtered_results if date_debut_filter <= result.get('_source', {}).get('publication_date') <= date_fin_filter]
+        date_debut_filter = datetime.strptime(date_debut_filter, '%y-%m-%d').date()
+        date_fin_filter = datetime.strptime(date_fin_filter, '%y-%m-%d').date()
+
+        filtered_results = [
+            result for result in filtered_results
+            if result.get('_source', {}).get('publication_date') and
+            date_debut_filter <= datetime.strptime(result.get('_source', {}).get('publication_date'), '%Y-%m-%d').date() <= date_fin_filter
+        ]
+
 
     return filtered_results

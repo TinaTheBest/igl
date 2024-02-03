@@ -65,7 +65,7 @@ function Card(props) {
         `}
       </style> */}
       <div className="bg-white rounded-[35px]  mx-[10px] w-full sm:mx-[0px] items-center ">
-        <div className="flex-col items-center p-[25px]">
+        <div className="flex-col items-center p-[25px] ">
           <div className="pb-[11px] font-bold sm:text-[16px] text-[16px]">
             {props.title}
           </div>
@@ -75,6 +75,7 @@ function Card(props) {
           <div className="pb-[11px] sm:text-[12px] text-[12px]">
             {props.absract}
           </div>
+
           <div className="w-full bg-[#E7E7EE] h-[0.889px] mb-[11px]"></div>
           <div className="flex justify-between">
             <div

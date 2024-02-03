@@ -60,11 +60,10 @@ function ModifyModInput(props) {
         state: {
           article: {
             id: props.id,
-            ...formData
-          }
-        }
-        ,
-      })
+            ...formData,
+          },
+        },
+      });
     } catch (error) {
       console.error("Error during Sign Up:", error);
       // Handle error, e.g., show an error message to the user
@@ -86,8 +85,7 @@ function ModifyModInput(props) {
       <NavBarMod />
       <div className="bg-white rounded-[20px] mx-[10px] sm:mx-[40px] mt-[65px] sm:mt-[84px] font-dm-sans">
         <div className="font-bold text-[#005BC5]  sm:px-[32.89px] px-[20px] pt-[30px] pb-[20px]  sm:text-[22px] text-[16px]">
-          Semantic Analysis And Classifications Of E-mails Throught Informative
-          Selection
+          {title}
         </div>
         <div className="sm:px-[32.89px] px-[20px]">
           {/*************************************************************************************************************** */}
@@ -353,7 +351,7 @@ function ModifyModInput(props) {
               }}
             >
               <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:ml-[15px] sm:text-[18px] text-[13px] font-semibold py-[10px] px-[50px] border-[1.828px] border-[#1B9DF0]">
-                <button onClick={handleClick} >Discard</button>
+                <button onClick={handleClick}>Discard</button>
               </div>
               <div className="text-center rounded-[15px] mb-[10px] sm:m-[0px] mx-[10px] sm:text-[18px] text-[13px] font-semibold py-[10px] px-[25px] text-white bg-[#1B9DF0] sm:mr-[15px]">
                 <button onClick={handleFormSubmit}>Save changes</button>

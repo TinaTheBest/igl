@@ -8,6 +8,7 @@ from elasticsearch import Elasticsearch
 import fitz  # PyMuPDF
 import logging
 
+
 admin_bp = Blueprint('articles', __name__)
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,6 @@ def initialize_document_id():
     global document_id
     if document_id is None:
         document_id = 1  # Set the initial value for document_id
-
 
 @admin_bp.route('/upload', methods=['POST'])
 def extract_article_information():
@@ -34,6 +34,7 @@ def extract_article_information():
             response.raise_for_status()
             with fitz.open("pdf", response.content) as pdf_document:
                 text = " ".join(page.get_text() for page in pdf_document)
+            
         except Exception as e:
             logger.error(f"Error extracting text from PDF: {str(e)}")
             return jsonify({"error": "Failed to extract text from PDF"}), 500
@@ -41,7 +42,7 @@ def extract_article_information():
         # Add PDF via URL to external service
         add_url_endpoint = 'https://api.chatpdf.com/v1/sources/add-url'
         add_url_payload = {"url": pdf_url}
-        headers = {'x-api-key': 'sec_BLQNaXe3CClcBiztl4hROyliTYoV3BVt', 'Content-Type': 'application/json'}
+        headers = {'x-api-key': 'sec_qeu2pb7mRCOm7HL6Se2pcnG2LHBRomzE', 'Content-Type': 'application/json'}
         response_add_url = requests.post(add_url_endpoint, headers=headers, json=add_url_payload)
         
         text = text.replace("\n", " ")
@@ -60,43 +61,43 @@ def extract_article_information():
             user_messages_payload = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'Extract the title of the article and generate a string response in " ", generate just the specific response without meta informations because i will store it in a json variable, Provide responses without preamble '},
+                    {'role': 'user', 'content': ' Extract the title of the article and provide it without additional details or introductory phrases and withou " ".'},
                 ]
             }
             user_messages_payload1 = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'Extract the authors of the article just their names and generate a string response in " " with "," between authors, generate just the specific response without meta informations because i will store it in a json variable, Provide responses without preamble '},
+                    {'role': 'user', 'content': 'Extract and list the authors of the article, separating their names with commas. Provide the response without additional details or introductory phrases.'},
                 ]
             }
             user_messages_payload2 = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'extract the institutions of the article, generate a string response in " " with "," between institutions, generate just the specific response because i will store it in a json variable, Provide responses without preamble '},
+                    {'role': 'user', 'content': 'Extract and list the institutions mentioned in the article, separating them with commas. Provide the response without additional details or introductory phrases.'},
                 ]
             }
             user_messages_payload3 = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'extract the content of the title "keywords" you find it in uppercase or lowercase, generate a string response in " " with "," between keywords, generate just the specific response without meta informations because i will store it in a json variable, Provide responses without preamble '},
+                    {'role': 'user', 'content': 'extract the content of the title "keywords" you find it in uppercase or lowercase. Generate a specific response with commas between keywords, excluding meta information, Provide response without introductory phrases or additional details. '},
                 ]
             }
             user_messages_payload4 = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'Extract the abstract found in the article, and do not generate it by your self, generate a string response in " " without any meta informations, Provide responses without preamble'},
+                    {'role': 'user', 'content': 'Retrieve the existing abstract from the article, refrain from generating content. Present the extracted abstract without any additional meta information. Provide response without introductory phrases or extra details, ensuring the abstract is directly presented as found in the article.'},
                 ]
             }
             user_messages_payload5 = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'extract the content of the title "references" you find it in uppercase or lowercase, generate a string response in " " with "," between references, generate just the specific response because i will store it in a json variable and don not extract just numbers,Provide responses without preamble '},
+                    {'role': 'user', 'content': 'Capture the content under the heading "References" in either uppercase or lowercase, generate a specific response with commas separating the references. Exclude purely numerical references. Provide responses without introductory phrases, stating the references directly without additional context. '},
                 ]
             }
             user_messages_payload6 = {
                 'sourceId': source_id,
                 'messages': [
-                    {'role': 'user', 'content': 'Find or estimate the publication date of the article, generate a string response in " ",generate just the specific response just the date without meta informations because i will store it in a json variable, Provide responses without preamble'},
+                    {'role': 'user', 'content': 'Locate or approximate the publication date of the article, and generate a specific response with only the date in the format year-month-day. you must Provide responses without introductory phrases directly presenting the publication date with only the date in the format year-month-day. '},
                 ]
             }
 

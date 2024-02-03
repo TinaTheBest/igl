@@ -6,8 +6,7 @@ function ModifyMod() {
       <NavBar />
       <div className="bg-white rounded-[20px] mx-[128px] mt-[84px]">
         <div className="font-bold text-[#005BC5] px-[32.89px] pt-[39.11px] pb-[50px] sm:text-[20px] text-[20px]">
-          Semantic Analysis And Classifications Of E-mails <br />
-          Throught Informative Selection
+          Title
         </div>
         <div className="px-[32.89px]">
           <div className=" font-bold sm:text-[20px] text-[20px] justify-between flex">
