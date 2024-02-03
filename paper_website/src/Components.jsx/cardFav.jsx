@@ -7,7 +7,7 @@ function CardFav(props) {
     <>
       <div className="bg-white rounded-[35px] mx-[10px] w-full sm:mx-[0px] items-center ">
         <div className="flex-col items-center p-[25px]">
-          <div className="pb-[11px] font-bold sm:text-[16px] text-[16px]">
+          <div className="pb-[11px] font-bold sm:text-[16px] text-[16px] flex-shrink-0" style={{ height: '4em', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.5em' }}>
             {props.title}
           </div>
           <div className=" sm:text-[10.66px] text-[12px] text-[#655F5F] mb-[11px] text-right">
