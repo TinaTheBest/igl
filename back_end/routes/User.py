@@ -19,7 +19,7 @@ def get_all_data():
         es.indices.create(index=valid_index_name)
 
     # Perform a match_all query to get all validated articles
-    results = es.search(index=valid_index_name, body={"query": {"match_all": {}}, "size": 1000})  # Specify size as 1000 to retrieve all documents
+    results = es.search(index=valid_index_name, body={"query": {"match_all": {}}, "size": 10000})  # Specify size as 1000 to retrieve all documents
 
     # Extract relevant information from the search results
     hits = results['hits']['hits']

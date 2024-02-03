@@ -24,7 +24,6 @@ const SearchBar = ({ searchTerm, onSearch, onSearchChange }) => {
         { "search_term": searchTerm }
       );
 
-      console.log("cc", response);
       onSearch(response.data);
 
     } catch (error) {
@@ -33,7 +32,8 @@ const SearchBar = ({ searchTerm, onSearch, onSearchChange }) => {
   };
 
   useEffect(() => {
-    recherchegenerale();
+    if (searchTerm > 0)
+      recherchegenerale();
   });
 
   return (
