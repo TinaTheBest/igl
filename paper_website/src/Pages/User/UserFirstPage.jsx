@@ -49,6 +49,7 @@ function UserFirstPage() {
   };
 
   const toggleExtendedFilter = () => {
+    setfilterResults([]);
     setExtendedFilterVisibility(!isExtendedFilterVisible);
   };
 
