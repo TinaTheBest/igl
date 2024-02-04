@@ -4,8 +4,10 @@ from flask import Flask, jsonify, request
 from elasticsearch import Elasticsearch
 # Fonction recherche
 def recherche():
-@rech.route('/resultat', methods=['POST'])
-def recherche():
+
+    from elasticsearch import Elasticsearch
+    
+    es = Elasticsearch(['http://elasticsearch:9200'])
     term = request.json.get('search_term')
     print("Search term:", term)
 
