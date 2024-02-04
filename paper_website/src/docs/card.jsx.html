@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: card.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: card.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import heart from "../assets/heart.svg";
+import heartSelected from "../assets/heartSelected.svg";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+/**
+ * Composant représentant une carte d'article.
+ * @component
+ * @param {Object} props - Les propriétés du composant.
+ * @param {string} props.id - L'identifiant de l'article.
+ * @param {string} props.title - Le titre de l'article.
+ * @param {string} props.publication_date - La date de publication de l'article.
+ * @param {string} props.absract - Le résumé de l'article.
+ * @returns {JSX.Element} - Élément JSX représentant la carte d'article.
+ */
+/**
+   * Fonction pour vérifier si l'article est marqué comme favori.
+   * @async
+   * @function
+   */
+function Card(props) {
+  const location = useLocation();
+  // Accédez à l'état de localisation qui contient l'article
+  const { state } = location;
+  const navigate = useNavigate();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const userId = state ? state.user_id : null;
+  const checkIsFavorite = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:5000/users/isfav/${userId}/${props.id}`
+      );
+      setIsFavorite(response.data.isfav);
+    } catch (error) {
+      console.error("Error checking favorite status:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userId != null) {
+      checkIsFavorite();
+    }
+  }, []);
+  /**
+   * Fonction pour ajouter l'article aux favoris.
+   * @async
+   * @function
+   */
+
+  const addFavorite = async () => {
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:5000/favorits/AjouterFavorit/${userId}/${props.id}`,
+        {
+          props,
+        }
+      );
+      setIsFavorite(true);
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    }
+  };
+  /**
+   * Fonction pour supprimer l'article des favoris.
+   * @async
+   * @function
+   */
+
+  const deleteFavorite = async () => {
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:5000/favorits/delete_favorit/${userId}/${props.id}`
+      );
+      setIsFavorite(false);
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error deleting favorite:", error);
+    }
+  };
+
+  return (
+    &lt;>
+      {/* &lt;style>
+        {`
+          .font-dm-sans {
+            font-family: 'DM Sans', 'sans-serif';
+          }
+        `}
+      &lt;/style> */}
+      &lt;div id="myUniqueElement" className="bg-white rounded-[35px]  mx-[10px] w-full sm:mx-[0px] items-center ">
+        &lt;div className="flex-col items-center justify-between p-[25px] h-[100%]">
+          &lt;div className="flex flex-col">
+            &lt;div className="pb-[11px] font-bold sm:text-[16px] text-[16px] flex-shrink-0" style={{ height: '4em', overflow: 'hidden', textOverflow: 'ellipsis', lineHeight: '1.5em' }}>
+              {props.title}
+            &lt;/div>
+            &lt;div className="sm:text-[10.66px] text-[12px] text-[#655F5F] mb-[11px] text-right">
+              Published in {props.publication_date}
+            &lt;/div>
+            &lt;div className="pb-[11px] sm:text-[12px] text-[12px]">
+              {props.absract}
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="w-full bg-[#E7E7EE] h-[0.889px] mb-[11px]">&lt;/div>
+          &lt;div
+            className="flex justify-between w-full"
+            style={{ marginTop: 'auto' }}
+          >
+            &lt;div
+              className="flex text-[#1B9DF0] font-bold sm:text-[14.22px] text-[13px] border-[1px] border-[#1B9DF0] sm:w-[160px] rounded-xl px-4 py-2"
+              onClick={() =>
+                navigate("/UserFirstPage/UserDetails/" + props.id, {
+                  state: { article: props },
+                })
+              }
+            >
+              See More details
+            &lt;/div>
+            &lt;img
+              src={isFavorite ? heartSelected : heart}
+              alt="Heart"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                if (userId != null) {
+                  isFavorite ? deleteFavorite() : addFavorite();
+                } else {
+                  console.error("User ID is null");
+                }
+              }}
+            />
+          &lt;/div>
+        &lt;/div>
+
+      &lt;/div>
+    &lt;/>
+  );
+}
+
+export default Card;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:50:45 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

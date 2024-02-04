@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+/**
+ * Composant de formulaire pour soumettre une URL de fichier PDF.
+ * @component
+ */
 
 function UploadUrl() {
   const [editableUrl, setEditableUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
-
+ /**
+   * Effectue la soumission de l'URL au serveur.
+   * Affiche une fenêtre modale en cas de succès.
+   */
   const upload = async () => {
     try {
       const response = await axios.post(
@@ -20,15 +27,21 @@ function UploadUrl() {
       console.error("Error upload:", error);
     }
   };
-
+/**
+   * Gère le clic sur le bouton "Upload".
+   */
   const handleupload = () => {
     upload();
   };
-
+ /**
+   * Ferme la fenêtre modale.
+   */
   const closeModal = () => {
     setShowModal(false);
   };
-
+  /**
+   * Ouvre la fenêtre modale.
+   */
   const openModal = () => {
     setShowModal(true);
   };

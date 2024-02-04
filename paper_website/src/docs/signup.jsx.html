@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: signup.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: signup.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from "react";
+import Logo from "../assets/logo.svg";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+/**
+ * Composant de la page d'inscription.
+ * @returns {JSX.Element} Composant de la page d'inscription.
+ */
+function SignUp() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [Signin, setSignin] = useState("");
+
+  function handleInputChange(event) {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  }
+
+  const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    return re.test(password);
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    // Validate if the password matches the confirmation password
+    if (formData.password !== formData.confirmPassword) {
+      console.error("Passwords do not match");
+      setPasswordsMatch(false); // Set state to indicate passwords don't match
+      return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      setEmailError("Invalid email address");
+      return;
+    }
+
+    if (!validatePassword(formData.password)) {
+      setPasswordError(
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number"
+      );
+      return;
+    }
+
+    axios.post(
+      "http://localhost:5000/Authentification/sginin",
+      formData
+    ).then(response => {
+      if (response.data.auth) {
+        setSignin("");
+        navigate("/UserFirstPage/" + response.data.id, {
+          state: { user_id: response.data.id },
+        });
+        console.log("yyyaaaaaw hna navigate");
+        console.log("SignUp successful:", response.data);
+      } else {
+        setSignin(response.data.message);
+      }
+    }).catch(error => {
+      console.error("Error during Sign Up:", error);
+      // Gérer l'erreur, par exemple afficher un message d'erreur à l'utilisateur
+    });
+
+  };
+
+  return (
+    &lt;>
+      &lt;style>
+        {`
+          .font-dm-sans {
+            font-family: 'DM Sans', 'sans-serif';
+          }
+        `}
+      &lt;/style>
+      &lt;div className="flex justify-between font-dm-sans">
+        &lt;div className="w-1/2 bg-[#D4E6FF] h-screen sm:flex hidden justify-center items-center">
+          &lt;img src={Logo} alt="Logo" className="w-[204px] h-[133.31px]" />
+        &lt;/div>
+        &lt;div className="bg-white w-full sm:w-1/2 flex flex-col justify-center">
+          &lt;img
+            src={Logo}
+            alt="Logo"
+            className="sm:hidden w-[86px] h-[57px] ml-[10px] mt-[10px]"
+          />
+          &lt;form
+            className="sm:mx-[50px] mx-[10px]  bg-white p-4"
+            onSubmit={handleFormSubmit}
+          >
+            &lt;h2 className="sm:text-4xl text-[22px] font-bold sm:pt-3 sm:pb-6 py-[2px]">
+              Get Started Now!
+            &lt;/h2>
+            &lt;div className="flex flex-col py-2">
+              &lt;label>Username&lt;/label>
+              &lt;input
+                className="border p-2 rounded-[12.5px] "
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
+            &lt;/div>
+            &lt;div className="flex flex-col py-2">
+              &lt;label>Email address&lt;/label>
+              &lt;input
+                className={`border p-2 rounded-[12.5px] ${emailError ? "border-red-500" : ""
+                  }`}
+                type="text"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              {emailError &amp;&amp; (
+                &lt;p className="text-red-500 text-sm mt-1">{emailError}&lt;/p>
+              )}
+            &lt;/div>
+            &lt;div className="flex flex-col py-2">
+              &lt;label>Password&lt;/label>
+              &lt;input
+                className={`border p-2 rounded-[12.5px] ${passwordError ? "border-red-500" : ""
+                  }`}
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+              />
+              {passwordError &amp;&amp; (
+                &lt;p className="text-red-500 text-sm mt-1">{passwordError}&lt;/p>
+              )}
+            &lt;/div>
+            &lt;div className="flex flex-col py-2">
+              &lt;label>Confirm password&lt;/label>
+              &lt;input
+                className="border p-2 rounded-[12.5px]"
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+              />
+            &lt;/div>
+            &lt;button
+              type="submit"
+              className="border w-full my-[5px] py-2 rounded-[12.5px] bg-[#1B9DF0] hover:bg-opacity-90 text-white"
+            >
+              Sign Up
+            &lt;/button>
+            &lt;div className="text-center">
+              Have an account?{" "}
+              &lt;Link
+                to="/PageLogin"
+                className="text-[#0F3DDE] hover:text-[#0C2A92]"
+              >
+                Sign In
+              &lt;/Link>
+            &lt;/div>
+          &lt;/form>
+          {!passwordsMatch &amp;&amp; (
+            &lt;p className="text-red-500 text-center">Passwords don't match.&lt;/p>
+          )}
+          &lt;p className="text-red-500 text-center">{Signin}&lt;/p>
+
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  );
+}
+
+export default SignUp;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:50:45 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

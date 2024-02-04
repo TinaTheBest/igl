@@ -2,6 +2,22 @@ import NavBarMod from "./navbarMod";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+/**
+ * Composant représentant les détails d'un article pour un modérateur.
+ * @component
+ * @param {object} props - Les propriétés passées au composant.
+ * @param {string} props.id - L'identifiant de l'article.
+ * @param {string} props.title - Le titre de l'article.
+ * @param {string} props.authors - Les auteurs de l'article.
+ * @param {string} props.institutions - Les institutions affiliées aux auteurs.
+ * @param {string} props.keywords - Les mots-clés de l'article.
+ * @param {string} props.abstract - Le résumé de l'article.
+ * @param {string} props.references - Les références bibliographiques.
+ * @param {string} props.publication_date - La date de publication de l'article.
+ * @param {string} props.full_text - Le texte complet de l'article.
+ * @param {string} props.pdf_url - L'URL du fichier PDF associé à l'article.
+ * @returns {JSX.Element} - Élément JSX représentant les détails de l'article pour un modérateur.
+ */
 function DetailsMod(props) {
   console.log(props);
   let navigate = useNavigate();

@@ -1,6 +1,21 @@
 import NavBar from "./navbar";
 import NavBarMod from "./navbarMod";
-
+/**
+ * Composant représentant les détails d'un article.
+ * @component
+ * @param {object} props - Les propriétés passées au composant.
+ * @param {string} props.id - L'identifiant de l'article.
+ * @param {string} props.title - Le titre de l'article.
+ * @param {string} props.authors - Les auteurs de l'article.
+ * @param {string} props.institutions - Les institutions affiliées aux auteurs.
+ * @param {string} props.keywords - Les mots-clés de l'article.
+ * @param {string} props.abstract - Le résumé de l'article.
+ * @param {string} props.references - Les références bibliographiques.
+ * @param {string} props.publication_date - La date de publication de l'article.
+ * @param {string} props.full_text - Le texte complet de l'article.
+ * @param {string} props.pdf_url - L'URL du fichier PDF associé à l'article.
+ * @returns {JSX.Element} - Élément JSX représentant les détails de l'article.
+ */
 function Details(props) {
   const {
     id,

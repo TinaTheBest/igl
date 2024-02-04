@@ -2,7 +2,10 @@ import React from "react";
 import NavBarMod from "../../Components.jsx/navbarMod";
 import ModifyModInput from "../../Components.jsx/modifyModInput";
 import { useLocation } from "react-router-dom";
-
+/**
+ * Page pour modifier les détails d'un article par le modérateur.
+ * @component
+ */
 function ModeratorModify() {
   const location = useLocation();
   const { state } = location;

@@ -3,7 +3,21 @@ import heart from "../assets/heart.svg";
 import heartSelected from "../assets/heartSelected.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+/**
+ * Composant représentant une carte d'article.
+ * @component
+ * @param {Object} props - Les propriétés du composant.
+ * @param {string} props.id - L'identifiant de l'article.
+ * @param {string} props.title - Le titre de l'article.
+ * @param {string} props.publication_date - La date de publication de l'article.
+ * @param {string} props.absract - Le résumé de l'article.
+ * @returns {JSX.Element} - Élément JSX représentant la carte d'article.
+ */
+/**
+   * Fonction pour vérifier si l'article est marqué comme favori.
+   * @async
+   * @function
+   */
 function Card(props) {
   const location = useLocation();
   // Accédez à l'état de localisation qui contient l'article
@@ -27,6 +41,11 @@ function Card(props) {
       checkIsFavorite();
     }
   }, []);
+  /**
+   * Fonction pour ajouter l'article aux favoris.
+   * @async
+   * @function
+   */
 
   const addFavorite = async () => {
     try {
@@ -42,6 +61,11 @@ function Card(props) {
       console.error("Error adding favorite:", error);
     }
   };
+  /**
+   * Fonction pour supprimer l'article des favoris.
+   * @async
+   * @function
+   */
 
   const deleteFavorite = async () => {
     try {

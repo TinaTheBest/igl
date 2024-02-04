@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Components.jsx/UploadUrl.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Components.jsx/UploadUrl.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from "react";
+import axios from "axios";
+/**
+ * Composant de formulaire pour soumettre une URL de fichier PDF.
+ * @component
+ */
+
+function UploadUrl() {
+  const [editableUrl, setEditableUrl] = useState("");
+  const [showModal, setShowModal] = useState(false);
+ /**
+   * Effectue la soumission de l'URL au serveur.
+   * Affiche une fenêtre modale en cas de succès.
+   */
+  const upload = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/articles/upload",
+        {
+          url: editableUrl,
+        }
+      );
+      console.log("cc");
+      openModal();
+      //#region setShowModal(true);
+    } catch (error) {
+      console.error("Error upload:", error);
+    }
+  };
+/**
+   * Gère le clic sur le bouton "Upload".
+   */
+  const handleupload = () => {
+    upload();
+  };
+ /**
+   * Ferme la fenêtre modale.
+   */
+  const closeModal = () => {
+    setShowModal(false);
+  };
+  /**
+   * Ouvre la fenêtre modale.
+   */
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  return (
+    &lt;div className="max-w bg-white p-8 rounded-2xl shadow-md mt-[84px] mx-[40px]">
+      &lt;h2 className="text-2xl font-semibold mb-6">URL Submission Form&lt;/h2>
+
+      &lt;form className="flex flex-col">
+        &lt;div className="mb-4">
+          &lt;label
+            htmlFor="url"
+            className="block text-gray-700 text-sm font-medium mb-2"
+          >
+            PDF URL:
+          &lt;/label>
+          &lt;input
+            type="text"
+            id="url"
+            name="url"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#1B9DF0]"
+            value={editableUrl}
+            onChange={(e) => setEditableUrl(e.target.value)}
+            placeholder="Enter your URL"
+          />
+        &lt;/div>
+
+        &lt;div className="flex justify-end items-center">
+          &lt;button
+            type="button"
+            className="bg-[#1B9DF0] text-white px-4 py-2 rounded-2xl hover:bg-[#1B9DF0] focus:outline-none focus:shadow-outline-blue"
+            onClick={handleupload}
+          >
+            Upload
+          &lt;/button>
+        &lt;/div>
+      &lt;/form>
+
+      {showModal &amp;&amp; (
+        &lt;div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+          &lt;div className="bg-white p-8 rounded-2xl shadow-md">
+            &lt;p className="text-xl font-semibold mb-4">Upload Successful!&lt;/p>
+            &lt;button
+              className="bg-[#1B9DF0] text-white px-4 py-2 rounded-2xl hover:bg-[#1B9DF0] focus:outline-none focus:shadow-outline-blue"
+              onClick={closeModal}
+            >
+              Close
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
+      )}
+    &lt;/div>
+  );
+}
+
+export default UploadUrl;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFirstPage">AdminFirstPage</a></li><li><a href="global.html#AdminUpload">AdminUpload</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModeratorDetails">ModeratorDetails</a></li><li><a href="global.html#ModeratorFirstPage">ModeratorFirstPage</a></li><li><a href="global.html#ModeratorModify">ModeratorModify</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#PageLogin">PageLogin</a></li><li><a href="global.html#PageSignUp">PageSignUp</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li><li><a href="global.html#UserDetails">UserDetails</a></li><li><a href="global.html#UserFav">UserFav</a></li><li><a href="global.html#UserFirstPage">UserFirstPage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:54:43 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

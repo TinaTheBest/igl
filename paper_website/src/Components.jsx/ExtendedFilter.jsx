@@ -3,7 +3,14 @@ import React, { useState, useEffect } from "react";
 import TagsInput from "./TagsInput";
 import { HiOutlineX } from "react-icons/hi";
 import axios from "axios";
-
+/**
+ * Composant représentant la barre de filtrage étendue pour la recherche d'articles.
+ * @component
+ * @param {Object} props - Les propriétés passées au composant.
+ * @param {function} props.onHide - Fonction appelée pour masquer la barre de filtrage.
+ * @param {function} props.onfilter - Fonction appelée pour appliquer les filtres et mettre à jour les résultats.
+ * @returns {JSX.Element} - Élément JSX représentant la barre de filtrage étendue.
+ */
 const ExtendedFilter = ({ onHide, onfilter }) => {
   const [authorTags, setAuthorTags] = useState([]);
   const [keywordTags, setKeywordTags] = useState([]);
@@ -11,14 +18,23 @@ const ExtendedFilter = ({ onHide, onfilter }) => {
   const [sortingOption, setSortingOption] = useState("A-Z"); // Default sorting option
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
+/**
+   * Gère le changement de l'option de tri.
+   * @param {string} option - L'option de tri sélectionnée.
+   */
   const handleSortingChange = (option) => {
     setSortingOption(option);
   };
+  /**
+   * Réinitialise les résultats du filtre dans le composant parent.
+   */
   const resetFilterResults = () => {
     // Reset filter results in the parent component
     onfilter([]);
   };
+  /**
+   * Réinitialise tous les champs de filtrage.
+   */
   const resetAllInputs = () => {
     setAuthorTags([]);
     setKeywordTags([]);
@@ -27,7 +43,9 @@ const ExtendedFilter = ({ onHide, onfilter }) => {
     setStartDate("");
     setEndDate("");
   };
-
+/**
+   * Effectue la recherche avec les filtres spécifiés.
+   */
   const filtregenerale = async () => {
     try {
       console.log("date", startDate);

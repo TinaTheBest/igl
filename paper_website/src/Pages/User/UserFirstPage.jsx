@@ -7,23 +7,36 @@ import { useLocation } from "react-router-dom";
 import SearchBar from "../../Components.jsx/SearchBar";
 import ExtendedFilter from "../../Components.jsx/ExtendedFilter";
 import FilterButton from "../../Components.jsx/Filter";
-
+/**
+ * Page principale de l'utilisateur affichant les articles et fournissant des fonctionnalités de recherche et de filtrage.
+ * @component
+ */
 function UserFirstPage() {
+    // Utiliser useLocation pour obtenir l'objet de localisation actuel
+
   const location = useLocation();
   const { state } = location;
+
+    // Destructurer l'ID de l'utilisateur de l'état de localisation
   const userId = state ? state.user_id : null;
+    // États pour stocker la liste des articles, les résultats de recherche et de filtrage, et le terme de recherche
   const [articles, setArticles] = useState([]);
   const [filter, setFilter] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
   const [filterResults, setfilterResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-
+  /**
+   * Fonction pour traiter les résultats du filtrage.
+   * @param {Array} filterResults - Liste des résultats filtrés.
+   */
   const handlefilterResults = (filterResults) => {
     console.log("Handling filter results in UserFirstPage:", filterResults);
     setfilterResults(filterResults);
   };
-
+ /**
+   * Fonction pour récupérer les articles depuis le serveur.
+   */
   const fetchArticles = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:5000/users/get_all_data");
@@ -47,18 +60,27 @@ function UserFirstPage() {
   useEffect(() => {
     localStorage.setItem(userId, searchTerm); // Stocker le terme de recherche spécifique à l'utilisateur
   }, [searchTerm, userId]);
-
+ /**
+   * Fonction pour traiter les résultats de recherche.
+   * @param {Array} results - Liste des résultats de recherche.
+   */
   const handleSearchResults = (results) => {
     setSearchResults(results);
     localStorage.setItem('searchResults', JSON.stringify(results));
   };
-
+  /**
+   * Fonction pour traiter les changements de terme de recherche.
+   * @param {string} newSearchTerm - Nouveau terme de recherche.
+   */
   const handleSearchChange = (newSearchTerm) => {
     setSearchTerm(newSearchTerm);
   };
 
   const [isExtendedFilterVisible, setExtendedFilterVisibility] = useState(false);
 
+  /**
+   * Fonction pour basculer la visibilité du filtre étendu.
+   */
   const toggleExtendedFilter = () => {
     setfilterResults([]);
     setExtendedFilterVisibility(!isExtendedFilterVisible);

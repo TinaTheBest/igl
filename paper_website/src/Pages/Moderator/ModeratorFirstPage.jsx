@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import NavBarMod from "../../Components.jsx/navbarMod";
 import CardMod from "../../Components.jsx/cardMod";
 import axios from "axios";
-
+/**
+ * Page principale du modérateur pour afficher la liste des articles.
+ * @component
+ */
 function ModeratorFirstPage() {
   const [articles, setArticles] = useState([]);
 

@@ -1,6 +1,10 @@
 import NavBar from "../../Components.jsx/navbar";
 import Details from "../../Components.jsx/details";
 import { useLocation } from "react-router";
+/**
+ * Page pour afficher les détails d'un article pour l'utilisateur.
+ * @component
+ */
 function UserDetails() {
   const location = useLocation();
   const { state } = location;

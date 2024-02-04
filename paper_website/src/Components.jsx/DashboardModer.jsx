@@ -6,7 +6,11 @@ import edit from "../assets/edit.svg";
 import deletee from "../assets/deletee.svg";
 import ConfirmationModal from './ConfirmationModal';
 import axios from "axios";
-
+/**
+ * Composant représentant le tableau de bord du modérateur.
+ * @component
+ * @returns {JSX.Element} - Élément JSX représentant le tableau de bord du modérateur.
+ */
 
 function DashboardModer() {
   const [moderateurs, setmoderateurs] = useState([]);

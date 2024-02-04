@@ -3,12 +3,18 @@ import CardFav from "../../Components.jsx/cardFav";
 import axios from "axios";
 import { useState } from "react";
 import { useLocation } from "react-router";
+/**
+ * Page pour afficher les articles favoris d'un utilisateur.
+ * @component
+ */
 
 function UserFav() {
   const location = useLocation();
   const { state } = location;
   const user_id = state ? state.user_id : null;
   const [articles, setArticles] = useState([]);
+    // Fonction pour récupérer les articles favoris de l'utilisateur depuis le serveur
+
   const fetchArticles = async () => {
     try {
       const response = await axios.get(
@@ -19,6 +25,8 @@ function UserFav() {
       console.error("Error fetching articles piw:", error);
     }
   };
+    // Appeler la fonction fetchArticles lorsque le composant est rendu
+
   fetchArticles();
 
   return (

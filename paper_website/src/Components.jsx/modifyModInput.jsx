@@ -3,7 +3,21 @@ import Modify from "../assets/modify.svg";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+/**
+ * Composant représentant le formulaire de modification d'une publication par un modérateur.
+ * @component
+ * @param {Object} props - Les propriétés passées au composant.
+ * @param {string} props.id - L'identifiant de la publication.
+ * @param {string} props.title - Le titre de la publication.
+ * @param {string} props.authors - Les auteurs de la publication.
+ * @param {string} props.institutions - Les institutions de la publication.
+ * @param {string} props.keywords - Les mots-clés de la publication.
+ * @param {string} props.abstract - Le résumé de la publication.
+ * @param {string} props.references - Les références bibliographiques de la publication.
+ * @param {string} props.publication_date - La date de publication de la publication.
+ * @param {string} props.full_text - Le texte intégral de la publication.
+ * @returns {JSX.Element} - Élément JSX représentant le formulaire de modification.
+ */
 function ModifyModInput(props) {
   console.log("props in ModifyModInput:", props);
   const [modifyOne, setActiveOne] = useState(false);

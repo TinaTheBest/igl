@@ -1,21 +1,35 @@
 // src/components/TagsInput.js
 import React, { useState, useEffect } from 'react';
-
+/**
+ * Composant pour la saisie et la gestion des tags.
+ * @param {Object} props - Les propriétés du composant.
+ * @param {Function} props.onAddTag - La fonction appelée lorsqu'un nouveau tag est ajouté.
+ * @param {Function} props.onTagRemove - La fonction appelée lorsqu'un tag est supprimé.
+ * @returns {JSX.Element} Composant TagsInput.
+ */
 const TagsInput = ({ onAddTag,onTagRemove }) => {
   const [tags, setTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
-
+/**
+   * Gère le changement de la valeur de l'entrée.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - L'événement de changement.
+   */
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-
+ /**
+   * Gère l'appui sur la touche Enter dans l'entrée pour ajouter un nouveau tag.
+   * @param {React.KeyboardEvent<HTMLInputElement>} e - L'événement clavier.
+   */
   const handleInputKeyDown = (e) => {
     if (e.key === 'Enter' && inputValue.trim() !== '') {
       setTags((prevTags) => [...prevTags, inputValue.trim()]);
       setInputValue('');
     }
   };
-
+ /**
+   * Ajoute un tag en utilisant la valeur actuelle de l'entrée.
+   */
   const handleAddTag = () => {
     if (inputValue.trim() !== '') {
       onAddTag(inputValue.trim()); // Pass the newly added tag to the parent component
@@ -23,14 +37,19 @@ const TagsInput = ({ onAddTag,onTagRemove }) => {
       setInputValue(''); // Clear the input value
     }
   };
-  
+    /**
+   * Gère la suppression d'un tag.
+   * @param {string} tag - Le tag à supprimer.
+   */
   const handleTagRemove = (tag) => {
     const updatedTags = tags.filter((t) => t !== tag);
     setTags(updatedTags); // Update local state in TagsInput component
     onTagRemove(tag); // Call onTagRemove function to remove tag from parent component
   };
   
-
+  /**
+   * Effet secondaire pour afficher les tags dans la console à chaque changement.
+   */
   useEffect(() => {
     console.log("Tags state:", tags);
   }, [tags]);

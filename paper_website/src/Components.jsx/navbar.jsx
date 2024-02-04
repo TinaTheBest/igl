@@ -7,7 +7,13 @@ import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdMenu } from "react-icons/md";
-
+/**
+ * Composant représentant la barre de navigation.
+ * @component
+ * @param {Object} props - Les propriétés passées au composant.
+ * @param {string} props.id - L'identifiant de l'utilisateur.
+ * @returns {JSX.Element} - Élément JSX représentant la barre de navigation.
+ */
 function NavBar(props) {
   const userId = props.id;
 
@@ -15,7 +21,10 @@ function NavBar(props) {
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);
-
+ /**
+   * Gère la déconnexion de l'utilisateur.
+   * @function
+   */
   const handleLogout = () => {
     try {
       localStorage.removeItem("token"); // Effacer le token d'authentification

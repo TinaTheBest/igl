@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from "../assets/logo.svg";
 import axios from 'axios';
-
+/**
+ * Composant représentant la page de connexion.
+ * @component
+ * @returns {JSX.Element} - Élément JSX représentant la page de connexion.
+ */
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -11,11 +15,17 @@ function Login() {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+/**
+   * Gère le changement de valeur des champs du formulaire.
+   * @param {Object} event - L'événement de changement de valeur.
+   */
   function handleInputChange(event) {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
-
+/**
+   * Gère la soumission du formulaire de connexion.
+   * @param {Object} event - L'événement de soumission du formulaire.
+   */
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -46,15 +56,22 @@ function Login() {
       console.error('Error during login:', error);
     }
   };
-
+ /**
+   * Ouvre la fenêtre modale pour la réinitialisation du mot de passe.
+   */
   const openModal = () => {
     setIsModalOpen(true);
   };
-
+ /**
+   * Ferme la fenêtre modale.
+   */
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
+  /**
+   * Réinitialise le mot de passe en envoyant un e-mail.
+   */
   const ResetPassword = async () => {
     try {
       const response = await axios.post('http://localhost:5000/Authentification/reset_pass', { email: formData.email });

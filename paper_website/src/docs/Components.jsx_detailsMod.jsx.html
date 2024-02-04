@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Components.jsx/detailsMod.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Components.jsx/detailsMod.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import NavBarMod from "./navbarMod";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+/**
+ * Composant représentant les détails d'un article pour un modérateur.
+ * @component
+ * @param {object} props - Les propriétés passées au composant.
+ * @param {string} props.id - L'identifiant de l'article.
+ * @param {string} props.title - Le titre de l'article.
+ * @param {string} props.authors - Les auteurs de l'article.
+ * @param {string} props.institutions - Les institutions affiliées aux auteurs.
+ * @param {string} props.keywords - Les mots-clés de l'article.
+ * @param {string} props.abstract - Le résumé de l'article.
+ * @param {string} props.references - Les références bibliographiques.
+ * @param {string} props.publication_date - La date de publication de l'article.
+ * @param {string} props.full_text - Le texte complet de l'article.
+ * @param {string} props.pdf_url - L'URL du fichier PDF associé à l'article.
+ * @returns {JSX.Element} - Élément JSX représentant les détails de l'article pour un modérateur.
+ */
+function DetailsMod(props) {
+  console.log(props);
+  let navigate = useNavigate();
+  const validate = async (articleId) => {
+    try {
+      await axios.post(
+        `http://127.0.0.1:5000/ModArticles/Valider/${articleId}`,
+        props
+      );
+      navigate("/ModeratorFirstPage");
+    } catch (error) {
+      console.error("Error validating:", error);
+    }
+  };
+  const supprimer = async (articleId) => {
+    try {
+      await axios.delete(
+        `http://127.0.0.1:5000/ModArticles/delete_document/${articleId}`
+      );
+      navigate("/ModeratorFirstPage");
+    } catch (error) {
+      console.error("Error supprmer:", error);
+    }
+  };
+  const {
+    id,
+    title,
+    authors,
+    institutions,
+    keywords,
+    abstract,
+    references,
+    publication_date,
+    full_text,
+    pdf_url,
+  } = props;
+  return (
+    &lt;>
+      &lt;style>
+        {`
+          .font-dm-sans {
+            font-family: 'DM Sans', 'sans-serif';
+          
+          }
+  
+        `}
+      &lt;/style>
+      &lt;NavBarMod />
+      &lt;div className="bg-white rounded-[20px] mx-[10px] sm:mx-[40px] mt-[65px] sm:mt-[84px] font-dm-sans">
+        &lt;div className="font-bold text-[#005BC5] sm:pl-[32.89px] sm:pt-[39.11px]  p-[20px] pb-[20px] sm:text-[22px] text-[16px]">
+          {title}
+        &lt;/div>
+        &lt;div className="sm:px-[32.89px] px-[20px]">
+          &lt;div className=" font-bold sm:text-[20px] text-[16px]">Title :&lt;/div>
+          &lt;div className="pb-[14px] sm:text-[16px] text-[13px] ">{title}&lt;/div>
+          &lt;div className=" font-bold sm:text-[20px] text-[16px]">
+            Abstract :
+          &lt;/div>
+          &lt;div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {abstract}
+          &lt;/div>
+          &lt;div className="font-bold sm:text-[20px] text-[16px]">
+            Publication date :
+          &lt;/div>
+          &lt;div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {publication_date}
+          &lt;/div>
+          &lt;div className="font-bold sm:text-[20px] text-[16px]">
+            Author(s) :
+          &lt;/div>
+          &lt;div className="pb-[14px] sm:text-[16px] text-[13px] ">{authors}&lt;/div>
+
+          &lt;div className=" font-bold sm:text-[20px] text-[16px]">
+            Institution(s) :{" "}
+          &lt;/div>
+          &lt;div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {" "}
+            {institutions}
+          &lt;/div>
+          &lt;div className="font-bold sm:text-[20px] text-[16px]">
+            References :{" "}
+          &lt;/div>
+          &lt;div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {" "}
+            {references}
+          &lt;/div>
+          &lt;div className="font-bold sm:text-[20px] text-[16px]">
+            Key Words :{" "}
+          &lt;/div>
+          &lt;div className="pb-[14px] sm:text-[16px] text-[13px] ">
+            {" "}
+            {keywords}
+          &lt;/div>
+          &lt;div className="font-bold sm:text-[20px] text-[16px]">
+            Full Text :
+          &lt;/div>
+          &lt;div className="pb-[16px] sm:pb-[140px] sm:text-[16px] text-[13px] ">
+            {full_text}
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className=" sm:fixed bottom-1 left-0 right-0 sm:flex  items-center justify-center font-dm-sans">
+        &lt;div
+          className="bg-white sm:flex gap-[15px] py-[15px] rounded-[17px] sm:rounded-[30px] m-[17.3px] sm:m-[0]"
+          style={{
+            boxShadow: " 0px -7.312px 14.624px 0px rgba(0, 0, 0, 0.10)",
+          }}
+        >
+          &lt;Link to="/ModeratorFirstPage">
+            &lt;div
+              className="text-center sm:ml-[15px] mx-[10px] sm:m-[0] mb-[10px] px-[25px] sm:py-[15px] py-[9.4px] border-[1.59px] border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold"
+              onClick={() => {
+                navigate("/ModeratorFirstPage");
+              }}
+            >
+              Return
+            &lt;/div>
+          &lt;/Link>
+          &lt;div className="text-center mb-[10px] mx-[10px] sm:m-[0] px-[25px]  border-[1.59px] sm:py-[15px] py-[9.4px]  border-[#1B9DF0] sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] font-semibold">
+            &lt;button
+              onClick={() => {
+                supprimer(props.id);
+              }}
+            >
+              {" "}
+              Delete{" "}
+            &lt;/button>
+          &lt;/div>
+          &lt;div className=" text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:text-[18px] text-[13px] ">
+            &lt;button
+              onClick={() => {
+                navigate(
+                  "/ModeratorFirstPage/ModeratorDetails/modify/" + props.id,
+                  { state: { article: { props } } }
+                );
+              }}
+            >
+              {" "}
+              Modify{" "}
+            &lt;/button>
+          &lt;/div>
+          &lt;div className="text-center mb-[10px] mx-[10px] px-[25px] sm:m-[0] sm:py-[15px] py-[9.4px]  bg-[#1B9DF0] text-white sm:rounded-[20px] rounded-[12px] sm:mr-[15px] sm:text-[18px] text-[13px] ">
+            &lt;button
+              onClick={() => {
+                validate(props.id);
+              }}
+            >
+              {" "}
+              Validate{" "}
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  );
+}
+export default DetailsMod;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFirstPage">AdminFirstPage</a></li><li><a href="global.html#AdminUpload">AdminUpload</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModeratorDetails">ModeratorDetails</a></li><li><a href="global.html#ModeratorFirstPage">ModeratorFirstPage</a></li><li><a href="global.html#ModeratorModify">ModeratorModify</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#PageLogin">PageLogin</a></li><li><a href="global.html#PageSignUp">PageSignUp</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li><li><a href="global.html#UserDetails">UserDetails</a></li><li><a href="global.html#UserFav">UserFav</a></li><li><a href="global.html#UserFirstPage">UserFirstPage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:54:43 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

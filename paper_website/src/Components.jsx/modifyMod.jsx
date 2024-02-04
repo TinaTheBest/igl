@@ -1,5 +1,10 @@
 import NavBar from "./navbar";
 import Modify from "../assets/modify.svg";
+/**
+ * Composant représentant la page de modification d'une publication par un modérateur.
+ * @component
+ * @returns {JSX.Element} - Élément JSX représentant la page de modification.
+ */
 function ModifyMod() {
   return (
     <>

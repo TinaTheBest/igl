@@ -1,7 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Composant représentant une carte d'article pour le modérateur.
+ * @component
+ * @param {Object} props - Les propriétés du composant.
+ * @param {string} props.id - L'identifiant de l'article.
+ * @param {string} props.title - Le titre de l'article.
+ * @param {string} props.abstract - Le résumé de l'article.
+ * @returns {JSX.Element} - Élément JSX représentant la carte d'article pour le modérateur.
+ */
 function CardMod(props) {
+    /**
+   * Hook de navigation pour rediriger le modérateur vers la page de détails de l'article.
+   * @type {function}
+   */
   let navigate = useNavigate();
   return (
     <>

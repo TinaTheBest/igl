@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Components.jsx/ExtendedFilter.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Components.jsx/ExtendedFilter.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// FilterBar.js
+import React, { useState, useEffect } from "react";
+import TagsInput from "./TagsInput";
+import { HiOutlineX } from "react-icons/hi";
+import axios from "axios";
+/**
+ * Composant représentant la barre de filtrage étendue pour la recherche d'articles.
+ * @component
+ * @param {Object} props - Les propriétés passées au composant.
+ * @param {function} props.onHide - Fonction appelée pour masquer la barre de filtrage.
+ * @param {function} props.onfilter - Fonction appelée pour appliquer les filtres et mettre à jour les résultats.
+ * @returns {JSX.Element} - Élément JSX représentant la barre de filtrage étendue.
+ */
+const ExtendedFilter = ({ onHide, onfilter }) => {
+  const [authorTags, setAuthorTags] = useState([]);
+  const [keywordTags, setKeywordTags] = useState([]);
+  const [institutionTags, setInstitutionTags] = useState([]);
+  const [sortingOption, setSortingOption] = useState("A-Z"); // Default sorting option
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+/**
+   * Gère le changement de l'option de tri.
+   * @param {string} option - L'option de tri sélectionnée.
+   */
+  const handleSortingChange = (option) => {
+    setSortingOption(option);
+  };
+  /**
+   * Réinitialise les résultats du filtre dans le composant parent.
+   */
+  const resetFilterResults = () => {
+    // Reset filter results in the parent component
+    onfilter([]);
+  };
+  /**
+   * Réinitialise tous les champs de filtrage.
+   */
+  const resetAllInputs = () => {
+    setAuthorTags([]);
+    setKeywordTags([]);
+    setInstitutionTags([]);
+    setSortingOption("A-Z");
+    setStartDate("");
+    setEndDate("");
+  };
+/**
+   * Effectue la recherche avec les filtres spécifiés.
+   */
+  const filtregenerale = async () => {
+    try {
+      console.log("date", startDate);
+      console.log("authortags are here", authorTags);
+      console.log("keywords are here", keywordTags);
+      console.log("institutions are here ", institutionTags);
+      const response = await axios.post(
+        "http://127.0.0.1:5000/recherche/filtrage",
+        {
+          authors: authorTags,
+          keywords: keywordTags,
+          institutions: institutionTags,
+          date_debut: startDate,
+          date_fin: endDate,
+        }
+      );
+      console.log("cc", response.data);
+      onfilter(response.data);
+    } catch (error) {
+      console.error("Error here fl fitre :", error);
+    }
+  };
+
+  return (
+    &lt;div className="w-[296px] px-[15.44px] py-[10.22px] bg-white rounded-[17.8px] flex-col justify-start items-start gap-[17.78px] inline-flex mr-2 ">
+      &lt;div className="w-[270.56px] px-1  h-7 justify-between  flex">
+        &lt;div className=" text-zinc-900 text-[21.33px] font-bold font-['DM Sans']">
+          Filter
+        &lt;/div>
+        {/* &lt;button onClick={resetAllInputs} className="text-blue-500 text-sm font-medium font-['DM Sans'] underline">Reset All&lt;/button> */}
+        &lt;button
+          o
+          onClick={() => {
+            onHide();
+            resetFilterResults(); // Reset filter results when hiding the ExtendedFilter
+          }}
+          className="text-black text-sm font-medium font-['DM Sans'] focus:outline-none"
+        >
+          &lt;HiOutlineX size={26} onClick={resetAllInputs} />
+        &lt;/button>
+      &lt;/div>
+      {/* &lt;div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200">&lt;/div> */}
+      {/* &lt;RadioSort/> */}
+      &lt;div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">
+        Sort By
+      &lt;/div>
+      &lt;div className="flex gap-[21.33px]">
+        &lt;div className="flex items-center">
+          &lt;input
+            type="radio"
+            id="sortAZ"
+            name="sorting"
+            value="A-Z"
+            checked={sortingOption === "A-Z"}
+            onChange={() => handleSortingChange("A-Z")}
+          />
+          &lt;label htmlFor="sortAZ" className="ml-2">
+            A-Z
+          &lt;/label>
+        &lt;/div>
+        &lt;div className="flex items-center">
+          &lt;input
+            type="radio"
+            id="sortRecents"
+            name="sorting"
+            value="Recents"
+            checked={sortingOption === "Recents"}
+            onChange={() => handleSortingChange("Recents")}
+          />
+          &lt;label htmlFor="sortRecents" className="ml-2">
+            Recents
+          &lt;/label>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200">&lt;/div>
+
+      &lt;div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">
+        Key words
+      &lt;/div>
+      &lt;TagsInput
+        placeholder="Enter keyword..."
+        onAddTag={(tag) => setKeywordTags([...keywordTags, tag])}
+        tags={keywordTags}
+        onTagRemove={(tag) =>
+          setKeywordTags(keywordTags.filter((t) => t !== tag))
+        }
+      />
+
+      &lt;div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200">&lt;/div>
+      &lt;div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">
+        Authors
+      &lt;/div>
+      &lt;TagsInput
+        placeholder="Enter author..."
+        onAddTag={(tag) => setAuthorTags([...authorTags, tag])} // Update authorTags state here
+        tags={authorTags}
+        onTagRemove={(tag) => {
+          setAuthorTags(authorTags.filter((t) => t !== tag));
+        }}
+      />
+
+      &lt;div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200">&lt;/div>
+      &lt;div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">
+        Institutions
+      &lt;/div>
+      &lt;TagsInput
+        placeholder="Enter institution..."
+        onAddTag={(tag) => setInstitutionTags([...institutionTags, tag])}
+        tags={institutionTags}
+        onTagRemove={(tag) =>
+          setInstitutionTags(institutionTags.filter((t) => t !== tag))
+        }
+      />
+
+      &lt;div className="border-b my-2 w-[270.56px] h-[0px] border border-gray-200">&lt;/div>
+      {/* Date Inputs */}
+      &lt;div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">
+        Start Date
+      &lt;/div>
+      &lt;input
+        type="date"
+        value={startDate}
+        onChange={(e) => setStartDate(e.target.value)}
+        className="w-[270.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
+      />
+
+      &lt;div className="w-[270.56px] text-zinc-900 text-lg font-bold font-['DM Sans']">
+        End Date
+      &lt;/div>
+      &lt;input
+        type="date"
+        value={endDate}
+        onChange={(e) => setEndDate(e.target.value)}
+        className="w-[270.56px] border border-gray-200 rounded-[10.67px] px-3 py-2"
+      />
+
+      &lt;div className="my-4 ml-auto flex">
+        &lt;button
+          className="bg-[#1B9DF0] w-[136.89px] text-white px-4 py-2 rounded-[17.778px] hover:bg-blue-700 "
+          onClick={filtregenerale}
+        >
+          Search
+        &lt;/button>
+      &lt;/div>
+    &lt;/div>
+  );
+};
+
+export default ExtendedFilter;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFirstPage">AdminFirstPage</a></li><li><a href="global.html#AdminUpload">AdminUpload</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModeratorDetails">ModeratorDetails</a></li><li><a href="global.html#ModeratorFirstPage">ModeratorFirstPage</a></li><li><a href="global.html#ModeratorModify">ModeratorModify</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#PageLogin">PageLogin</a></li><li><a href="global.html#PageSignUp">PageSignUp</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li><li><a href="global.html#UserDetails">UserDetails</a></li><li><a href="global.html#UserFav">UserFav</a></li><li><a href="global.html#UserFirstPage">UserFirstPage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:54:43 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: navbarAdmin.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: navbarAdmin.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import logo from "../assets/logo.svg";
+import account from "../assets/account.svg";
+import question from "../assets/icon-question.svg";
+import article from "../assets/article.svg";
+import menu from "../assets/menu.svg";
+import article_non from "../assets/article_non_active.svg";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+/**
+ * Composant représentant la barre de navigation pour l'administrateur.
+ * @component
+ * @returns {JSX.Element} Élément JSX représentant la barre de navigation de l'administrateur.
+ */
+function NavBarAdmin() {
+  // Initialisation du hook de navigation
+  const navigate = useNavigate();
+   // Gestion de l'état pour la visibilité du menu mobile et les onglets actifs
+  const [nav, setNav] = useState(false);
+  const [activeOne, setActiveOne] = useState(false);
+  const [activeTwo, setActiveTwo] = useState(false);
+  return (
+    &lt;>
+      &lt;style>
+        {`
+          .font-dm-sans {
+            font-family: 'DM Sans', sans-serif;
+          
+          }
+          .fixed-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999; // Adjust the z-index as needed
+          }
+        `}
+      &lt;/style>
+
+      &lt;div className="fixed-top top-0 left-0 right-0 flex sm:px-[40.8px] sm:pt-[12px] sm:pb-[12px] items-center pl-[20px] py-[6px] justify-between bg-[#E7F1FF] font-dm-sans">
+        &lt;div className="w-[67.27px] h-[48px] sm:w-[87.55px] sm:h-[59.55px]">
+          &lt;img src={logo} alt="Logo" />
+        &lt;/div>
+        &lt;div
+          //className={`m-[10] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-[1134.74px] sm:h-[72.8px]`}
+          className="mr-[6px] w-[64px] h-[54px] flex justify-between  bg-white items-center rounded-[20px] sm:ml-[43.68px] sm:w-full sm:h-[60px] shadow-lg"
+        >
+          &lt;div
+            className="sm:hidden  pl-[20px] pr-[20px] mr-[10px] ursor-pointer transition-colors duration-[0.4s]"
+            onClick={() => setNav((nav) => !nav)}
+          >
+            &lt;img src={menu} alt="Menu" />
+          &lt;/div>
+
+          &lt;div className="hidden sm:flex sm:justify-center sm: items-center sm:gap-[29px] sm:pl-[21.16px]">
+            &lt;Link
+              onClick={() => setActiveOne((activeOne) => !activeOne)}
+              to="/AdminFirstPage"
+              className=""
+            >
+              &lt;div
+                className={
+                  activeOne
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
+                    : "flex items-center gap-[7.11px] "
+                }
+              >
+                &lt;img src={activeOne ? article : article_non} alt="Article" />
+                &lt;button className={activeOne ? "" : "text-[#6E6E9B]"}>
+                  Moderators
+                &lt;/button>
+              &lt;/div>
+            &lt;/Link>
+            &lt;Link
+              to="/AdminFirstPage/AdminUpload"
+              className=""
+              onClick={() => setActiveTwo((activeTwo) => !activeTwo)}
+            >
+              &lt;div
+                className={
+                  activeTwo
+                    ? "flex items-center gap-[7.11px] border-b-2 border-[#537FE7]"
+                    : "flex items-center gap-[7.11px] "
+                }
+              >
+                &lt;img src={activeTwo ? article : article_non} alt="Article" />
+                &lt;button className={activeTwo ? "" : "text-[#6E6E9B]"}>
+                  Upload Articles
+                &lt;/button>
+              &lt;/div>
+            &lt;/Link>
+          &lt;/div>
+
+          &lt;div className="hidden sm:flex sm:gap-[10.67px] sm:items-center sm:w-[220.971px] ">
+            &lt;div>
+              &lt;img src={question} alt="Question" />
+            &lt;/div>
+            &lt;div>
+              &lt;img src={account} alt="Account" />
+            &lt;/div>
+            &lt;div
+              className="sm:flex sm:text-white  sm:bg-[#1B9DF0] sm:h-[39.11px] sm:w-[92.66px] sm:px-[21.3px] sm:py-[8.89px] sm:rounded-[20px] sm:text-[14.222px] hover:bg-opacity-90"
+              onClick={() => navigate("/PageLogin")}
+            >
+              LogOut
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+      &lt;div
+        className={
+          !nav
+            ? "hidden"
+            : "sm:hidden font-dm-sans fixed top-[65px] shadow-lg bg-white rounded-t-[20px] font-dm-sans font-semibold text-[18.16px] w-full"
+        }
+      >
+        &lt;div className="sm:hidden  pl-[21px] pt-[13.88px] ">
+          &lt;ul>
+            &lt;Link to="/AdminFirstPage">
+              &lt;li className="pb-[13.88px] hover:text-[#005BC5]">Moderators&lt;/li>
+            &lt;/Link>
+            &lt;Link to="/AdminFirstPage/AdminUpload">
+              &lt;li className="pb-[13.88px] hover:text-[#005BC5]">
+                Upload Articles
+              &lt;/li>
+            &lt;/Link>
+            &lt;li className="pb-[13.88px] hover:text-[#005BC5]">Help&lt;/li>
+            &lt;li className="pb-[13.88px] hover:text-[#005BC5]">My Account&lt;/li>
+            &lt;li
+              className="pb-[13.88px] hover:text-[#005BC5]"
+              onClick={() => navigate("/PageLogin")}
+            >
+              Log Out
+            &lt;/li>
+          &lt;/ul>
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  );
+}
+
+export default NavBarAdmin;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:50:45 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

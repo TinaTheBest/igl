@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+/**
+ * Composant de la barre de recherche.
+ * @param {Object} props - Propriétés du composant.
+ * @param {string} props.searchTerm - Terme de recherche actuel.
+ * @param {function} props.onSearch - Fonction de gestion des résultats de recherche.
+ * @param {function} props.onSearchChange - Fonction de gestion des changements de terme de recherche.
+ * @returns {JSX.Element} Composant de la barre de recherche.
+ */
 const SearchBar = ({ searchTerm, onSearch, onSearchChange }) => {
+ /**
+   * Fonction pour gérer les changements de recherche.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - Événement de changement de saisie.
+   */
 
-  // Function to handle search changes
   const handleSearchChange = (e) => {
     const newSearchTerm = e.target.value;
 
@@ -10,13 +21,18 @@ const SearchBar = ({ searchTerm, onSearch, onSearchChange }) => {
     onSearchChange(newSearchTerm);
   };
 
-  // Function to handle search when Enter key is pressed
+   /**
+   * Fonction pour gérer la recherche lorsque la touche "Entrée" est pressée.
+   * @param {React.KeyboardEvent<HTMLInputElement>} e - Événement de pression de touche.
+   */
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       recherchegenerale();
     }
   };
-
+  /**
+   * Fonction pour effectuer une recherche générale.
+   */
   const recherchegenerale = async () => {
     try {
       const response = await axios.post(

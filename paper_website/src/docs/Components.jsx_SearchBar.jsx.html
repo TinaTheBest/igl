@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Components.jsx/SearchBar.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Components.jsx/SearchBar.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import axios from "axios";
+/**
+ * Composant de la barre de recherche.
+ * @param {Object} props - Propriétés du composant.
+ * @param {string} props.searchTerm - Terme de recherche actuel.
+ * @param {function} props.onSearch - Fonction de gestion des résultats de recherche.
+ * @param {function} props.onSearchChange - Fonction de gestion des changements de terme de recherche.
+ * @returns {JSX.Element} Composant de la barre de recherche.
+ */
+const SearchBar = ({ searchTerm, onSearch, onSearchChange }) => {
+ /**
+   * Fonction pour gérer les changements de recherche.
+   * @param {React.ChangeEvent&lt;HTMLInputElement>} e - Événement de changement de saisie.
+   */
+
+  const handleSearchChange = (e) => {
+    const newSearchTerm = e.target.value;
+
+    // Notify parent component of search term change
+    onSearchChange(newSearchTerm);
+  };
+
+   /**
+   * Fonction pour gérer la recherche lorsque la touche "Entrée" est pressée.
+   * @param {React.KeyboardEvent&lt;HTMLInputElement>} e - Événement de pression de touche.
+   */
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      recherchegenerale();
+    }
+  };
+  /**
+   * Fonction pour effectuer une recherche générale.
+   */
+  const recherchegenerale = async () => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/recherche/resultat",
+        { "search_term": searchTerm }
+      );
+
+      onSearch(response.data);
+
+    } catch (error) {
+      console.error("Error fla recherche :", error);
+    }
+  };
+
+  useEffect(() => {
+    recherchegenerale();
+  });
+
+  return (
+    &lt;div className="flex w-full h-[49.78px] gap-[1px] justify-between items-center space-x-2 pl-[10px]">
+      &lt;input
+        id="searchbar"
+        type="text"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        onKeyPress={handleKeyPress} // Call handleKeyPress on key press
+        className="w-full h-[49.78px] px-[17.78px] py-[14.22px] bg-white rounded-[17.78px] justify-between items-center inline-flex focus:outline-none shadow-lg"
+        placeholder="Search..."
+      />
+      &lt;button className=" hidden sm:flex justify-center items-center sm:gap-8.889px sm:text-white sm:text-[21.333px] sm:bg-[#1B9DF0] sm:h-[47.778px] sm:w-[184px] sm:rounded-[17.778px] sm:px-[21.3px] sm:py-[14.222] font-medium font-['DM Sans'] shadow-lg"
+        onClick={recherchegenerale}
+      >
+        Search
+      &lt;/button>
+    &lt;/div>
+
+
+  );
+};
+
+export default SearchBar;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFirstPage">AdminFirstPage</a></li><li><a href="global.html#AdminUpload">AdminUpload</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModeratorDetails">ModeratorDetails</a></li><li><a href="global.html#ModeratorFirstPage">ModeratorFirstPage</a></li><li><a href="global.html#ModeratorModify">ModeratorModify</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#PageLogin">PageLogin</a></li><li><a href="global.html#PageSignUp">PageSignUp</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li><li><a href="global.html#UserDetails">UserDetails</a></li><li><a href="global.html#UserFav">UserFav</a></li><li><a href="global.html#UserFirstPage">UserFirstPage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:54:43 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

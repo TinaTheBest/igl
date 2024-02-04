@@ -1,6 +1,12 @@
 import React from 'react'
 import { HiAdjustments } from "react-icons/hi";
-
+/**
+ * Bouton de filtre.
+ * @component
+ * @param {Object} props - Les propriétés du composant.
+ * @param {Function} props.onClick - Gère le clic sur le bouton.
+ * @returns {JSX.Element} - Élément JSX représentant le bouton de filtre.
+ */
 
 const FilterButton = ({ onClick }) => {
   return (

@@ -1,5 +1,13 @@
 import React from 'react';
-
+/**
+ * Composant représentant une fenêtre modale de confirmation.
+ * @component
+ * @param {Object} props - Les propriétés du composant.
+ * @param {boolean} props.isOpen - Indique si la fenêtre modale est ouverte.
+ * @param {function} props.onClose - Fonction appelée lorsque la fenêtre modale est fermée.
+ * @param {function} props.onConfirm - Fonction appelée lorsque la confirmation est effectuée.
+ * @returns {JSX.Element|null} - Élément JSX représentant la fenêtre modale ou `null` si elle est fermée.
+ */
 const ConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 

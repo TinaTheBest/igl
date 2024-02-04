@@ -1,7 +1,21 @@
 import heart from "../assets/heart.svg";
 import { useNavigate } from "react-router-dom";
+/**
+ * Composant représentant une carte d'article favori.
+ * @component
+ * @param {Object} props - Les propriétés du composant.
+ * @param {string} props.id - L'identifiant de l'article.
+ * @param {string} props.title - Le titre de l'article.
+ * @param {string} props.publication_date - La date de publication de l'article.
+ * @param {string} props.absract - Le résumé de l'article.
+ * @returns {JSX.Element} - Élément JSX représentant la carte d'article favori.
+ */
 function CardFav(props) {
   console.log("CardFav", props);
+   /**
+   * Hook de navigation pour rediriger l'utilisateur vers la page de détails de l'article.
+   * @type {function}
+   */
   let navigate = useNavigate();
   return (
     <>

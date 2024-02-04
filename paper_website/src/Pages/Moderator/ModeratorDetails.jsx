@@ -1,7 +1,10 @@
 import NavBarMod from "../../Components.jsx/navbarMod";
 import DetailsMod from "../../Components.jsx/detailsMod";
 import { useLocation } from "react-router-dom";
-
+/**
+ * Page pour afficher les détails d'un article par le modérateur.
+ * @component
+ */
 function ModeratorDetails() {
   // Utilisez useLocation pour obtenir l'objet de localisation actuel
   const location = useLocation();

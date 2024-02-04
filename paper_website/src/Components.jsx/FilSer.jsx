@@ -4,15 +4,25 @@ import ExtendedFilter from './ExtendedFilter';
 import FilterButton from './Filter';
 //import TagsInput from './TagsInput';
 import SearchBar from './SearchBar';
-
+/**
+ * Composant de filtre et recherche principal.
+ * @component
+ * @returns {JSX.Element} - Élément JSX représentant le composant de filtre et de recherche.
+ */
 function FilSer() {
     const [isExtendedFilterVisible, setExtendedFilterVisibility] = useState(false);
 
+  /**
+   * Gère la recherche avec les filtres spécifiés.
+   * @param {Object} tags - Les filtres spécifiés.
+   */
   const handleSearch = (tags) => {
     // Implement your search logic here using the 'tags' object
     console.log('Searching with tags:', tags);
   };
-
+/**
+   * Bascule la visibilité de la barre de filtrage étendue.
+   */
   const toggleExtendedFilter = () => {
     setExtendedFilterVisibility(!isExtendedFilterVisible);
   };

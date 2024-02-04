@@ -7,9 +7,15 @@ import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+/**
+ * Composant représentant la barre de navigation pour l'administrateur.
+ * @component
+ * @returns {JSX.Element} Élément JSX représentant la barre de navigation de l'administrateur.
+ */
 function NavBarAdmin() {
+  // Initialisation du hook de navigation
   const navigate = useNavigate();
+   // Gestion de l'état pour la visibilité du menu mobile et les onglets actifs
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
   const [activeTwo, setActiveTwo] = useState(false);

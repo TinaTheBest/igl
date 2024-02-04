@@ -1,0 +1,17 @@
+{
+    "source": {
+        "include": ["./Components.jsx", "./pages","./pages/Administrator","./pages/Moderator","./pages/User" ],
+        "exclude": ["node_modules", "docs"]
+    },
+    "plugins": [
+      "plugins/markdown"
+    ],
+    "templates": {
+      "cleverLinks": false,
+      "monospaceLinks": false
+    },
+    "opts": {
+      "destination": "./docs"
+    }
+  }
+  

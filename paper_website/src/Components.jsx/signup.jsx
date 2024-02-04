@@ -3,7 +3,10 @@ import Logo from "../assets/logo.svg";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-
+/**
+ * Composant de la page d'inscription.
+ * @returns {JSX.Element} Composant de la page d'inscription.
+ */
 function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

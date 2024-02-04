@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/User/UserFirstPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/User/UserFirstPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import NavBar from "../../Components.jsx/navbar";
+import Card from "../../Components.jsx/card";
+import FilSer from "../../Components.jsx/FilSer";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import SearchBar from "../../Components.jsx/SearchBar";
+import ExtendedFilter from "../../Components.jsx/ExtendedFilter";
+import FilterButton from "../../Components.jsx/Filter";
+/**
+ * Page principale de l'utilisateur affichant les articles et fournissant des fonctionnalités de recherche et de filtrage.
+ * @component
+ */
+function UserFirstPage() {
+    // Utiliser useLocation pour obtenir l'objet de localisation actuel
+
+  const location = useLocation();
+  const { state } = location;
+
+    // Destructurer l'ID de l'utilisateur de l'état de localisation
+  const userId = state ? state.user_id : null;
+    // États pour stocker la liste des articles, les résultats de recherche et de filtrage, et le terme de recherche
+  const [articles, setArticles] = useState([]);
+  const [filter, setFilter] = useState(true);
+  const [searchResults, setSearchResults] = useState([]);
+  const [filterResults, setfilterResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  /**
+   * Fonction pour traiter les résultats du filtrage.
+   * @param {Array} filterResults - Liste des résultats filtrés.
+   */
+  const handlefilterResults = (filterResults) => {
+    console.log("Handling filter results in UserFirstPage:", filterResults);
+    setfilterResults(filterResults);
+  };
+ /**
+   * Fonction pour récupérer les articles depuis le serveur.
+   */
+  const fetchArticles = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:5000/users/get_all_data");
+      setArticles(response.data);
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  useEffect(() => {
+    const storedSearchTerm = localStorage.getItem(userId); // Récupérer le terme de recherche spécifique à l'utilisateur
+    if (storedSearchTerm) {
+      setSearchTerm(storedSearchTerm);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    localStorage.setItem(userId, searchTerm); // Stocker le terme de recherche spécifique à l'utilisateur
+  }, [searchTerm, userId]);
+ /**
+   * Fonction pour traiter les résultats de recherche.
+   * @param {Array} results - Liste des résultats de recherche.
+   */
+  const handleSearchResults = (results) => {
+    setSearchResults(results);
+    localStorage.setItem('searchResults', JSON.stringify(results));
+  };
+  /**
+   * Fonction pour traiter les changements de terme de recherche.
+   * @param {string} newSearchTerm - Nouveau terme de recherche.
+   */
+  const handleSearchChange = (newSearchTerm) => {
+    setSearchTerm(newSearchTerm);
+  };
+
+  const [isExtendedFilterVisible, setExtendedFilterVisibility] = useState(false);
+
+  /**
+   * Fonction pour basculer la visibilité du filtre étendu.
+   */
+  const toggleExtendedFilter = () => {
+    setfilterResults([]);
+    setExtendedFilterVisibility(!isExtendedFilterVisible);
+  };
+
+  return (
+    &lt;>
+      &lt;NavBar id={userId} />
+      &lt;div className="sm:mt-[84px] mt-[65px]">
+        &lt;div className="flex flex-col sm:flex-row items-start justify-center mb-4 mx-11 sm:mb-0">
+          {isExtendedFilterVisible ? (
+            &lt;ExtendedFilter
+              onfilter={handlefilterResults}
+              // onSearch={handleSearch}
+              onHide={() => {
+                toggleExtendedFilter();
+                setFilter(true);
+              }}
+            />
+          ) : (
+            &lt;FilterButton
+              onClick={() => {
+                toggleExtendedFilter();
+                setFilter(false);
+              }}
+            />
+          )}
+          {filter &amp;&amp;
+            &lt;SearchBar
+              searchTerm={searchTerm}
+              onSearch={handleSearchResults}
+              onSearchChange={handleSearchChange}
+            />}
+          {!filter &amp;&amp; (
+            &lt;div className="w-full">
+              &lt;SearchBar
+                searchTerm={searchTerm}
+                onSearch={handleSearchResults}
+                onSearchChange={handleSearchChange}
+              />
+              &lt;div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 mt-[15px] ml-3">
+                {filterResults.length > 0
+                  ? filterResults.map((result) => (
+                    &lt;Card
+                      key={result._id}
+                      id={result._id}
+                      {...result._source}
+                    />
+                  ))
+                  : searchResults.length > 0
+                    ? searchResults.map((article) => (
+                      &lt;Card
+                        key={article.id}
+                        id={article.id}
+                        {...article.source}
+                      />
+                    ))
+                    : articles.map((article) => (
+                      &lt;Card
+                        key={article._id}
+                        id={article._id}
+                        {...article._source}
+                      />
+                    ))}
+              &lt;/div>
+            &lt;/div>
+          )}
+        &lt;/div>
+        {filter &amp;&amp; (
+          &lt;div>
+            &lt;div
+              className={
+                filter
+                  ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-[15px] mx-11"
+                  : "hidden"
+              }
+            >
+              {searchResults.length > 0 ? (
+                // Check if there are search results
+                searchResults.map((result) => (
+                  &lt;Card key={result.id} id={result.id} {...result.source} />
+                ))
+              ) : (
+                searchTerm.length === 0 ? (
+                  // Render articles if searchTerm is empty
+                  articles.map((article) => (
+                    &lt;Card
+                      key={article._id}
+                      id={article._id}
+                      {...article._source}
+                    />
+                  ))
+                ) : null // Render nothing if searchTerm is not empty
+              )}
+
+
+            &lt;/div>
+          &lt;/div>
+        )}
+      &lt;/div>
+    &lt;/>
+  );
+}
+export default UserFirstPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminFirstPage">AdminFirstPage</a></li><li><a href="global.html#AdminUpload">AdminUpload</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#CardFav">CardFav</a></li><li><a href="global.html#CardMod">CardMod</a></li><li><a href="global.html#ConfirmationModal">ConfirmationModal</a></li><li><a href="global.html#DashboardModer">DashboardModer</a></li><li><a href="global.html#Details">Details</a></li><li><a href="global.html#DetailsMod">DetailsMod</a></li><li><a href="global.html#ExtendedFilter">ExtendedFilter</a></li><li><a href="global.html#FilSer">FilSer</a></li><li><a href="global.html#FilterButton">FilterButton</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#ModerInfos">ModerInfos</a></li><li><a href="global.html#ModeratorDetails">ModeratorDetails</a></li><li><a href="global.html#ModeratorFirstPage">ModeratorFirstPage</a></li><li><a href="global.html#ModeratorModify">ModeratorModify</a></li><li><a href="global.html#ModifyMod">ModifyMod</a></li><li><a href="global.html#ModifyModInput">ModifyModInput</a></li><li><a href="global.html#NavBar">NavBar</a></li><li><a href="global.html#NavBarAdmin">NavBarAdmin</a></li><li><a href="global.html#NavBarMod">NavBarMod</a></li><li><a href="global.html#PageLogin">PageLogin</a></li><li><a href="global.html#PageSignUp">PageSignUp</a></li><li><a href="global.html#SearchBar">SearchBar</a></li><li><a href="global.html#SignUp">SignUp</a></li><li><a href="global.html#TagsInput">TagsInput</a></li><li><a href="global.html#UploadUrl">UploadUrl</a></li><li><a href="global.html#UserDetails">UserDetails</a></li><li><a href="global.html#UserFav">UserFav</a></li><li><a href="global.html#UserFirstPage">UserFirstPage</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 04 2024 19:54:43 GMT+0100 (heure normale d’Afrique de l’Ouest)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

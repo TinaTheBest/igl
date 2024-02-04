@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-
+/**
+ * Composant représentant les informations des modérateurs.
+ * @component
+ * @returns {JSX.Element} - Élément JSX représentant les informations des modérateurs.
+ */
 function ModerInfos() {
   return (
     <div>

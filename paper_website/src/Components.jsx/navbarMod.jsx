@@ -7,14 +7,25 @@ import article_non from "../assets/article_non_active.svg";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+/**
+ * Composant représentant la barre de navigation pour les modérateurs.
+ * @component
+ * @returns {JSX.Element} Élément JSX représentant la barre de navigation des modérateurs.
+ */
 function NavBarMod() {
+    // Initialisation du hook de navigation
   const navigate = useNavigate();
+
+    // Gestion de l'état pour la visibilité du menu mobile et l'onglet actif
   const [nav, setNav] = useState(false);
   const [activeOne, setActiveOne] = useState(false);
-
+/**
+   * Gère la déconnexion du modérateur.
+   * @function
+   */
   const handleLogout = () => {
     try {
+       // Suppression du token d'authentification
       localStorage.removeItem('token'); // Effacer le token d'authentification
       window.history.replaceState({}, '', '/PageLogin'); // Remplacer l'état de l'historique avec la page de connexion
       navigate('/PageLogin');
@@ -23,6 +34,7 @@ function NavBarMod() {
       // Gérer l'erreur ou afficher un message d'erreur
     }
   };
+  // Retourne la structure JSX du composant
 
   return (
     <>
