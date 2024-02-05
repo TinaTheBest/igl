@@ -11,11 +11,11 @@ import { useNavigate } from "react-router-dom";
  * @returns {JSX.Element} - Élément JSX représentant la carte d'article favori.
  */
 function CardFav(props) {
-  console.log("CardFav", props);
-   /**
-   * Hook de navigation pour rediriger l'utilisateur vers la page de détails de l'article.
-   * @type {function}
-   */
+  console.log("CardFav", props.title);
+  /**
+  * Hook de navigation pour rediriger l'utilisateur vers la page de détails de l'article.
+  * @type {function}
+  */
   let navigate = useNavigate();
   return (
     <>
