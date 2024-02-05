@@ -42,7 +42,7 @@ def extract_article_information():
         # Add PDF via URL to external service
         add_url_endpoint = 'https://api.chatpdf.com/v1/sources/add-url'
         add_url_payload = {"url": pdf_url}
-        headers = {'x-api-key': 'sec_qeu2pb7mRCOm7HL6Se2pcnG2LHBRomzE', 'Content-Type': 'application/json'}
+        headers = {'x-api-key': 'sec_eyOdbbZdJpBcMQWkHY3utIHPQl9Wkc4x', 'Content-Type': 'application/json'}
         response_add_url = requests.post(add_url_endpoint, headers=headers, json=add_url_payload)
         
         text = text.replace("\n", " ")
