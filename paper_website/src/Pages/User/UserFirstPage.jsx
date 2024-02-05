@@ -133,7 +133,16 @@ function UserFirstPage() {
                       {...result._source}
                     />
                   ))
-                  : null}
+                  : searchResults.length > 0
+                    ? searchResults.map((article) => (
+                      <Card
+                        key={article.id}
+                        id={article.id}
+                        {...article.source}
+                      />
+                    ))
+                    : null}
+
               </div>
             </div>
           )}
