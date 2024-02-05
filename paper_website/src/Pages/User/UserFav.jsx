@@ -38,12 +38,11 @@ function UserFav() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 mt-[15px] mx-11 pb-[15px]">
         {articles.map((article) => {
-          console.log("props", article.source);
           return (
             <CardFav
               key={article.id}
               id={article.id}
-              {...article.source.props}
+              {...article.source}
             />
           );
         })}
