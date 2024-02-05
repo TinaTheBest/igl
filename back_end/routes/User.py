@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from .db_init.models import Document, db, Acount
 from elasticsearch import Elasticsearch
 
 es = Elasticsearch(['http://elasticsearch:9200'])
@@ -39,17 +40,23 @@ def isfav(id_user, id_doc):
     :rtype: flask.Response
     """
     # Check if the user's favorite index exists
-    fav_index_name = id_user
-    if not es.indices.exists(index=fav_index_name):
-        return jsonify({"message": "User index not found", "isfav": False})
-
-    # Check if the document with id_doc exists in the user's favorite index
     try:
-        es.get(index=fav_index_name, id=id_doc)
-        return jsonify({"isfav": True})
+        # Vérifie si l'utilisateur existe dans la base de données
+        user = Acount.query.get(id_user)
+        if not user:
+            return jsonify({"error": "Utilisateur non trouvé"}), 404
+
+        # Vérifie si le document existe dans la base de données
+        document = Document.query.get(id_doc)
+        if not document:
+            return jsonify({"isfav": False}), 404
+
+        # Vérifie si le document est dans les favoris de l'utilisateur
+        is_favori = document in user.articles_favoris
+        return jsonify({"isfav": is_favori}), 200
+
     except Exception as e:
-        # Document not found
-        return jsonify({"isfav": False})
+        return jsonify({"error": str(e)}), 500
 
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBarMod from "../../Components.jsx/navbarMod";
 import CardMod from "../../Components.jsx/cardMod";
 import axios from "axios";
@@ -21,8 +21,9 @@ function ModeratorFirstPage() {
   };
 
   // Call the fetchArticles function when the component renders
-  fetchArticles();
-
+  useEffect(() => {
+    fetchArticles();
+  }, []);
   return (
     <>
       <NavBarMod />

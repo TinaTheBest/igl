@@ -1,14 +1,12 @@
 from flask import Blueprint, jsonify, request
 from elasticsearch import Elasticsearch
+from .db_init.models import Document, db
+
 
 es = Elasticsearch(['http://elasticsearch:9200'])
 
 ModArticle = Blueprint('ModArticles', __name__)
-def create_index_if_not_exists(index_name):
 
-    if not es.indices.exists(index=index_name):
-        es.indices.create(index=index_name)
-        
 @ModArticle.route('/get_all_data', methods=['GET'])
 def get_all_data():
     """
@@ -49,6 +47,11 @@ def valider_doc(document_id):
 
     es.index(index=index_name,id=document_id, body=document_data)
     es.delete(index="article_non_valide", id=document_id)
+    new_data = Document(id=document_id)
+    db.session.add(new_data)
+    db.session.commit()
+
+
     return jsonify({"message": "Document ajouté avec succès"}), 201
 
 

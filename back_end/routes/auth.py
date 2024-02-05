@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request ,current_app
-from .models import db, Acount
+from .db_init.models import Acount,db
 from sqlalchemy.exc import IntegrityError
 from flask_mail import  Message
 import secrets

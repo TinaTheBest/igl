@@ -343,7 +343,7 @@ function ModifyModInput(props) {
             <div className={modifyFive ? "hidden" : ""}>
               <div>{full_text}</div>
             </div>
-            <input
+            <textarea
               type="text"
               className={
                 modifyFive

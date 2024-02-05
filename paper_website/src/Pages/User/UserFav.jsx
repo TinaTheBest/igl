@@ -1,7 +1,7 @@
 import NavBar from "../../Components.jsx/navbar";
 import CardFav from "../../Components.jsx/cardFav";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 /**
  * Page pour afficher les articles favoris d'un utilisateur.
@@ -13,7 +13,7 @@ function UserFav() {
   const { state } = location;
   const user_id = state ? state.user_id : null;
   const [articles, setArticles] = useState([]);
-    // Fonction pour récupérer les articles favoris de l'utilisateur depuis le serveur
+  // Fonction pour récupérer les articles favoris de l'utilisateur depuis le serveur
 
   const fetchArticles = async () => {
     try {
@@ -25,10 +25,11 @@ function UserFav() {
       console.error("Error fetching articles piw:", error);
     }
   };
-    // Appeler la fonction fetchArticles lorsque le composant est rendu
+  // Appeler la fonction fetchArticles lorsque le composant est rendu
 
-  fetchArticles();
-
+  useEffect(() => {
+    fetchArticles();
+  }, []);
   return (
     <>
       <NavBar id={user_id} />

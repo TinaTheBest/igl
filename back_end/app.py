@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, send_from_directory
-from .routes import admin_bp, ModArticle, Favorit, auth, db, rech,user
+from .routes import admin_bp, ModArticle, Favorit, auth, rech,user
+from .routes.db_init.models import db
+from .routes.db_init.init_Acount import create_admin
 from flask_cors import CORS 
 from elasticsearch import Elasticsearch
 
@@ -26,6 +28,8 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+with app.app_context():
+    create_admin()
 
 app.register_blueprint(admin_bp, url_prefix='/articles')
 app.register_blueprint(ModArticle, url_prefix='/ModArticles')
