@@ -127,27 +127,13 @@ function UserFirstPage() {
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 mt-[15px] ml-3">
                 {filterResults.length > 0
                   ? filterResults.map((result) => (
-                      <Card
-                        key={result._id}
-                        id={result._id}
-                        {...result._source}
-                      />
-                    ))
-                  : searchResults.length > 0
-                  ? searchResults.map((article) => (
-                      <Card
-                        key={article.id}
-                        id={article.id}
-                        {...article.source}
-                      />
-                    ))
-                  : articles.map((article) => (
-                      <Card
-                        key={article._id}
-                        id={article._id}
-                        {...article._source}
-                      />
-                    ))}
+                    <Card
+                      key={result._id}
+                      id={result._id}
+                      {...result._source}
+                    />
+                  ))
+                  : null}
               </div>
             </div>
           )}
@@ -163,11 +149,11 @@ function UserFirstPage() {
             >
               {searchResults.length > 0
                 ? // Check if there are search results
-                  searchResults.map((result) => (
-                    <Card key={result.id} id={result.id} {...result.source} />
-                  ))
+                searchResults.map((result) => (
+                  <Card key={result.id} id={result.id} {...result.source} />
+                ))
                 : searchTerm.length === 0
-                ? // Render articles if searchTerm is empty
+                  ? // Render articles if searchTerm is empty
                   articles.map((article) => (
                     <Card
                       key={article._id}
@@ -175,7 +161,7 @@ function UserFirstPage() {
                       {...article._source}
                     />
                   ))
-                : null // Render nothing if searchTerm is not empty
+                  : null // Render nothing if searchTerm is not empty
               }
             </div>
           </div>
