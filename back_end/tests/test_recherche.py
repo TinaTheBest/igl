@@ -8,75 +8,27 @@ def recherche():
     from elasticsearch import Elasticsearch
     
     es = Elasticsearch(['http://elasticsearch:9200'])
-    term = request.json.get('search_term')
-    print("Search term:", term)
-
-    # Construct Elasticsearch query for the initial search
+    term = request.form.get('search_term')
     query = {
         "query": {
             "bool": {
-                "should": [
-                    {
-                        "multi_match": {
-                            "query": term,
-                            "fields": ["title", "authors", "keywords", "institutions"],
-                            "fuzziness": "AUTO"
-                        }
-                    },
-                    {
-                        "wildcard": {
-                            "title": {
-                                "value": f"*{term}*"
-                            }
-                        }
-                    },
-                    {
-                        "wildcard": {
-                            "authors": {
-                                "value": f"*{term}*"
-                            }
-                        }
-                    },
-                    {
-                        "wildcard": {
-                            "keywords": {
-                                "value": f"*{term}*"
-                            }
-                        }
-                    },
-                    {
-                        "wildcard": {
-                            "institutions": {
-                                "value": f"*{term}*"
-                            }
-                        }
-                    }
+                "must": [
+                    {"multi_match": {
+                        "query": term,
+                        "fields": ["titre", "auteurs", "mots_cles", "institution"]
+                    }}
                 ]
             }
         },
-        "sort": [
-            {
-                "publication_date": {
-                    "order": "desc",
-                    "unmapped_type": "date"
-                }
-            }
-        ], "size": 10000
+        "sort": {"date_publication": {"order": "desc"}}
     }
-
+    
     if not es.indices.exists(index='article_valide'):
-        print("The index 'article_valide' does not exist.")
-
-    # Execute Elasticsearch query for the initial search with sorting
+        return jsonify({"error": "L'index 'article_valide' n'existe pas."}), 404
+        
     results = es.search(index='article_valide', body=query)
-
-    # Store the results in a variable
-    global hits
     hits = results['hits']['hits']
-
-    # Extract necessary information from hits
     response_data = [{'id': hit['_id'], 'source': hit['_source']} for hit in hits]
-
     return jsonify(response_data)
 
 # Tests

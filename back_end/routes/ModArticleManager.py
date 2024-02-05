@@ -4,7 +4,11 @@ from elasticsearch import Elasticsearch
 es = Elasticsearch(['http://elasticsearch:9200'])
 
 ModArticle = Blueprint('ModArticles', __name__)
+def create_index_if_not_exists(index_name):
 
+    if not es.indices.exists(index=index_name):
+        es.indices.create(index=index_name)
+        
 @ModArticle.route('/get_all_data', methods=['GET'])
 def get_all_data():
     """

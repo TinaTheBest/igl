@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>routes.AdminUpload &#8212; Paper 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <script src="../../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for routes.AdminUpload</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="c1">#from pdfminer.high_level import extract_text</span>
+<span class="kn">from</span> <span class="nn">elasticsearch</span> <span class="kn">import</span> <span class="n">Elasticsearch</span>
+<span class="kn">import</span> <span class="nn">fitz</span>  <span class="c1"># PyMuPDF</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+
+<span class="n">admin_bp</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">document_id</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialize document_id to None</span>
+
+<div class="viewcode-block" id="initialize_document_id">
+<a class="viewcode-back" href="../../routes.html#routes.AdminUpload.initialize_document_id">[docs]</a>
+<span class="nd">@admin_bp</span><span class="o">.</span><span class="n">before_request</span>
+<span class="k">def</span> <span class="nf">initialize_document_id</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">document_id</span>
+    <span class="k">if</span> <span class="n">document_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">document_id</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Set the initial value for document_id</span></div>
+
+
+<div class="viewcode-block" id="extract_article_information">
+<a class="viewcode-back" href="../../routes.html#routes.AdminUpload.extract_article_information">[docs]</a>
+<span class="nd">@admin_bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/upload&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">extract_article_information</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data_from_request</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">json</span>
+        <span class="n">pdf_url</span> <span class="o">=</span> <span class="n">data_from_request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="c1">#document_id = request.args.get(&#39;document_id&#39;)</span>
+        <span class="k">global</span> <span class="n">document_id</span><span class="p">;</span> 
+
+        <span class="c1"># Extract full text from PDF</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pdf_url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+            <span class="k">with</span> <span class="n">fitz</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;pdf&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf_document</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span> <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">pdf_document</span><span class="p">)</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error extracting text from PDF: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to extract text from PDF&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+        <span class="c1"># Add PDF via URL to external service</span>
+        <span class="n">add_url_endpoint</span> <span class="o">=</span> <span class="s1">&#39;https://api.chatpdf.com/v1/sources/add-url&#39;</span>
+        <span class="n">add_url_payload</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">pdf_url</span><span class="p">}</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;sec_qeu2pb7mRCOm7HL6Se2pcnG2LHBRomzE&#39;</span><span class="p">,</span> <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">}</span>
+        <span class="n">response_add_url</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">add_url_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">add_url_payload</span><span class="p">)</span>
+        
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">art</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;full_text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                <span class="s2">&quot;pdf_url&quot;</span><span class="p">:</span> <span class="n">pdf_url</span><span class="p">,</span>
+              <span class="p">}</span>
+
+
+        <span class="k">if</span> <span class="n">response_add_url</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">source_id</span> <span class="o">=</span> <span class="n">response_add_url</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sourceId&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Successfully added PDF. Source ID: </span><span class="si">{</span><span class="n">source_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Send user messages to extract information</span>
+            <span class="n">chat_endpoint</span> <span class="o">=</span> <span class="s1">&#39;https://api.chatpdf.com/v1/chats/message&#39;</span>
+            <span class="n">user_messages_payload</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;sourceId&#39;</span><span class="p">:</span> <span class="n">source_id</span><span class="p">,</span>
+                <span class="s1">&#39;messages&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39; Extract the title of the article and provide it without additional details or introductory phrases and withou &quot; &quot;.&#39;</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="n">user_messages_payload1</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;sourceId&#39;</span><span class="p">:</span> <span class="n">source_id</span><span class="p">,</span>
+                <span class="s1">&#39;messages&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;Extract and list the authors of the article, separating their names with commas. Provide the response without additional details or introductory phrases.&#39;</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="n">user_messages_payload2</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;sourceId&#39;</span><span class="p">:</span> <span class="n">source_id</span><span class="p">,</span>
+                <span class="s1">&#39;messages&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;Extract and list the institutions mentioned in the article, separating them with commas. Provide the response without additional details or introductory phrases.&#39;</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="n">user_messages_payload3</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;sourceId&#39;</span><span class="p">:</span> <span class="n">source_id</span><span class="p">,</span>
+                <span class="s1">&#39;messages&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;extract the content of the title &quot;keywords&quot; you find it in uppercase or lowercase. Generate a specific response with commas between keywords, excluding meta information, Provide response without introductory phrases or additional details. &#39;</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="n">user_messages_payload4</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;sourceId&#39;</span><span class="p">:</span> <span class="n">source_id</span><span class="p">,</span>
+                <span class="s1">&#39;messages&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;Retrieve the existing abstract from the article, refrain from generating content. Present the extracted abstract without any additional meta information. Provide response without introductory phrases or extra details, ensuring the abstract is directly presented as found in the article.&#39;</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="n">user_messages_payload5</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;sourceId&#39;</span><span class="p">:</span> <span class="n">source_id</span><span class="p">,</span>
+                <span class="s1">&#39;messages&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;Capture the content under the heading &quot;References&quot; in either uppercase or lowercase, generate a specific response with commas separating the references. Exclude purely numerical references. Provide responses without introductory phrases, stating the references directly without additional context. &#39;</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+            <span class="n">user_messages_payload6</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;sourceId&#39;</span><span class="p">:</span> <span class="n">source_id</span><span class="p">,</span>
+                <span class="s1">&#39;messages&#39;</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;Locate or approximate the publication date of the article, and generate a specific response with only the date in the format year-month-day. you must Provide responses without introductory phrases directly presenting the publication date with only the date in the format year-month-day. &#39;</span><span class="p">},</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+
+            <span class="n">response_chat</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">chat_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">user_messages_payload</span><span class="p">)</span>
+            <span class="n">response_chat1</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">chat_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">user_messages_payload1</span><span class="p">)</span>
+            <span class="n">response_chat2</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">chat_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">user_messages_payload2</span><span class="p">)</span>
+            <span class="n">response_chat3</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">chat_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">user_messages_payload3</span><span class="p">)</span>
+            <span class="n">response_chat4</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">chat_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">user_messages_payload4</span><span class="p">)</span>
+            <span class="n">response_chat5</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">chat_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">user_messages_payload5</span><span class="p">)</span>
+            <span class="n">response_chat6</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">chat_endpoint</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">user_messages_payload6</span><span class="p">)</span>
+
+          
+
+            <span class="k">if</span> <span class="n">response_chat</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>  <span class="p">:</span>
+                <span class="n">result_content</span> <span class="o">=</span> <span class="n">response_chat</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error sending message. Status: </span><span class="si">{</span><span class="n">response_chat</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_chat</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to send message to external service&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+            <span class="k">if</span>  <span class="n">response_chat1</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>  <span class="p">:</span>
+                <span class="n">result_content1</span> <span class="o">=</span> <span class="n">response_chat1</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error sending message. Status: </span><span class="si">{</span><span class="n">response_chat1</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_chat1</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to send message to external service&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+            
+            <span class="k">if</span>  <span class="n">response_chat2</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>  <span class="p">:</span>
+                <span class="n">result_content2</span> <span class="o">=</span> <span class="n">response_chat2</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error sending message. Status: </span><span class="si">{</span><span class="n">response_chat2</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_chat2</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to send message to external service&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+            <span class="k">if</span>  <span class="n">response_chat3</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>  <span class="p">:</span>
+                <span class="n">result_content3</span> <span class="o">=</span> <span class="n">response_chat3</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error sending message. Status: </span><span class="si">{</span><span class="n">response_chat3</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_chat3</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to send message to external service&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+            <span class="k">if</span> <span class="n">response_chat4</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>  <span class="p">:</span>
+                <span class="n">result_content4</span> <span class="o">=</span> <span class="n">response_chat4</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error sending message. Status: </span><span class="si">{</span><span class="n">response_chat4</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_chat4</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to send message to external service&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+            
+            <span class="k">if</span> <span class="n">response_chat5</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>  <span class="p">:</span>
+                <span class="n">result_content5</span> <span class="o">=</span> <span class="n">response_chat5</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error sending message. Status: </span><span class="si">{</span><span class="n">response_chat5</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_chat5</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to send message to external service&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+            <span class="k">if</span> <span class="n">response_chat6</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span>  <span class="p">:</span>
+                <span class="n">result_content6</span> <span class="o">=</span> <span class="n">response_chat6</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error sending message. Status: </span><span class="si">{</span><span class="n">response_chat6</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_chat6</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to send message to external service&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+
+            <span class="c1"># Create Elasticsearch connection</span>
+            <span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">([</span><span class="s1">&#39;http://elasticsearch:9200&#39;</span><span class="p">])</span>
+            <span class="n">index_name</span> <span class="o">=</span> <span class="s1">&#39;article_non_valide&#39;</span>
+
+            <span class="n">document</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;title&quot;</span><span class="p">:</span><span class="n">result_content</span><span class="p">,</span>
+                <span class="s2">&quot;authors&quot;</span><span class="p">:</span><span class="n">result_content1</span><span class="p">,</span>
+                <span class="s2">&quot;institutions&quot;</span><span class="p">:</span><span class="n">result_content2</span><span class="p">,</span>
+                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span><span class="n">result_content3</span><span class="p">,</span>
+                <span class="s2">&quot;abstract&quot;</span><span class="p">:</span><span class="n">result_content4</span><span class="p">,</span>
+                <span class="s2">&quot;references&quot;</span><span class="p">:</span><span class="n">result_content5</span><span class="p">,</span>
+                <span class="s2">&quot;publication_date&quot;</span><span class="p">:</span><span class="n">result_content6</span><span class="p">,</span>
+                <span class="s2">&quot;full_text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                <span class="s2">&quot;pdf_url&quot;</span><span class="p">:</span> <span class="n">pdf_url</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">document_id</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># Store extracted information in Elasticsearch</span>
+            <span class="n">es</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index_name</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">document</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Document upload successful&quot;</span><span class="p">}),</span> <span class="mi">201</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed to add PDF via URL. Status: </span><span class="si">{</span><span class="n">response_add_url</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">, Error: </span><span class="si">{</span><span class="n">response_add_url</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Failed to add PDF via URL&quot;</span><span class="p">}),</span> <span class="mi">500</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An unexpected error occurred: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Internal Server Error&quot;</span><span class="p">}),</span> <span class="mi">500</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Paper</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Etudiantes 1CS ESI.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

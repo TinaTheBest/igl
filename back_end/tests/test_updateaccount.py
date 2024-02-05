@@ -1,6 +1,7 @@
 import unittest
 from flask import Flask, jsonify
-from ..routes import auth, db, Acount  # Mettez à jour le chemin d'importation
+from routes import auth, db
+from routes.models import Acount
 from flask_mail import Mail
 
 # Définissez une fonction mock pour send_welcome_email

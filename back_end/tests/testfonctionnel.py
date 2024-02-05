@@ -21,8 +21,6 @@ driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
 user_id = '427143c5-b'
 url = f'http://localhost:3001/UserFirstPage/{user_id}'
 driver.get(url)
-
-
  # Effectue une recherche
 wait = WebDriverWait(driver, 20)  # Attendre jusqu'à 20 secondes
 

@@ -1,6 +1,7 @@
 import unittest
 from flask import Flask
-from ..routes import auth, db, Acount  
+from routes import auth, db
+from routes.models import Acount  
 from flask_mail import Mail
 
 # Définissez une fonction mock pour send_welcome_email

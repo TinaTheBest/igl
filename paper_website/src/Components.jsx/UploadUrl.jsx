@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 /**
  * Composant de formulaire pour soumettre une URL de fichier PDF.
@@ -8,7 +8,7 @@ import axios from "axios";
 function UploadUrl() {
   const [editableUrl, setEditableUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
- /**
+  /**
    * Effectue la soumission de l'URL au serveur.
    * Affiche une fenêtre modale en cas de succès.
    */
@@ -20,20 +20,20 @@ function UploadUrl() {
           url: editableUrl,
         }
       );
-      console.log("cc");
       openModal();
+      console.log(response);
       //#region setShowModal(true);
     } catch (error) {
       console.error("Error upload:", error);
     }
   };
-/**
+  /**
    * Gère le clic sur le bouton "Upload".
    */
   const handleupload = () => {
     upload();
   };
- /**
+  /**
    * Ferme la fenêtre modale.
    */
   const closeModal = () => {

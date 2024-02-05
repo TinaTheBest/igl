@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from .routes import admin_bp, ModArticle, Favorit, auth, db, rech,user
 from flask_cors import CORS 
 from elasticsearch import Elasticsearch
@@ -12,9 +12,10 @@ es = Elasticsearch(['http://elasticsearch:9200'])
 app = Flask(__name__)
 
 CORS(app)  
+
 @app.route('/documentation/<path:filename>')
 def documentation(filename):
-    return send_from_directory('documentation/_build/html', filename)
+    return send_from_directory('documentation', filename)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://user:pass@mysql/db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
